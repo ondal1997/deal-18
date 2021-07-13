@@ -1,17 +1,18 @@
+require('dotenv').config();
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: {
-    main: './src/index.js',
+    index: './src/index.js',
   },
   output: {
-    filename: '[name].js', // TODO: 결과 보고 수정하기
+    filename: '[name].js',
     path: path.resolve('./dist'),
   },
   devServer: {
-    port: 9000,
+    port: process.env.PORT || 3000,
   },
   devtool: 'inline-source-map',
   module: {
