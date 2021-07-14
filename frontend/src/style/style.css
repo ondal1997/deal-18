@@ -1,0 +1,18 @@
+#root {
+    margin-top:200px;
+    margin-left:300px;
+    width: 200px;
+    overflow: hidden;
+}
+
+#root>div{
+    width:200px;
+    display: flex;
+    position: relative;
+    background-color: blue;
+}
+/* 페이지 넓이 */
+#root>div>div{
+    width:200px;
+    background-color: green;
+}
