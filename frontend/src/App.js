@@ -4,6 +4,10 @@ import { pageState } from './store/page.js';
 export default class App {
   constructor() {
     this.$target = document.createElement('div');
+    this.PAGE_TRANSITION = 'all 1s';
+    this.PAGE_WIDTH = 200; // TODO: 이 필드를 없앨 수 없나?
+    this.isProcessing = false;
+
     this.init();
   }
 
@@ -16,49 +20,43 @@ export default class App {
   }
 
   render() {
+    if (this.isProcessing) return;
+
     const { Page, direction } = getState(pageState);
 
-    /*
-        1. 왼쪽에 가상의 페이지 생성 (카테고리 페이지)
-        2. css로 OOOpx만큼 이동 + transition
-    */
-
-    // 뒤에 새로운 페이지 붙이기
-    const newPage = new Page().$target;
-    this.$target.appendChild(newPage);
-    // 2 newPage에 포지션 absolute걸고 포지션 설정하기
-    newPage.style.position = 'absolute';
-    newPage.style[direction] = '-200px'; // TODO: 매직넘버 지울수없나?
-    // 3 이동
-    this.setTransition({ isTransition: true, direction });
+    this.movePage({ Page, direction });
   }
 
   handleTransitionEnd() {
+    this.endTransition();
+  }
+
+  movePage({ Page, direction }) {
+    this.insertPage({ direction, Page });
+    this.startTransition({ direction });
+  }
+
+  insertPage({ Page, direction }) {
+    const newPage = new Page().$target;
+    newPage.style.position = 'absolute';
+    newPage.style[direction] = `-${this.PAGE_WIDTH}px`;
+
+    this.$target.appendChild(newPage);
+  }
+
+  startTransition({ direction }) {
+    const MOVE_POSITION = direction === 'left' ? this.PAGE_WIDTH : -this.PAGE_WIDTH;
+
+    this.$target.style.transition = this.PAGE_TRANSITION;
+    this.$target.style.transform = `translateX(${MOVE_POSITION}px)`;
+    this.isProcessing = true;
+  }
+
+  endTransition() {
     this.$target.removeChild(this.$target.firstChild);
-    console.log(this.$target.firstChild);
     this.$target.firstChild.style.position = 'static';
     this.$target.style.transition = 'none';
     this.$target.style.transform = `translateX(0)`;
-  }
-
-  //2. transition 추가 & 이동 이름 짓는게 어렵네요 ㅎ므...맞네요 추가에 이동까지 있으니
-  setTransition({ isTransition, direction }) {
-    this.$target.style.transition = 'all 1s';
-    const MOVE_POSITION = direction === 'left' ? 200 : -200;
-    this.$target.style.transform = `translateX(${MOVE_POSITION}px)`;
-  }
-
-  movePage({ direction, page, isTransition }) {
-    this.insertpage({ direction, page });
-    this.setTransition(isTransition);
+    this.isProcessing = false;
   }
 }
-
-// App.js
-// TODO: TownPage import 필요
-// app.appendChild(new TownPage().$target);
-
-/*
-현재 페이지 모델
-app에서 스위칭
-*/
