@@ -4,8 +4,8 @@
   "description": "## 팀원 소개",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "webpack serve"
+    "dev": "webpack serve --config frontend/webpack.config.js",
+    "build": "webpack --config frontend/webpack.config.js"
   },
   "repository": {
     "type": "git",

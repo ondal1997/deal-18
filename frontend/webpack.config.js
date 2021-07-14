@@ -1,18 +1,19 @@
 require('dotenv').config();
+const configs = require("../configs/config.dev.json");
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');;
 
 module.exports = {
   mode: 'development',
   entry: {
-    index: './src/index.js',
+    index: './frontend/src/index.js',
   },
   output: {
     filename: '[name].js',
-    path: path.resolve('./dist'),
+    path: path.resolve('./backend/public'),
   },
   devServer: {
-    port: process.env.PORT || 3000,
+    port: process.env.DEV_PORT || configs.devServer.port,
   },
   devtool: 'inline-source-map',
   module: {
@@ -29,8 +30,7 @@ module.exports = {
         test: /\.(png|jp(e*)g|svg)$/,
         loader: 'file-loader',
         options: {
-          publicPath: './dist/',
-          name: '[name].[ext]?[hash]',
+          name: 'asset/[name].[ext]?[hash]',
         },
       },
       {
@@ -47,7 +47,7 @@ module.exports = {
         collapseWhitespace: true,
       },
       hash: true,
-      template: './public/index.html',
+      template: './frontend/public/index.html',
     }),
   ],
 };

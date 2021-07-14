@@ -1,0 +1,13 @@
+{
+  "database": {},
+  "server": {
+    "port": 3000,
+    "pageSize": 100,
+    "logger": {
+      "format": "tiny"
+    }
+  },
+  "devServer": {
+    "port": 8000
+  }
+}
