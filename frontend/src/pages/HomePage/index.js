@@ -1,6 +1,6 @@
-import { setState } from '../utils/globalObserver.js';
-import { pageState } from '../store/page.js';
-import CategoryPage from './CategoryPage.js';
+import { setState } from '../../utils/globalObserver.js';
+import { pageState } from '../../store/page.js';
+import CategoryPage from '../CategoryPage';
 
 export default class HomePage {
   constructor() {
