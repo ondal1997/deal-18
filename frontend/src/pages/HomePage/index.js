@@ -1,6 +1,7 @@
 import { setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import CategoryPage from '../CategoryPage';
+import LoginPage from '../LoginPage';
 import { createElement } from '../../utils/dom.js';
 import TopBar from '../../components/TopBar';
 import ProductList from '../../components/ProductList';
@@ -19,9 +20,13 @@ export default class HomePage {
   }
 
   handleClick({ target }) {
-    if (!target.classList.contains('move-category-page')) return;
+    if (target.closest('.category')) {
+      this.setPageState({ Page: CategoryPage, direction: 'right' });
+    }
 
-    this.setPageState({ Page: CategoryPage, direction: 'right' });
+    if (target.closest('.user')) {
+      this.setPageState({ Page: LoginPage, direction: 'right' });
+    }
   }
 
   render() {
