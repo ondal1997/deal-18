@@ -14,6 +14,7 @@ export default class DropdownModal {
   init() {
     subscribe(this.key, this.toggleModal.bind(this));
     this.render();
+    this.toggleModal();
   }
   render() {
     this.contents.forEach(({ value, clickCb }) => {
