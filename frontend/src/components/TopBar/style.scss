@@ -1,0 +1,33 @@
+@import '../../style/variables.scss';
+
+.top-bar {
+  width: 320px;
+  height: 56px;
+}
+
+.top-bar-main {
+  background: $mint;
+  padding: $content-padding;
+  border-radius: 0px 0px 16px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & > div {
+    flex: 1;
+  }
+}
+
+.location {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $white;
+  gap: 5px;
+}
+
+.user-main-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
