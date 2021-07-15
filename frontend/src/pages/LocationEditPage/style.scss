@@ -1,0 +1,10 @@
+@import '../../style/variables.scss';
+
+.location-cautions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 24px auto;
+  font-size: 14px;
+  color: $gray1;
+}
