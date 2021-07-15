@@ -1,7 +1,7 @@
 import './style.scss';
 import { setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
-import TopBar from '../../components/Common/TopBar';
+import TopBar from '../../components/Common/CommonTopBar';
 import { createElement } from '../../utils/dom';
 import LocationList from '../../components/LocationList';
 
