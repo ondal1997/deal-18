@@ -1,0 +1,21 @@
+@import '../../style/variables.scss';
+
+.dropdown {
+  width: 165px;
+  border-radius: 10px;
+  overflow: hidden;
+  color: $black;
+  & > div {
+    height: 48px;
+    background-color: $gray3;
+    padding: $content-padding;
+  }
+
+  & > div:not(:last-child) {
+    border-bottom: 1px solid $gray4;
+  }
+
+  & > div:hover {
+    background-color: $gray4;
+  }
+}
