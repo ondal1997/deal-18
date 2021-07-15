@@ -1,17 +1,25 @@
 import { createElement } from '../../utils/dom';
 import locationAddBtn from '../../../public/assets/locationPage/locationAddBtn.svg';
 import locationDeleteBtn from '../../../public/assets/locationPage/locationDeleteBtn.svg';
+import { setState } from '../../utils/globalObserver';
+import { locationInputPopupState } from '../../store/store';
 
 export default class LocationItem {
   constructor({ location }) {
     this.$target = createElement({ tagName: 'div', classNames: ['location-item-wrapper'] });
     this.location = location;
     this.isAddBtn = location === null;
+    this.setInputPopupOpen = setState(locationInputPopupState);
     this.init();
   }
 
   init() {
     this.render();
+    this.addEvent();
+  }
+
+  addEvent() {
+    this.$target.addEventListener('click', this.handleClick.bind(this));
   }
 
   render() {
@@ -27,6 +35,10 @@ export default class LocationItem {
           }
         </div>
     `;
+  }
+
+  handleClick({ target }) {
+    if (this.isAddBtn) this.setInputPopupOpen(true);
   }
 
   getLocationItemClass() {

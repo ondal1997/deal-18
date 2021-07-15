@@ -13,7 +13,7 @@ export default class Modal {
   init() {
     subscribe(this.key, this.toggleModal.bind(this));
     this.render();
-    // this.$target.style.display = 'none';
+    this.$target.style.display = 'none';
   }
 
   render() {

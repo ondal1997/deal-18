@@ -1,9 +1,10 @@
 import './style.scss';
-import { setState } from '../../utils/globalObserver.js';
-import { pageState } from '../../store/page.js';
-import TopBar from '../../components/Common/CommonTopBar';
 import { createElement } from '../../utils/dom';
+import { locationInputPopupState } from '../../store/store';
+import TopBar from '../../components/Common/CommonTopBar';
 import LocationList from '../../components/LocationList';
+import Modal from '../../components/Common/Modal';
+import LocationInputPopup from '../../components/Popup/LocationInputPopup';
 
 export default class LocationEditPage {
   constructor() {
@@ -12,19 +13,23 @@ export default class LocationEditPage {
     this.CAUTION_LINE2 = '최대 2개까지 설정 가능해요.';
 
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
-    this.setPageState = setState(pageState);
 
     this.init();
   }
 
   init() {
-    this.$target.addEventListener('click', this.handleClick.bind(this));
     this.render();
   }
 
   render() {
     const topBar = new TopBar({ title: this.PAGE_TITLE }).$target;
     const locationList = new LocationList().$target;
+
+    const locationInputPopup = new Modal({
+      View: LocationInputPopup,
+      className: 'location-input-modal',
+      key: locationInputPopupState,
+    }).$target;
 
     this.$target.appendChild(topBar);
     this.$target.innerHTML += `
@@ -33,8 +38,8 @@ export default class LocationEditPage {
           <div>${this.CAUTION_LINE2}</div>
         </div>
     `;
-    this.$target.appendChild(locationList);
-  }
 
-  handleClick() {}
+    this.$target.appendChild(locationList);
+    this.$target.appendChild(locationInputPopup);
+  }
 }

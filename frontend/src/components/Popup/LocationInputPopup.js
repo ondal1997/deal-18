@@ -1,10 +1,12 @@
 import './style.scss';
 import { createElement } from '../../utils/dom.js';
+import { setState } from '../../utils/globalObserver';
+import { locationInputPopupState } from '../../store/store';
 
 export default class LocationInputPopup {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['popup', 'location-input-popup'] });
-
+    this.setIsOpen = setState(locationInputPopupState);
     this.init();
   }
   init() {
@@ -16,6 +18,8 @@ export default class LocationInputPopup {
     const input = this.$target.querySelector('input');
     const confirmBtn = this.$target.querySelector('.confirm-btn');
     input.addEventListener('keyup', this.handleKeyup.bind(this, confirmBtn));
+
+    this.$target.addEventListener('click', this.handleClick.bind(this));
   }
 
   render() {
@@ -32,5 +36,13 @@ export default class LocationInputPopup {
   handleKeyup(confirmBtn, { target }) {
     if (target.value.length) confirmBtn.classList.add('available');
     else confirmBtn.classList.remove('available');
+  }
+
+  handleClick({ target }) {
+    if (this.isCancleBtn(target)) this.setIsOpen(false);
+  }
+
+  isCancleBtn(target) {
+    return target.closest('.cancle-btn');
   }
 }

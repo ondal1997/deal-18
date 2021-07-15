@@ -20,7 +20,4 @@ export default class LocationList {
   }
 }
 
-const locations = [
-  { location: '역삼동', selected: true },
-  { location: '역삼동', selected: false },
-];
+const locations = [{ location: '역삼동', selected: true }];

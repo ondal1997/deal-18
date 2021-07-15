@@ -1,5 +1,5 @@
 @import './variables.scss';
-
+//TODO 배경색 때문에 topbar가 잘 안보여서 바꾸면 좋을듯!
 html {
   background-color: $light-blue;
 }
@@ -9,6 +9,7 @@ html {
 }
 
 #root {
+  position: relative;
   margin: auto;
   width: $content-width;
   height: $content-height;
@@ -23,6 +24,7 @@ html {
 }
 
 .page-container {
+  height: 100%;
   display: flex;
   position: relative;
 }
