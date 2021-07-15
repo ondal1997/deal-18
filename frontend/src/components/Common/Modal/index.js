@@ -1,10 +1,9 @@
-import './style.scss';
 import { createElement } from '../../../utils/dom';
 import { getState, setState, subscribe } from '../../../utils/globalObserver';
 
 export default class Modal {
   constructor({ View, className, key }) {
-    this.$target = createElement({ tagName: 'div', classNames: ['dropdown-modal', className] });
+    this.$target = createElement({ tagName: 'div', classNames: [className] });
     this.View = new View({ key }).$target; //상태에 따라 변경되는 사항이 없기 때문에 생성자에서 인스턴스 생성
     this.key = key;
     this.setIsOpen = setState(key);
@@ -14,7 +13,7 @@ export default class Modal {
   init() {
     subscribe(this.key, this.toggleModal.bind(this));
     this.render();
-    this.$target.style.display = 'none';
+    // this.$target.style.display = 'none';
   }
 
   render() {
