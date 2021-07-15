@@ -1,18 +1,24 @@
-#root {
-    margin-top:200px;
-    margin-left:300px;
-    width: 200px;
-    overflow: hidden;
+@import './variables.scss';
+
+html {
+  background-color: $light-blue;
 }
 
-#root>div{
-    width:200px;
-    display: flex;
-    position: relative;
-    background-color: blue;
+#root {
+  margin: auto;
+  width: $content-width;
+  height: $content-height;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: white;
 }
-/* 페이지 넓이 */
-#root>div>div{
-    width:200px;
-    background-color: green;
+
+.page-container {
+  display: flex;
+  position: relative;
+}
+
+.page {
+  width: $content-width;
+  background-color: green;
 }
