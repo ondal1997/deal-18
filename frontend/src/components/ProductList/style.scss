@@ -1,5 +1,11 @@
 @import '../../style/variables.scss';
 
+.product-list {
+  & > div:not(:last-child) {
+    border-bottom: 1px solid $gray2;
+  }
+}
+
 .product-item {
   width: 100%;
   display: flex;
