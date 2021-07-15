@@ -4,30 +4,39 @@ import locationIcon from '../../../public/assets/homepage/location.svg';
 import userIcon from '../../../public/assets/homepage/user.svg';
 import menuIcon from '../../../public/assets/homepage/menu.svg';
 
-import { setState } from '../../utils/globalObserver';
+import { pageState } from '../../store/page';
+import { getState, setState } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import { locationDropdownState } from '../../store/store';
 import DropdownModal from '../Common/DropdownModal';
+
+//pages
+import LocationEditPage from '../../pages/LocationEditPage';
 
 export default class TopBar {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'top-bar-main'] });
     this.init();
     this.setModalIsOpen = setState(locationDropdownState);
+    this.setPage = setState(pageState);
   }
   init() {
     this.render();
+    this.$target.addEventListener('click', this.handleClick.bind(this));
   }
+
   render() {
     this.$target.innerHTML = `
-    <div class="category"><img src=${categoryIcon}></div>
+    <div class="category">
+      <img src=${categoryIcon}>
+    </div>
     <div class="location">
-    <img src=${locationIcon}>
-    <span>역삼동<span>
+      <img src=${locationIcon}>
+      <span>역삼동<span>
     </div>
     <div class='user-main-wrapper'>
-    <div class='user'><img src=${userIcon}></div>
-    <div class='menu'><img src=${menuIcon}></div>
+      <div class='user'><img src=${userIcon}></div>
+      <div class='menu'><img src=${menuIcon}></div>
     </div>
     `;
 
@@ -36,11 +45,19 @@ export default class TopBar {
     //조금 이상하다. 하지만 이렇게 해야지 absolute 위치 선정이 크기가 변동해도 일정할 것 같아서 이렇게 했다.
     this.$target.querySelector('.location').appendChild(locationDropdown);
   }
+
+  handleClick({ target }) {
+    if (this.isLocationBtn(target)) {
+      this.toggleLocationModal();
+    }
+  }
+
   createLocationDropdown() {
     const dropdownContents = [
-      { value: '역삼동', clickCb: this.closeModal },
-      { value: '내 동네 설정하기', clickCb: this.closeModal },
+      { value: '역삼동', clickCb: this.toggleLocationModal.bind(this) },
+      { value: '내 동네 설정하기', clickCb: this.moveLocationPage.bind(this) },
     ];
+
     const locationDropdown = new DropdownModal({
       contents: dropdownContents,
       className: 'location-dropdown',
@@ -49,7 +66,17 @@ export default class TopBar {
 
     return locationDropdown.$target;
   }
-  closeModal() {
-    this.setModalIsOpen(false);
+
+  toggleLocationModal() {
+    const isOpen = getState(locationDropdownState);
+    this.setModalIsOpen(!isOpen);
+  }
+
+  moveLocationPage() {
+    this.setPage({ Page: LocationEditPage, direction: 'right' });
+  }
+
+  isLocationBtn(target) {
+    return target.closest('.location') && !target.closest('.location-dropdown');
   }
 }
