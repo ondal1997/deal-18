@@ -1,0 +1,32 @@
+@import './variables.scss';
+
+html {
+  background-color: $light-blue;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  margin: auto;
+  width: $content-width;
+  height: $content-height;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: white;
+  margin-top: 200px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.page-container {
+  display: flex;
+  position: relative;
+}
+
+.page {
+  width: $content-width;
+}

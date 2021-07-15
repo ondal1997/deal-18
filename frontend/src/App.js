@@ -1,11 +1,12 @@
 import { subscribe, getState } from './utils/globalObserver.js';
 import { pageState } from './store/page.js';
+import { createElement } from './utils/dom.js';
 
 export default class App {
   constructor() {
-    this.$target = document.createElement('div');
+    this.$target = createElement({ tagName: 'div', classNames: ['page-container'] });
     this.PAGE_TRANSITION = 'all 1s';
-    this.PAGE_WIDTH = 200; // TODO: 이 필드를 없앨 수 없나?
+    this.PAGE_WIDTH = 320; // TODO: 이 필드를 없앨 수 없나?
     this.isProcessing = false;
 
     this.init();
