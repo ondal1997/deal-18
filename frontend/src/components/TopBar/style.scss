@@ -1,8 +1,11 @@
 @import '../../style/variables.scss';
 
 .top-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
   width: 320px;
-  height: 56px;
+  height: $top-bar-height;
 }
 
 .top-bar-main {

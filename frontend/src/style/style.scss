@@ -15,10 +15,14 @@ html {
   overflow-x: hidden;
   overflow-y: auto;
   background-color: white;
+  margin-top: 200px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .page-container {
-  height: 100%;
   display: flex;
   position: relative;
 }
