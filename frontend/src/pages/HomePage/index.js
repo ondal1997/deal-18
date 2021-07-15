@@ -1,10 +1,11 @@
 import { setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import CategoryPage from '../CategoryPage';
+import { createElement } from '../../utils/dom.js';
 
 export default class HomePage {
   constructor() {
-    this.$target = document.createElement('div');
+    this.$target = createElement({ tagName: 'div', classNames: ['page'] });
     this.setPageState = setState(pageState);
     this.init();
   }
