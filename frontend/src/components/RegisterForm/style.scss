@@ -8,6 +8,7 @@
 }
 
 .register-form .button-large {
+  cursor: pointer;
   height: 42px;
   background-color: $mint;
   border-radius: 8px;
@@ -17,6 +18,7 @@
 
   &:disabled {
     background-color: $light-primary;
+    cursor: initial;
   }
 }
 

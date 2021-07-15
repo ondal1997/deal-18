@@ -1,4 +1,3 @@
-import './style.scss';
 import { setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import { createElement } from '../../utils/dom';
