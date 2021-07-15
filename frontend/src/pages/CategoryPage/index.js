@@ -3,12 +3,15 @@ import { setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import HomePage from '../HomePage';
 import { createElement } from '../../utils/dom';
+import TopBar from '../../components/Common/CommonTopBar';
+import CategoryContainer from '../../components/CategoryContainer';
 
 export default class CategoryPage {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
-    this.$target.classList.add('page');
     this.setPageState = setState(pageState);
+    this.PAGE_TITLE = '카테고리';
+
     this.init();
   }
 
@@ -20,13 +23,12 @@ export default class CategoryPage {
   handleClick({ target }) {
     if (!target.classList.contains('move-page')) return;
 
-    this.setPageState({ Page: HomePage, direction: 'right' });
+    this.setPageState({ Page: HomePage, direction: 'left' });
   }
 
   render() {
-    this.$target.innerHTML = `
-      <h1>카테고리</h1>
-      <button class="move-page">홈 이동</button>
-    `;
+    this.$target.innerHTML = '';
+    this.$target.appendChild(new TopBar({ title: this.PAGE_TITLE }).$target);
+    this.$target.appendChild(new CategoryContainer().$target);
   }
 }

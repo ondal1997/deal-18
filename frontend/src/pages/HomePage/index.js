@@ -19,9 +19,9 @@ export default class HomePage {
   }
 
   handleClick({ target }) {
-    if (!target.classList.contains('move-page')) return;
+    if (!target.classList.contains('move-category-page')) return;
 
-    this.setPageState({ Page: CategoryPage, direction: 'left' });
+    this.setPageState({ Page: CategoryPage, direction: 'right' });
   }
 
   render() {

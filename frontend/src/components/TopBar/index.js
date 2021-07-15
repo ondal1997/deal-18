@@ -30,7 +30,7 @@ export default class TopBar {
   render() {
     this.$target.innerHTML = `
     <div class="category">
-      <img src=${categoryIcon}>
+      <img src=${categoryIcon} class="move-category-page">
     </div>
     <div class="location">
       <img src=${locationIcon}>
