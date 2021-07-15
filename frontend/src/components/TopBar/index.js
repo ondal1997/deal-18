@@ -4,25 +4,27 @@ import locationIcon from '../../../public/assets/homepage/location.svg';
 import userIcon from '../../../public/assets/homepage/user.svg';
 import menuIcon from '../../../public/assets/homepage/menu.svg';
 
-import { pageState } from '../../store/page';
 import { getState, setState } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import { locationDropdownState } from '../../store/store';
-import DropdownModal from '../Common/DropdownModal';
+import DropdownModal from '../Common/Modal';
 
 //pages
-import LocationEditPage from '../../pages/LocationEditPage';
+import LocationDropdown from '../Dropdown/LocationDropdown';
 
 export default class TopBar {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'top-bar-main'] });
     this.init();
     this.setModalIsOpen = setState(locationDropdownState);
-    this.setPage = setState(pageState);
   }
   init() {
     this.render();
-    this.$target.addEventListener('click', this.handleClick.bind(this));
+    this.addEvent();
+  }
+
+  addEvent() {
+    document.body.addEventListener('click', this.handleClick.bind(this));
   }
 
   render() {
@@ -47,19 +49,18 @@ export default class TopBar {
   }
 
   handleClick({ target }) {
-    if (this.isLocationBtn(target)) {
-      this.toggleLocationModal();
+    if (this.isTopBar(target)) {
+      this.setModalIsOpen(false);
+      return;
     }
+
+    if (this.isLocationBtn(target)) this.toggleLocationModal();
+    else this.setModalIsOpen(false);
   }
 
   createLocationDropdown() {
-    const dropdownContents = [
-      { value: '역삼동', clickCb: this.toggleLocationModal.bind(this) },
-      { value: '내 동네 설정하기', clickCb: this.moveLocationPage.bind(this) },
-    ];
-
     const locationDropdown = new DropdownModal({
-      contents: dropdownContents,
+      View: LocationDropdown,
       className: 'location-dropdown',
       key: locationDropdownState,
     });
@@ -72,10 +73,10 @@ export default class TopBar {
     this.setModalIsOpen(!isOpen);
   }
 
-  moveLocationPage() {
-    this.setPage({ Page: LocationEditPage, direction: 'right' });
+  //handleClick 조건
+  isTopBar(target) {
+    return !target.closest('.top-bar-main');
   }
-
   isLocationBtn(target) {
     return target.closest('.location') && !target.closest('.location-dropdown');
   }
