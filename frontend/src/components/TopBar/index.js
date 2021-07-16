@@ -29,8 +29,8 @@ export default class TopBar {
 
   render() {
     this.$target.innerHTML = `
-    <div class="category">
-      <img src=${categoryIcon}>
+    <div>
+      <img src=${categoryIcon} class="category">
     </div>
     <div class="location">
       <img src=${locationIcon}>

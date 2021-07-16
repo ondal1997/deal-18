@@ -1,34 +1,25 @@
-import './style.scss';
 import { setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
-import HomePage from '../HomePage';
 import { createElement } from '../../utils/dom';
 import TopBar from '../../components/Common/CommonTopBar';
-import CategoryContainer from '../../components/CategoryContainer';
+import LoginForm from '../../components/LoginForm';
 
-export default class CategoryPage {
+export default class LoginPage {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
     this.setPageState = setState(pageState);
-    this.PAGE_TITLE = '카테고리';
+    this.PAGE_TITLE = '로그인';
 
     this.init();
   }
 
   init() {
-    this.$target.addEventListener('click', this.handleClick.bind(this));
     this.render();
-  }
-
-  handleClick({ target }) {
-    if (!target.classList.contains('move-page')) return;
-
-    this.setPageState({ Page: HomePage, direction: 'left' });
   }
 
   render() {
     this.$target.innerHTML = '';
     this.$target.appendChild(new TopBar({ title: this.PAGE_TITLE }).$target);
-    this.$target.appendChild(new CategoryContainer().$target);
+    this.$target.appendChild(new LoginForm().$target);
   }
 }
