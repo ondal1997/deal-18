@@ -9,7 +9,7 @@
   width: 288px;
   margin: auto;
   padding: $content-padding;
-  background-color: $gray3;
+  background-color: $off-white;
   box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
   border-radius: 10px;
@@ -22,12 +22,12 @@
     height: 36px;
     margin: 8px 0;
     padding: 8px;
-    border: 1px solid $gray4;
+    border: 1px solid $gray3;
     border-radius: 8px;
   }
   input:focus {
     outline: none;
-    border: 1px solid $mint;
+    border: 1px solid $primary;
   }
 }
 
@@ -45,6 +45,6 @@
     color: $gray1;
   }
   .available {
-    color: $mint;
+    color: $primary;
   }
 }
