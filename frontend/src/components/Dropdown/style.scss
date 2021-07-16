@@ -7,15 +7,15 @@
   color: $black;
   & > div {
     height: 48px;
-    background-color: $gray3;
+    background-color: $off-white;
     padding: $content-padding;
   }
 
   & > div:not(:last-child) {
-    border-bottom: 1px solid $gray4;
+    border-bottom: 1px solid $gray3;
   }
 
   & > div:hover {
-    background-color: $gray4;
+    background-color: $gray3;
   }
 }

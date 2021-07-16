@@ -14,11 +14,11 @@
   height: 36px;
   padding: 0 16px;
   background-color: $white;
-  border: 1px solid $mint;
+  border: 1px solid $primary;
   border-radius: 8px;
 
   font-weight: 500;
-  color: $mint;
+  color: $primary;
 }
 
 .location-add-btn {
@@ -30,5 +30,5 @@
 
 .location-selected-item {
   color: $white;
-  background-color: $mint;
+  background-color: $primary;
 }

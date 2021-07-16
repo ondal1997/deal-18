@@ -7,12 +7,12 @@ import menuIcon from '../../../public/assets/homepage/menu.svg';
 import { getState, setState } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import { locationDropdownState } from '../../store/store';
-import DropdownModal from '../Common/Modal';
+import Modal from '../Common/Modal';
 
 //pages
 import LocationDropdown from '../Dropdown/LocationDropdown';
 
-export default class TopBar {
+export default class MainTopBar {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'top-bar-main'] });
     this.init();
@@ -59,7 +59,7 @@ export default class TopBar {
   }
 
   createLocationDropdown() {
-    const locationDropdown = new DropdownModal({
+    const locationDropdown = new Modal({
       View: LocationDropdown,
       className: 'location-dropdown',
       key: locationDropdownState,

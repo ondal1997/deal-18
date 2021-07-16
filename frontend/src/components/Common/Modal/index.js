@@ -1,26 +1,26 @@
 import { createElement } from '../../../utils/dom';
-import { getState, setState, subscribe } from '../../../utils/globalObserver';
+import { getState, subscribe } from '../../../utils/globalObserver';
 
 export default class Modal {
   constructor({ View, className, key }) {
     this.$target = createElement({ tagName: 'div', classNames: [className] });
     this.View = new View({ key }).$target; //상태에 따라 변경되는 사항이 없기 때문에 생성자에서 인스턴스 생성
     this.key = key;
-    this.setIsOpen = setState(key);
 
     this.init();
   }
+
   init() {
-    subscribe(this.key, this.toggleModal.bind(this));
+    subscribe(this.key, this.updateModalDisplay.bind(this));
     this.render();
-    this.$target.style.display = 'none';
+    this.updateModalDisplay();
   }
 
   render() {
     this.$target.appendChild(this.View);
   }
 
-  toggleModal() {
+  updateModalDisplay() {
     const isOpen = getState(this.key);
     this.$target.style.display = isOpen ? 'block' : 'none';
   }
