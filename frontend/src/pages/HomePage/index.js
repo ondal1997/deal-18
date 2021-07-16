@@ -3,7 +3,7 @@ import { pageState } from '../../store/page.js';
 import CategoryPage from '../CategoryPage';
 import LoginPage from '../LoginPage';
 import { createElement } from '../../utils/dom.js';
-import TopBar from '../../components/TopBar';
+import MainTopBar from '../../components/MainTopBar';
 import ProductList from '../../components/ProductList';
 
 export default class HomePage {
@@ -30,7 +30,7 @@ export default class HomePage {
   }
 
   render() {
-    const topBar = new TopBar();
+    const topBar = new MainTopBar();
     const productList = new ProductList();
     this.$target.innerHTML = '';
     this.$target.appendChild(topBar.$target);
