@@ -4,8 +4,8 @@ import { createElement } from '../../../utils/dom';
 import { router } from '../../../index';
 
 export default class CommonTopBar {
-  constructor({ title, MenuBtn }) {
-    this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'common-top-bar'] });
+  constructor({ title, MenuBtn, className }) {
+    this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'common-top-bar', className] });
     this.title = title || '';
     this.MenuBtn = MenuBtn ? new MenuBtn().$target : '';
 
