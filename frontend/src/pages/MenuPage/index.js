@@ -39,7 +39,6 @@ export default class MenuPage {
 
   getMenuContents() {
     const { type } = getState(menuTabState);
-    console.log(type === this.CHAT);
     //promise로 서버에서 데이터 받아올 곳
     switch (type) {
       case this.SELL:
