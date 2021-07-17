@@ -4,13 +4,31 @@
   height: 320px;
 }
 
-.chatting-chat {
+.chatting-box {
+  display: flex;
+  flex-direction: column;
   height: 267px;
+  font-size: 14px;
   padding: $content-padding;
+  overflow-x: scroll;
   & > div {
     margin-bottom: 16px;
+    width: fit-content;
+    padding: 8px;
   }
-  overflow-x: scroll;
+
+  .receive-msg {
+    border: 1px solid $primary;
+    background-color: $white;
+    border-radius: 0px 8px 8px 8px;
+  }
+
+  .sent-msg {
+    align-self: flex-end;
+    color: $white;
+    background-color: $primary;
+    border-radius: 8px 0px 8px 8px;
+  }
 }
 
 .chatting-input {
@@ -20,6 +38,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: $off-white;
+  border-top: 1px solid $gray3;
   height: 52px;
   padding: 8px 18px 8px 8px;
 

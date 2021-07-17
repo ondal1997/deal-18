@@ -19,7 +19,7 @@ export default class Chatting {
       return (acc += `<div class=${isReceive ? 'receive-msg' : 'sent-msg'}>${message}</div>`);
     }, '');
 
-    this.$target.innerHTML = `<div class='chatting-chat'>${chattingElements}</div>`;
+    this.$target.innerHTML = `<div class='chatting-box'>${chattingElements}</div>`;
     this.$target.innerHTML += `
         <div class='chatting-input'>
           <input type='text' placeholder='메세지를 입력하세요.' />
