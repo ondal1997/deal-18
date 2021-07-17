@@ -1,3 +1,4 @@
+import './style.scss';
 import TopBar from '../../components/Common/CommonTopBar';
 import MenuTab from '../../components/MenuTab';
 import ProductList from '../../components/ProductList';
@@ -12,8 +13,12 @@ export default class MenuPage {
     this.SELL = 'sell';
     this.CHAT = 'chat';
     this.LIKE = 'like';
+    this.SELL_EMPTY_MSG = '등록한 상품이 없습니다.';
+    this.CHAT_EMPTY_MSG = '채팅 기록이 없습니다.';
+    this.LIKE_EMPTY_MSG = '관심을 표시한 상품이 없습니다.';
 
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
+    this.$emptyContent = createElement({ tagName: 'div', classNames: ['menu-empty-content'] });
     this.init();
   }
   init() {
@@ -39,7 +44,10 @@ export default class MenuPage {
     switch (type) {
       case this.SELL:
         //TODO 없을 때 메세지 컴포넌트
-        if (!products.length) return;
+        if (!products.length) {
+          this.$emptyContent.innerHTML = this.SELL_EMPTY_MSG;
+          return this.$emptyContent;
+        }
         return new ProductList({ products, isMyProductList: true }).$target;
       case this.CHAT:
         if (!chats.length) return;
@@ -59,46 +67,47 @@ import testImg1 from '../../../public/img/ImageLarge-1.png';
 import testImg2 from '../../../public/img/ImageLarge-2.png';
 import ChatList from '../../components/ChatList';
 
-const products = [
-  {
-    imgUrl: testImg0,
-    title: '파란선풍기',
-    town: '구암동',
-    createdDate: new Date('2021.07.14'),
-    price: 24500,
-    commentCount: 1,
-    likeCount: 2,
-    isLiked: true,
-  },
-  {
-    imgUrl: testImg1,
-    title: '빈티지 밀크 글래스',
-    town: '회기동',
-    createdDate: new Date('2021.07.14'),
-    price: 158000,
-    commentCount: 1,
-    isLiked: false,
-  },
-  {
-    imgUrl: testImg2,
-    title: '잎사귀 포스터',
-    town: '역삼동',
-    createdDate: new Date('2021.07.14'),
-    price: 58000,
-    likeCount: 2,
-    isLiked: false,
-  },
-  {
-    imgUrl: testImg0,
-    title: '파란선풍기',
-    town: '구암동',
-    createdDate: new Date('2021.07.14'),
-    price: 24500,
-    commentCount: 1,
-    likeCount: 2,
-    isLiked: true,
-  },
-];
+const products = [];
+// const products = [
+//   {
+//     imgUrl: testImg0,
+//     title: '파란선풍기',
+//     town: '구암동',
+//     createdDate: new Date('2021.07.14'),
+//     price: 24500,
+//     commentCount: 1,
+//     likeCount: 2,
+//     isLiked: true,
+//   },
+//   {
+//     imgUrl: testImg1,
+//     title: '빈티지 밀크 글래스',
+//     town: '회기동',
+//     createdDate: new Date('2021.07.14'),
+//     price: 158000,
+//     commentCount: 1,
+//     isLiked: false,
+//   },
+//   {
+//     imgUrl: testImg2,
+//     title: '잎사귀 포스터',
+//     town: '역삼동',
+//     createdDate: new Date('2021.07.14'),
+//     price: 58000,
+//     likeCount: 2,
+//     isLiked: false,
+//   },
+//   {
+//     imgUrl: testImg0,
+//     title: '파란선풍기',
+//     town: '구암동',
+//     createdDate: new Date('2021.07.14'),
+//     price: 24500,
+//     commentCount: 1,
+//     likeCount: 2,
+//     isLiked: true,
+//   },
+// ];
 
 const chats = [
   {
