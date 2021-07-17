@@ -1,0 +1,57 @@
+@import '../../style/variables.scss';
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-img-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.carousel-img {
+  width: 320px;
+  height: 320px;
+}
+
+.carousel-gradient {
+  position: absolute;
+  top: 0;
+  width: 320px;
+  height: 320px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.24) 0%,
+    rgba(0, 0, 0, 0) 16.52%,
+    rgba(0, 0, 0, 0) 87.36%,
+    rgba(0, 0, 0, 0.24) 100%
+  );
+}
+
+.carousel-img-navigation {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  padding: 20px;
+  background: none;
+  border-radius: 5px;
+  gap: 8px;
+  justify-content: center;
+}
+
+.carousel-button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border-radius: 100%;
+  border: 1px solid $white;
+}
+
+.carousel-button-selected {
+  background-color: $white;
+}
