@@ -1,9 +1,12 @@
 @import '../../../style/variables.scss';
 
 .chat-product-info {
+  position: sticky;
+  top: $top-bar-height;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: $white;
   padding: $content-padding;
   border-bottom: 1px solid $gray3;
   font-size: 14px;
