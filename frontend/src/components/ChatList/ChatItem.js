@@ -1,6 +1,7 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
 import { getPassedTime } from '../../utils/convertToString';
+import { router } from '../..';
 
 export default class ChatItem {
   constructor({ chat }) {
@@ -14,6 +15,10 @@ export default class ChatItem {
   init() {
     if (this.isUncheckedChat) this.$target.classList.add('unchecked-chat');
     this.render();
+    this.addEvent();
+  }
+  addEvent() {
+    this.$target.addEventListener('click', this.handleClick.bind(this));
   }
   render() {
     const { imgUrl, userName, message, createDate, uncheckedMsgCount } = this.chat;
@@ -35,6 +40,9 @@ export default class ChatItem {
             </div>
         </div>
     `;
+  }
+  handleClick() {
+    router.push('chat');
   }
 }
 
