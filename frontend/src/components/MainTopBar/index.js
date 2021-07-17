@@ -63,6 +63,10 @@ export default class MainTopBar {
       router.push('/login');
     }
 
+    if (target.closest('.menu')) {
+      router.push('/menu');
+    }
+
     if (this.isLocationBtn(target)) this.toggleLocationModal();
     else this.setModalIsOpen(false);
   }
