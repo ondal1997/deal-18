@@ -2,8 +2,8 @@ import ProductItem from './ProductItem';
 import { createElement } from '../../utils/dom';
 
 export default class ProductList {
-  // constructor({ products }) {
-  constructor() {
+  constructor({ products }) {
+    // constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['product-list'] });
     this.products = products;
 
@@ -45,7 +45,7 @@ const products = [
   },
   {
     imgUrl: testImg2,
-    title: '입사귀 포스터',
+    title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
     price: 58000,
@@ -73,7 +73,7 @@ const products = [
   },
   {
     imgUrl: testImg2,
-    title: '입사귀 포스터',
+    title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
     price: 58000,
@@ -101,7 +101,7 @@ const products = [
   },
   {
     imgUrl: testImg2,
-    title: '입사귀 포스터',
+    title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
     price: 58000,
