@@ -14,7 +14,7 @@ export default class ProductList {
     this.render();
   }
   render() {
-    products.forEach((product) => {
+    this.products.forEach((product) => {
       this.$target.appendChild(new ProductItem({ product, isMyProduct: this.isMyProductList }).$target);
     });
   }
