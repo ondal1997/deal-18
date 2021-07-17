@@ -1,6 +1,7 @@
 import './style.scss';
-import TopBar from '../../components/Common/CommonTopBar';
 import { createElement } from '../../utils/dom';
+import TopBar from '../../components/Common/CommonTopBar';
+import ChatDeleteBtn from '../../components/Chatting/ChatDeleteBtn';
 
 export default class ChatPage {
   constructor() {
@@ -12,7 +13,8 @@ export default class ChatPage {
     this.render();
   }
   render() {
-    const topBar = new TopBar({ title: this.chat.userName, className: 'chat-page-topbar' }).$target;
+    const topBar = new TopBar({ title: this.chat.userName, className: 'chat-page-topbar', MenuBtn: ChatDeleteBtn })
+      .$target;
 
     this.$target.appendChild(topBar);
   }
