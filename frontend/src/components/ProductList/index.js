@@ -2,10 +2,11 @@ import ProductItem from './ProductItem';
 import { createElement } from '../../utils/dom';
 
 export default class ProductList {
-  constructor({ products }) {
+  constructor({ products, isMyProductList }) {
     // constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['product-list'] });
     this.products = products;
+    this.isMyProductList = isMyProductList;
 
     this.init();
   }
@@ -14,7 +15,7 @@ export default class ProductList {
   }
   render() {
     products.forEach((product) => {
-      this.$target.appendChild(new ProductItem({ product }).$target);
+      this.$target.appendChild(new ProductItem({ product, isMyProduct: this.isMyProductList }).$target);
     });
   }
 }

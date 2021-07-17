@@ -6,6 +6,7 @@
   height: 50px;
   background-color: $off-white;
   top: $top-bar-height;
+  box-shadow: inset 0px -1px 0px #d7d7d7;
 
   &-item {
     position: relative;
