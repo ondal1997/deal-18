@@ -1,0 +1,7 @@
+@import '../../style/variables.scss';
+
+// css선택자 우선순위 위해서 아래처럼 작성
+.page > .chat-page-topbar {
+  background-color: $white;
+  border-bottom: 1px solid $gray;
+}
