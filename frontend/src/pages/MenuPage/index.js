@@ -45,6 +45,8 @@ export default class MenuPage {
         if (!chats.length) return;
         return new ChatList({ chats }).$target;
       case this.LIKE:
+        if (!likeProducts.length) return;
+        return new ProductList({ products: likeProducts }).$target;
         break;
       default:
         throw Error('잘못된 메뉴 탭 상태 입력');
@@ -112,5 +114,27 @@ const chats = [
     message: '감사합니다 :)',
     createDate: new Date('2021.07.14'),
     uncheckedMsgCount: 0,
+  },
+];
+
+const likeProducts = [
+  {
+    imgUrl: testImg0,
+    title: '파란선풍기',
+    town: '구암동',
+    createdDate: new Date('2021.07.14'),
+    price: 24500,
+    commentCount: 1,
+    likeCount: 2,
+    isLiked: true,
+  },
+  {
+    imgUrl: testImg1,
+    title: '빈티지 밀크 글래스',
+    town: '회기동',
+    createdDate: new Date('2021.07.14'),
+    price: 158000,
+    commentCount: 1,
+    isLiked: true,
   },
 ];
