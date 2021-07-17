@@ -1,9 +1,11 @@
 @import '.././../style/variables.scss';
 
 .menu-tab {
+  position: sticky;
   display: flex;
   height: 50px;
   background-color: $off-white;
+  top: $top-bar-height;
 
   &-item {
     position: relative;
