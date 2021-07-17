@@ -1,6 +1,7 @@
 import './style.scss';
 import backBtn from '../../../../public/assets/topbar/backBtn.svg';
 import { createElement } from '../../../utils/dom';
+import { router } from '../../../index';
 
 export default class CommonTopBar {
   constructor({ title, MenuBtn }) {
@@ -12,10 +13,17 @@ export default class CommonTopBar {
   }
   init() {
     this.render();
+    this.addEvent();
+  }
+  addEvent() {
+    this.$target.addEventListener('click', this.handleClick.bind(this));
+  }
+  handleClick({ target }) {
+    if (target.closest('.back-btn')) router.pop();
   }
   render() {
     this.$target.innerHTML = `
-        <div>
+        <div class='back-btn'>
           <img src=${backBtn} alt='go back'/>
         </div>
         <div>${this.title}</div>

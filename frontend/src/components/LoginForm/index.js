@@ -1,13 +1,11 @@
 import './style.scss';
-import { setState } from '../../utils/globalObserver.js';
-import { pageState } from '../../store/page.js';
 import { createElement } from '../../utils/dom';
 import RegisterPage from '../../pages/RegisterPage';
+import { router } from '../../index';
 
 export default class LoginForm {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['login-form'] });
-    this.setPageState = setState(pageState);
 
     this.init();
   }
@@ -19,7 +17,7 @@ export default class LoginForm {
 
   handleClick({ target }) {
     if (target.closest('.register')) {
-      this.setPageState({ Page: RegisterPage, direction: 'right' });
+      router.push('/register');
     }
   }
 

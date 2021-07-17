@@ -3,7 +3,7 @@ import { setState } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import { pageState } from '../../store/page';
 import { locationDropdownState } from '../../store/store';
-import LocationEditPage from '../../pages/LocationEditPage';
+import { router } from '../..';
 
 export default class LocationDropdown {
   constructor({ key }) {
@@ -29,7 +29,7 @@ export default class LocationDropdown {
   handleClick({ target }) {
     if (target.closest('.select-location')) this.setIsOpen(false);
 
-    if (target.closest('.move-edit-page')) this.setPage({ Page: LocationEditPage, direction: 'right' });
+    if (target.closest('.move-edit-page')) router.push('/location');
   }
 
   toggleLocationModal() {
