@@ -4,6 +4,7 @@ import locationIcon from '../../../public/assets/homepage/location.svg';
 import userIcon from '../../../public/assets/homepage/user.svg';
 import menuIcon from '../../../public/assets/homepage/menu.svg';
 
+import { router } from '../../index';
 import { getState, setState } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import { locationDropdownState } from '../../store/store';
@@ -24,7 +25,7 @@ export default class MainTopBar {
   }
 
   addEvent() {
-    document.body.addEventListener('click', this.handleClick.bind(this));
+    this.$target.addEventListener('click', this.handleClick.bind(this));
   }
 
   render() {
@@ -52,6 +53,14 @@ export default class MainTopBar {
     if (this.isTopBar(target)) {
       this.setModalIsOpen(false);
       return;
+    }
+
+    if (target.closest('.category')) {
+      router.push('/categories');
+    }
+
+    if (target.closest('.user')) {
+      router.push('/login');
     }
 
     if (this.isLocationBtn(target)) this.toggleLocationModal();

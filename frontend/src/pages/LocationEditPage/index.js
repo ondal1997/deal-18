@@ -13,11 +13,13 @@ export default class LocationEditPage {
     this.CAUTION_LINE2 = '최대 2개까지 설정 가능해요.';
 
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
+    this.$cautionMsg = createElement({ tagName: 'div', classNames: ['location-cautions'] });
 
     this.init();
   }
 
   init() {
+    this.renderCautionMsg();
     this.render();
   }
 
@@ -32,14 +34,15 @@ export default class LocationEditPage {
     }).$target;
 
     this.$target.appendChild(topBar);
-    this.$target.innerHTML += `
-        <div class='location-cautions'>
-          <div>${this.CAUTION_LINE1}</div>
-          <div>${this.CAUTION_LINE2}</div>
-        </div>
-    `;
-
+    this.$target.appendChild(this.$cautionMsg);
     this.$target.appendChild(locationList);
     this.$target.appendChild(locationInputPopup);
+  }
+
+  renderCautionMsg() {
+    this.$cautionMsg.innerHTML = `
+      <div>${this.CAUTION_LINE1}</div>
+      <div>${this.CAUTION_LINE2}</div>
+    `;
   }
 }
