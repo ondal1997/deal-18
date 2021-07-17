@@ -7,7 +7,7 @@ export default class CommonTopBar {
   constructor({ title, MenuBtn, className }) {
     this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'common-top-bar', className] });
     this.title = title || '';
-    this.MenuBtn = MenuBtn ? new MenuBtn().$target : '';
+    this.MenuBtn = typeof MenuBtn === 'function' ? new MenuBtn().$target : '';
 
     this.init();
   }
@@ -29,7 +29,7 @@ export default class CommonTopBar {
         </div>
         <div>${this.title}</div>  
     `;
-    this.$target.appendChild(this.MenuBtn);
+    if (this.MenuBtn) this.$target.appendChild(this.MenuBtn);
   }
 }
 
