@@ -1,7 +1,8 @@
-import { formCategoryState } from '../../store/postPage';
-import categories from '../../utils/categories';
-import { createElement } from '../../utils/dom';
-import { getState } from '../../utils/globalObserver';
+import './style.scss';
+import { formCategoryState } from '../../../store/postPage';
+import categories from '../../../utils/categories';
+import { createElement } from '../../../utils/dom';
+import { getState } from '../../../utils/globalObserver';
 
 export default class FormTitleNCategory {
   constructor() {
@@ -14,6 +15,7 @@ export default class FormTitleNCategory {
     this.addEvent();
   }
   addEvent() {}
+
   render() {
     const categoryElements = this.CATEGORY_LIST.reduce((acc, category) => {
       return (acc += this.renderCategoryBadge(category));
@@ -30,6 +32,7 @@ export default class FormTitleNCategory {
             </div> 
         `;
   }
+
   renderCategoryBadge(category) {
     const selectCategory = getState(formCategoryState);
     const isSelected = selectCategory === category;
