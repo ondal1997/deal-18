@@ -28,8 +28,12 @@ export default class CommonTopBar {
           <img src=${backBtn} alt='go back'/>
         </div>
         <div>${this.title}</div>  
+        <div class='menu-btn'></div>
     `;
-    if (this.MenuBtn) this.$target.appendChild(this.MenuBtn);
+    if (this.MenuBtn) {
+      const menuBtn = this.$target.querySelector('.menu-btn');
+      menuBtn.appendChild(this.MenuBtn);
+    }
   }
 }
 
