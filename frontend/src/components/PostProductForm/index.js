@@ -13,6 +13,7 @@ export default class PostProductForm {
   init() {
     this.renderPrice();
     this.renderDescription();
+
     this.render();
     this.addEvent();
   }
@@ -41,8 +42,8 @@ export default class PostProductForm {
         <textarea placeholder='게시글 내용을 작성해주세요.'></textarea>
     `;
   }
+
   handleInput({ target }) {
     target.style.height = target.scrollHeight + 'px';
-    console.log(target.style.height);
   }
 }

@@ -2,8 +2,10 @@
 
 .post-product-form {
   padding: 0 $content-padding;
-  & > div {
+  & > div:not(:last-child) {
     border-bottom: 1px solid $gray3;
+  }
+  & > div {
     padding: $content-padding 0;
   }
 
