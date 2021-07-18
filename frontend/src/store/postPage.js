@@ -9,6 +9,11 @@ import testImg1 from '../../public/img/ImageLarge-1.png';
 import testImg2 from '../../public/img/ImageLarge-2.png';
 
 export const uploadedImgState = initState({
-  key: '',
+  key: 'uploadedImgState',
   defaultValue: [testImg0, testImg1, testImg2],
+});
+
+export const formCategoryState = initState({
+  key: 'formCategoryState',
+  defaultValue: '',
 });
