@@ -1,0 +1,57 @@
+@import '../../style/variables.scss';
+
+.chat-list > div {
+  padding: 0 $content-padding;
+}
+
+.chat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: $content-padding 0;
+  font-size: 14px;
+  border-bottom: 0.4px solid $gray3;
+  .chat-info {
+    display: flex;
+    justify-content: space-between;
+    &:first-child {
+      margin-bottom: 4px;
+    }
+  }
+  & > div:first-child {
+    width: 100%;
+  }
+}
+
+.unchecked-chat {
+  background-color: $off-white;
+}
+
+.chat-user {
+  font-weight: 500;
+}
+
+.chat-uncheck,
+.chat-timestamp {
+  font-size: 12px;
+}
+
+.chat-timestamp,
+.chat-msg {
+  color: $gray1;
+}
+
+.chat-uncheck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  background-color: $dark-primary;
+  border-radius: 50%;
+}
+
+.chat-img > img {
+  margin-left: 16px;
+  width: 40px;
+}

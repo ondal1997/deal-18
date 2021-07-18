@@ -2,10 +2,11 @@ import ProductItem from './ProductItem';
 import { createElement } from '../../utils/dom';
 
 export default class ProductList {
-  // constructor({ products }) {
-  constructor() {
+  constructor({ products, isMyProductList }) {
+    // constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['product-list'] });
     this.products = products;
+    this.isMyProductList = isMyProductList;
 
     this.init();
   }
@@ -13,8 +14,8 @@ export default class ProductList {
     this.render();
   }
   render() {
-    products.forEach((product) => {
-      this.$target.appendChild(new ProductItem({ product }).$target);
+    this.products.forEach((product) => {
+      this.$target.appendChild(new ProductItem({ product, isMyProduct: this.isMyProductList }).$target);
     });
   }
 }
@@ -45,7 +46,7 @@ const products = [
   },
   {
     imgUrl: testImg2,
-    title: '입사귀 포스터',
+    title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
     price: 58000,
@@ -73,7 +74,7 @@ const products = [
   },
   {
     imgUrl: testImg2,
-    title: '입사귀 포스터',
+    title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
     price: 58000,
@@ -101,7 +102,7 @@ const products = [
   },
   {
     imgUrl: testImg2,
-    title: '입사귀 포스터',
+    title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
     price: 58000,

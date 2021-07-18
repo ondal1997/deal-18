@@ -8,6 +8,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import LocationEditPage from './pages/LocationEditPage';
 import Postpage from './pages/PostPage';
+import MenuPage from './pages/MenuPage';
+import ChatListPage from './pages/ChatListPage';
+import ChatPage from './pages/ChatPage';
 
 const $root = document.querySelector('#root');
 
@@ -18,6 +21,9 @@ const routes = {
   '/register': RegisterPage,
   '/location': LocationEditPage,
   '/post': Postpage,
+  '/menu': MenuPage,
+  '/chat-list': ChatListPage,
+  '/chat': ChatPage,
 };
 
 export const router = new Router({ routes, pageState });
