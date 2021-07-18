@@ -1,0 +1,95 @@
+@import '../../style/variables.scss';
+
+.product-detail-info {
+  padding: 24px 16px 32px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.product-state-controller {
+  .button-toggle-dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+
+    background-color: white;
+    border: 1px solid $gray5;
+    box-sizing: border-box;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .dropdown-wrapper {
+    position: relative;
+
+    .dropdown {
+      width: 165px;
+      border-radius: 10px;
+      overflow: hidden;
+      color: $black;
+      position: absolute;
+      top: 8px;
+      box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(4px);
+
+      & > div {
+        height: 48px;
+        background-color: $off-white;
+        padding: $content-padding;
+      }
+
+      & > div:not(:last-child) {
+        border-bottom: 1px solid $gray3;
+      }
+
+      & > div:hover {
+        background-color: $gray3;
+      }
+    }
+  }
+}
+
+.product-detail-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+
+  .name {
+    font-size: 18px;
+  }
+
+  .text-small {
+    font-size: 12px;
+    color: $gray1;
+  }
+
+  .text-medium {
+    font-size: 14px;
+  }
+
+  .description {
+    font: inherit;
+    white-space: pre-wrap;
+    margin: 0;
+  }
+
+  .user-info-wrapper {
+    padding: 16px;
+    background-color: $off-white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}

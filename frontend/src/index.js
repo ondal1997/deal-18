@@ -7,6 +7,7 @@ import CategoryPage from './pages/CategoryPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import LocationEditPage from './pages/LocationEditPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 
 const $root = document.querySelector('#root');
 
@@ -16,6 +17,7 @@ const routes = {
   '/login': LoginPage,
   '/register': RegisterPage,
   '/location': LocationEditPage,
+  '/items/id': ProductDetailPage,
 };
 
 export const router = new Router({ routes, pageState });

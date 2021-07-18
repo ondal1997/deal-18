@@ -1,0 +1,21 @@
+@import '../../style/variables.scss';
+
+.product-detail-top-bar {
+  position: absolute;
+  top: 0px;
+  width: 320px;
+  height: $top-bar-height;
+  z-index: 1;
+  margin-bottom: -$top-bar-height;
+  fill: $white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $content-padding;
+  background: none;
+
+  img {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+  }
+}
