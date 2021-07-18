@@ -1,20 +1,25 @@
 import './style.scss';
-import { formCategoryState } from '../../../store/postPage';
+import { selectedCategoryState } from '../../../store/postPage';
 import categories from '../../../utils/categories';
 import { createElement } from '../../../utils/dom';
-import { getState } from '../../../utils/globalObserver';
+import { getState, setState, subscribe } from '../../../utils/globalObserver';
 
 export default class FormTitleNCategory {
   constructor() {
     this.CATEGORY_LIST = categories;
     this.$target = createElement({ tagName: 'div', classNames: ['form-title-category'] });
+
+    this.setSelectedCategory = setState(selectedCategoryState);
     this.init();
   }
   init() {
+    subscribe(selectedCategoryState, this.render.bind(this));
     this.render();
     this.addEvent();
   }
-  addEvent() {}
+  addEvent() {
+    this.$target.addEventListener('click', this.handleClick.bind(this));
+  }
 
   render() {
     const categoryElements = this.CATEGORY_LIST.reduce((acc, category) => {
@@ -34,11 +39,18 @@ export default class FormTitleNCategory {
   }
 
   renderCategoryBadge(category) {
-    const selectCategory = getState(formCategoryState);
-    const isSelected = selectCategory === category;
-    const className = isSelected ? 'category-badge selected-category-badge' : 'category-badge';
+    const selectedCategory = getState(selectedCategoryState);
+    const isSelected = selectedCategory === category;
+    const className = 'category-badge ' + `${isSelected ? 'selected-category-badge' : ''}`;
     return `
-        <div class=${className}>${category}</div>
+        <div class='${className}'>${category}</div>
       `;
+  }
+
+  handleClick({ target }) {
+    const categoryBadge = target.closest('.category-badge');
+    if (!categoryBadge) return;
+
+    this.setSelectedCategory(categoryBadge.textContent);
   }
 }

@@ -13,7 +13,7 @@ export const uploadedImgState = initState({
   defaultValue: [testImg0, testImg1, testImg2],
 });
 
-export const formCategoryState = initState({
-  key: 'formCategoryState',
+export const selectedCategoryState = initState({
+  key: 'selectedCategoryState',
   defaultValue: '',
 });

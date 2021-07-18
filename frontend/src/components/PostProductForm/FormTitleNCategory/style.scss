@@ -24,11 +24,20 @@
   display: flex;
   gap: 4px;
   margin-top: 8px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   .category-badge {
     min-width: fit-content;
     padding: 4px 16px;
     border: 1px solid $gray3;
     border-radius: 999px;
     color: $gray1;
+  }
+  .selected-category-badge {
+    background-color: $primary;
+    color: $white;
   }
 }
