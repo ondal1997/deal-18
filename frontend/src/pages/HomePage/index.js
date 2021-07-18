@@ -5,6 +5,7 @@ import { createElement } from '../../utils/dom.js';
 import MainTopBar from '../../components/MainTopBar';
 import ProductList from '../../components/ProductList';
 import postButton from '../../../public/assets/homepage/postButton.svg';
+import { router } from '../../index';
 
 export default class HomePage {
   constructor() {
@@ -18,6 +19,11 @@ export default class HomePage {
   init() {
     this.renderPostBtn();
     this.render();
+    this.addEvent();
+  }
+
+  addEvent() {
+    this.$postBtn.addEventListener('click', this.handleClickPostBtn.bind(this));
   }
 
   render() {
@@ -33,5 +39,9 @@ export default class HomePage {
     this.$postBtn.innerHTML = `
       <img src=${postButton} alt ='상품 등록하기 버튼' />
     `;
+  }
+
+  handleClickPostBtn() {
+    router.push('/post');
   }
 }
