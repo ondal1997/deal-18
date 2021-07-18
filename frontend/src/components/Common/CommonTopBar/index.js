@@ -28,8 +28,8 @@ export default class CommonTopBar {
         <div class='back-btn'>
           <img src=${backBtn} alt='go back'/>
         </div>
-        <div>${this.title}</div>  
-        <div class='menu-btn'></div>
+        <div>${this.title}</div>
+        <div class='menu-btn'>${this.MenuBtn}</div>
     `;
     if (this.MenuBtn) {
       const menuBtnBox = this.getMenuBtnBox();
