@@ -6,4 +6,24 @@
     border-bottom: 1px solid $gray3;
     padding: $content-padding 0;
   }
+
+  input,
+  textarea {
+    width: 100%;
+    border: none;
+  }
+  input:focus,
+  textarea:focus {
+    outline: none;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    font-size: 16px;
+    color: $gray1;
+  }
+
+  textarea {
+    resize: none;
+    overflow: hidden;
+  }
 }
