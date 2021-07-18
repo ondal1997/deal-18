@@ -1,6 +1,7 @@
 import './style.scss';
 import TopBar from '../../components/Common/CommonTopBar';
 import { createElement } from '../../utils/dom';
+import PostProductForm from '../../components/PostProductForm';
 
 export default class Postpage {
   constructor() {
@@ -14,7 +15,9 @@ export default class Postpage {
   }
   render() {
     const topBar = new TopBar({ title: this.PAGE_TITLE, className: 'post-page-topbar' }).$target;
+    const postProductForm = new PostProductForm().$target;
 
     this.$target.appendChild(topBar);
+    this.$target.appendChild(postProductForm);
   }
 }
