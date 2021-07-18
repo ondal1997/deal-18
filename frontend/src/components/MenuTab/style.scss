@@ -1,0 +1,34 @@
+@import '.././../style/variables.scss';
+
+.menu-tab {
+  position: sticky;
+  display: flex;
+  height: 50px;
+  background-color: $off-white;
+  top: $top-bar-height;
+  box-shadow: inset 0px -1px 0px #d7d7d7;
+
+  &-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin: 0 $content-padding;
+    padding: $content-padding 0;
+  }
+  &-item-selected::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    // background-color: $primary;
+  }
+  .selected-menu-tab-item {
+    border-bottom: 2px solid $primary;
+    color: $primary;
+  }
+}
