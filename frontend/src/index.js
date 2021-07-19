@@ -7,6 +7,7 @@ import CategoryPage from './pages/CategoryPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import LocationEditPage from './pages/LocationEditPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 import Postpage from './pages/PostPage';
 import MenuPage from './pages/MenuPage';
 import ChatListPage from './pages/ChatListPage';
@@ -20,6 +21,7 @@ const routes = {
   '/login': LoginPage,
   '/register': RegisterPage,
   '/location': LocationEditPage,
+  '/items/id': ProductDetailPage,
   '/post': Postpage,
   '/menu': MenuPage,
   '/chat-list': ChatListPage,

@@ -28,8 +28,10 @@ export default class App {
     this.movePage({ Page, direction });
   }
 
-  handleTransitionEnd() {
-    this.endTransition();
+  handleTransitionEnd({ target }) {
+    if (target == this.$target) {
+      this.endTransition();
+    }
   }
 
   movePage({ Page, direction }) {
