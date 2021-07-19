@@ -1,5 +1,10 @@
 {
-  "database": {},
+  "database": {
+    "host": "localhost",
+    "user": "kyle",
+    "password": "0000",
+    "database": "deal18"
+  },
   "server": {
     "port": 3000,
     "pageSize": 100,
