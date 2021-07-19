@@ -1,6 +1,6 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
-import TopBar from '../../components/Common/CommonTopBar';
+import CommonTopBar from '../../components/Common/CommonTopBar';
 import ChatDeleteBtn from '../../components/Chatting/ChatDeleteBtn';
 import ChatProductInfo from '../../components/Chatting/ChatProductInfo';
 import Chatting from '../../components/Chatting/Chatting';
@@ -18,7 +18,11 @@ export default class ChatPage {
     const { chatting: chattingData, userName } = this.chat;
     const chatProduct = this.getChatProductInfo();
 
-    const topBar = new TopBar({ title: userName, className: 'chat-page-topbar', MenuBtn: ChatDeleteBtn }).$target;
+    const topBar = new CommonTopBar({
+      title: userName,
+      className: 'chat-page-topbar',
+      menuBtn: new ChatDeleteBtn().$target,
+    }).$target;
     const chatProductInfo = new ChatProductInfo({ chatProduct }).$target;
     const chatting = new Chatting({ chatting: chattingData, userName: userName }).$target;
 
@@ -27,8 +31,8 @@ export default class ChatPage {
     this.$target.appendChild(chatting);
   }
   getChatProductInfo() {
-    const { imgUrl, productName, price, isSelling } = this.chat;
-    return { imgUrl, productName, price, isSelling };
+    const { imgUrl, productName, price, state } = this.chat;
+    return { imgUrl, productName, price, state };
   }
 }
 
@@ -53,7 +57,7 @@ const chat = {
   imgUrl: testImg0,
   productName: '빈티지 롤러 스케이트',
   price: 160000,
-  isSelling: true,
+  state: '판매중', // 판매중, 예약중, 판매완료
   userName: 'UserE',
   message: '실제로 신어볼 수 있는 건가요?',
   createDate: new Date('2021.07.14'),

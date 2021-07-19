@@ -29,11 +29,11 @@ export default class ProductDetailTopBar {
       this.isOpen = false;
     }
 
-    if (target.closest('.button-sale')) {
+    if (target.closest('.edit')) {
       // 수정하기 버튼
     }
 
-    if (target.closest('.button-reserved')) {
+    if (target.closest('.remove')) {
       // 삭제하기 버튼
     }
 

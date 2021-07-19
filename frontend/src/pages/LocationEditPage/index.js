@@ -1,7 +1,7 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
 import { locationInputPopupState } from '../../store/store';
-import TopBar from '../../components/Common/CommonTopBar';
+import CommonTopBar from '../../components/Common/CommonTopBar';
 import LocationList from '../../components/LocationList';
 import Modal from '../../components/Common/Modal';
 import LocationInputPopup from '../../components/Popup/LocationInputPopup';
@@ -24,7 +24,7 @@ export default class LocationEditPage {
   }
 
   render() {
-    const topBar = new TopBar({ title: this.PAGE_TITLE }).$target;
+    const topBar = new CommonTopBar({ title: this.PAGE_TITLE }).$target;
     const locationList = new LocationList().$target;
 
     const locationInputPopup = new Modal({

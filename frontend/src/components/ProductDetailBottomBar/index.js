@@ -45,10 +45,10 @@ export default class ProductDetailBottomBar {
           문의하기
         </button>
       `;
-    } else if (this.product.chatCount) {
+    } else if (this.product.commentCount) {
       buttonHTML = `
       <button class="chats-button button">
-        채팅 목록 보기(${this.product.chatCount})
+        채팅 목록 보기(${this.product.commentCount})
       </button>
       `;
     } else {
