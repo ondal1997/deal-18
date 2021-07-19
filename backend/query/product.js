@@ -1,14 +1,19 @@
-const GET_ALL_PRODUCT = ({ userId, category, town }) => {
-  if (!town) {
-    return `
-            SELECT product.id, title, price, created_date as createdDate, town,
-            (SELECT count(*) FROM user_like) as likeCount
+exports.GET_ALL_PRODUCT = ({ userId, category, town }) => {
+  let condition = '';
+
+  if (category) condition += `AND category=${category} `;
+  if (town) condition += `AND product.town=${town}`;
+
+  return `
+            SELECT product.id, title, price, created_date as createdDate, town, user_id,
+            (SELECT count(*) FROM user_like WHERE user_like.product_id=product.id) as likeCount,
+            (SELECT count(*) FROM chat WHERE chat.product_id=product.id) as commentCount,
+            (SELECT count(*) 
+             FROM user_like 
+             WHERE '${userId}'=user_like.user_id AND user_like.product_id=product.id) as isLiked
             FROM product 
-            JOIN user_like ON user_like.product_id=product.id
-            JOIN chat ON chat.product_id=product.id
-            WHERE state='판매중'
-        `;
-  }
+            WHERE state='판매중' ${condition}
+             `;
 };
 
 exports.INSERT_PRODUCT = ({ title, price, description, town, user_id, category }) => {
@@ -21,3 +26,23 @@ exports.INSERT_PRODUCT = ({ title, price, description, town, user_id, category }
         ('${title}',${price},'${description}','${town}','${user_id}','${state}','${category}',${watch_count},now())
         `;
 };
+
+exports.GET_USER_PRODUCT = ({ productId, userId }) => {
+  return `
+        SELECT * 
+        FROM product
+        WHERE product.user_id='${userId}''
+    `;
+};
+
+// {
+//     id:1234, x
+//     imgUrl: testImg0, -> 따로 select
+//     title: '파란선풍기', x
+//     town: '구암동', x
+//     createdDate: new Date('2021.07.14'), x
+//     price: 24500, x
+//     commentCount: 1, x
+//     likeCount: 2,x
+//     isLiked: true,
+//   },
