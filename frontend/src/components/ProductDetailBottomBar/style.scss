@@ -28,7 +28,7 @@
     }
   }
 
-  .chat-button {
+  .button {
     font-size: 14px;
     width: 136px;
     height: 36px;
@@ -37,5 +37,10 @@
     border-radius: 8px;
     border: none;
     cursor: pointer;
+
+    &:disabled {
+      cursor: inherit;
+      background-color: $light-primary;
+    }
   }
 }

@@ -8,6 +8,7 @@ class ProductStateController {
   constructor({ product }) {
     this.$target = createElement({ tagName: 'div', classNames: ['product-state-controller'] });
     this.product = product;
+    this.state = this.product.state;
 
     this.isOpen = false;
 
@@ -22,12 +23,34 @@ class ProductStateController {
   handleClick({ target }) {
     if (target.closest('.button-toggle-dropdown')) {
       this.isOpen = !this.isOpen;
+    } else {
+      this.isOpen = false;
     }
+
+    if (target.closest('.button-sale')) {
+      // api: 판매중으로 상태 변경
+      this.state = '판매중';
+    }
+
+    if (target.closest('.button-reserved')) {
+      // api: 예약중으로 상태 변경
+      this.state = '예약중';
+    }
+
+    if (target.closest('.button-soldout')) {
+      // api: 판매완료로 상태 변경
+      this.state = '판매완료';
+    }
+
     this.render();
   }
 
   render() {
-    const { state } = this.product;
+    if (!this.product.isYours) {
+      return;
+    }
+
+    const { state } = this;
 
     let html = '';
     html += `
