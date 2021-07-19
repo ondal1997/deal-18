@@ -8,9 +8,9 @@ router.post('/sign-up', async (req, res) => {
   const conn = await pool.getConnection();
   try {
     await conn.beginTransaction(); // 트랜잭션 적용 시작
+    // 쿼리 사이에 다른 쿼리가 삽입되는 것을 막는다 + 첫번째 쿼리만 적용되는 것을 막는다.
     await conn.query('insert into user (id) values (?)', [userId]);
     await conn.query('insert into town (user_id, name) values (?, ?)', [userId, town]);
-
     await conn.commit(); // 커밋
     res.json({ userId, towns: [town] });
   } catch {
