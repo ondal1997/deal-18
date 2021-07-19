@@ -1,0 +1,47 @@
+@import '../../../style/variables.scss';
+
+.chat-product-info {
+  position: sticky;
+  top: $top-bar-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $white;
+  padding: $content-padding;
+  border-bottom: 1px solid $gray3;
+  font-size: 14px;
+  & img {
+    width: 40px;
+    margin-right: 8px;
+  }
+
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.chat-product-desc {
+  & > div {
+    padding: 1px;
+  }
+  .chat-product-price {
+    font-size: 12px;
+    color: $gray2;
+  }
+}
+
+.chat-statue-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  padding: 10px 16px;
+  border: 1px solid $gray3;
+  border-radius: 5px;
+}
+
+.sold-badge {
+  background-color: $off-white;
+  color: $gray2;
+}

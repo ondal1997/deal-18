@@ -1,0 +1,16 @@
+@import '../../style/variables.scss';
+
+.post-page {
+  .post-page-topbar {
+    background-color: $white;
+    border-bottom: 1px solid $gray3;
+  }
+}
+
+.post-location {
+  display: flex;
+  gap: 4px;
+  font-size: 14px;
+  border-top: 1px solid $gray3;
+  padding: 8px $content-padding;
+}

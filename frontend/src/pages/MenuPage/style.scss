@@ -1,0 +1,9 @@
+@import '../../style/variables.scss';
+
+//TODO 가운데 정렬을 주고 싶은데 상위에서 height 100%가 걸려있지 않아서 힘들다.
+//sticky 때문에 이 부분 처리 필요
+.menu-empty-content {
+  color: $gray3;
+  text-align: center;
+  margin-top: 137px;
+}

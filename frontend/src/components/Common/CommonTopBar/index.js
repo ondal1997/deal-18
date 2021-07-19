@@ -4,10 +4,10 @@ import { createElement } from '../../../utils/dom';
 import { router } from '../../../index';
 
 export default class CommonTopBar {
-  constructor({ title, MenuBtn }) {
-    this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'common-top-bar'] });
+  constructor({ title, MenuBtn, className }) {
+    this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'common-top-bar', className] });
     this.title = title || '';
-    this.MenuBtn = MenuBtn ? new MenuBtn().$target : '';
+    this.MenuBtn = typeof MenuBtn === 'function' ? new MenuBtn().$target : '';
 
     this.init();
   }
@@ -21,14 +21,23 @@ export default class CommonTopBar {
   handleClick({ target }) {
     if (target.closest('.back-btn')) router.pop();
   }
+  //appendChild, innerHTML을 일단 적용해 놨다. 추후 고민 필요
+  //반복적인 querySelector도 애매함
   render() {
     this.$target.innerHTML = `
         <div class='back-btn'>
           <img src=${backBtn} alt='go back'/>
         </div>
         <div>${this.title}</div>
-        <div>${this.MenuBtn}</div>      
+        <div class='menu-btn'>${this.MenuBtn}</div>
     `;
+    if (this.MenuBtn) {
+      const menuBtnBox = this.getMenuBtnBox();
+      menuBtnBox.appendChild(this.MenuBtn);
+    }
+  }
+  getMenuBtnBox() {
+    return this.$target.querySelector('.menu-btn');
   }
 }
 
