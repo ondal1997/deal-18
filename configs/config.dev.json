@@ -3,6 +3,7 @@
   "server": {
     "port": 3000,
     "pageSize": 100,
+    "sessionSecret": "deal-18",
     "logger": {
       "format": "tiny"
     }
