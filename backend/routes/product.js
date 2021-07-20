@@ -10,18 +10,18 @@ const router = express.Router();
 
 //GET:product list
 router.get('/products', async (req, res) => {
-  const DEFAULT_SIZE = 10;
   const { userId } = req.session;
-  const { backOf, category, ownerId, town } = req.query;
+  const { size, backOf, category, ownerId, town } = req.query;
   try {
-    const [productRows] = await pool.query(GET_ALL_PRODUCT({ userId, category, town }));
-    const products = productRows.map((productRow) => {
-      if (productRow.isLiked) return { ...productRow, isLiked: true };
-      return { ...productRow, isLiked: false };
-    });
-    const productImgs = await pool.query(GET_PRODUCT_IMG({}));
+    const [productRows] = await pool.query(GET_ALL_PRODUCT({ size, userId, category, town, ownerId, backOf }));
+
+    const products = productRows.map((productRow) =>
+      productRow.isLiked ? { ...productRow, isLiked: true } : { ...productRow, isLiked: false },
+    );
+
     res.json({ success: true, products });
-  } catch {
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ error: 'DB 실패' });
   }
 });
