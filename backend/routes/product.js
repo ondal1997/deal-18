@@ -90,7 +90,7 @@ router.post('/products', authenticationValidator, async (req, res) => {
     insert into product_img (img_url, product_id)
     values ${imgUrls.map((imgUrl) => `('${imgUrl}', ${productId})`)}
     `);
-    conn.commit();
+    await conn.commit();
 
     const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
     const product = productRows[0];
@@ -105,8 +105,53 @@ router.post('/products', authenticationValidator, async (req, res) => {
 });
 
 // 상품 수정
-router.post('/products/:productId', authenticationValidator, async (req, res) => {
+router.put('/products/:productId', authenticationValidator, async (req, res) => {
   const { userId } = req.session;
+  const { productId } = req.params;
+
+  // 본인 소유인지 체크!
+  const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
+  const product = productRows[0];
+  if (product.userId !== userId) {
+    res.status(403).json({ error: '본인의 것만 수정할 수 있습니다.' });
+    return;
+  }
+
+  let { title, category, description, town, state, price, imgUrls } = req.body;
+  // TODO: state, category 범위체크
+
+  if (!imgUrls.length) {
+    res.status(400).json({ error: '최소 1개의 이미지가 필요합니다.' });
+    return;
+  }
+
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    await conn.query(`
+    UPDATE product SET
+    title='${title}', category='${category}', description='${description}', town='${town}', state='${state}',
+    price='${price}', product_img_url='${imgUrls[0]}' WHERE id='${productId}'
+    `);
+
+    await conn.query(`delete from product_img where product_id=${productId}`);
+
+    await conn.query(`
+    insert into product_img (img_url, product_id)
+    values ${imgUrls.map((imgUrl) => `('${imgUrl}', ${productId})`)}
+    `);
+    await conn.commit();
+
+    const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
+    const product = productRows[0];
+    res.json(product);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '상품 수정에 실패하였습니다.' });
+    await conn.rollback();
+  } finally {
+    conn.release();
+  }
 });
 
 // 상품 삭제
