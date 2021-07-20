@@ -47,7 +47,33 @@ const GET_PRODUCT_IMG = ({ productId }) => {
   `;
 };
 
-module.exports = { GET_ALL_PRODUCT, INSERT_PRODUCT, GET_USER_PRODUCT, GET_PRODUCT_IMG };
+const INCREASE_PRODUCT_WATCH_COUNT = ({ productId }) => {
+  return `update product set watch_count = watch_count + 1 where id = ${productId}`;
+};
+
+const GET_PRODUCT_DETAIL = ({ productId }) => {
+  return `
+      select a.id, a.title, a.price, a.description, a.town, a.user_id as userId, a.state, a.category, a.watch_count as watchCount, a.created_date as createdDate,
+          i.imgUrls, ifnull(likeCount, 0) as likeCount, ifnull(commentCount, 0) as commentCount
+      from
+          product as a
+          left join (select product_id, JSON_ARRAYAGG(img_url) as imgUrls from product_img group by product_id) as i
+              on a.id = i.product_id
+          left join (select product_id, count(*) as likeCount from user_like group by product_id) as b on a.id = b.product_id
+          left join (select product_id, count(*) as commentCount from chat group by product_id) as c on a.id = c.product_id
+      where
+          a.id=${productId}
+  `;
+};
+
+module.exports = {
+  GET_ALL_PRODUCT,
+  INSERT_PRODUCT,
+  GET_USER_PRODUCT,
+  GET_PRODUCT_IMG,
+  INCREASE_PRODUCT_WATCH_COUNT,
+  GET_PRODUCT_DETAIL,
+};
 
 // {
 //     id:1234, x

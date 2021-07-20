@@ -83,7 +83,7 @@ router.put('/user', async (req, res) => {
       return;
     }
 
-    const [updateResult] = await pool.query(`UPDATE user SET town_name=?`, [town]);
+    const [updateResult] = await pool.query(`UPDATE user SET town_name=? WHERE user_id=?`, [town, userId]);
     const [userRows] = await pool.query(`SELECT town_name FROM user WHERE id=?`, [userId]);
     res.json({ userId, primaryTown: userRows[0].town_name });
   } catch (err) {

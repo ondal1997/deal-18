@@ -1,6 +1,11 @@
 const pool = require('../db');
 const express = require('express');
-const { GET_ALL_PRODUCT, GET_USER_PRODUCT } = require('../query/product');
+const {
+  GET_ALL_PRODUCT,
+  GET_USER_PRODUCT,
+  INCREASE_PRODUCT_WATCH_COUNT,
+  GET_PRODUCT_DETAIL,
+} = require('../query/product');
 const router = express.Router();
 
 //GET:product list
@@ -21,27 +26,14 @@ router.get('/products', async (req, res) => {
   }
 });
 
+// 상풍 조회(상세)
 router.get('/products/:productId', async (req, res) => {
   const { userId } = req.session;
   const { productId } = req.params;
 
   try {
-    await pool.query('update product set watch_count = watch_count + 1', [productId]);
-    const [productRows] = await pool.query(
-      `
-          select a.id, a.title, a.price, a.description, a.town, a.user_id as userId, a.state, a.category, a.watch_count as watchCount, a.created_date as createdDate,
-              i.imgUrls, b.likeCount, c.commentCount 
-          from
-              product as a
-              left join (select product_id, JSON_ARRAYAGG(img_url) as imgUrls from product_img group by product_id) as i
-                  on a.id = i.product_id
-              left join (select product_id, count(*) as likeCount from user_like group by product_id) as b on a.id = b.product_id
-              left join (select product_id, count(*) as commentCount from chat group by product_id) as c on a.id = c.product_id
-          where
-              a.id=?
-      `,
-      [userId],
-    );
+    await pool.query(INCREASE_PRODUCT_WATCH_COUNT({ productId }));
+    const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
 
     const product = productRows[0];
     if (!product) {
@@ -51,11 +43,144 @@ router.get('/products/:productId', async (req, res) => {
 
     product.isYours = product.userId === userId;
     const [userLikeRows] = await pool.query('select * from user_like where user_id=?', [userId]);
-    product.isLiked = userLikeRows.length;
+    product.isLiked = !!userLikeRows.length;
     res.json(product);
   } catch (err) {
     res.status(500).json({ error: err });
     console.error(err);
+  }
+});
+
+const authenticationValidator = async (req, res, next) => {
+  const { userId } = req.session;
+
+  if (!userId) {
+    res.status(401).json({ error: '로그인이 필요합니다.' });
+    return;
+  }
+
+  next();
+};
+
+// 상품 생성
+router.post('/products', authenticationValidator, async (req, res) => {
+  const { userId } = req.session;
+
+  let { title, category, description, town, state, price, imgUrls } = req.body;
+
+  state = state || '판매중';
+  // TODO: state, category 범위체크
+
+  if (!imgUrls.length) {
+    res.status(400).json({ error: '최소 1개의 이미지가 필요합니다.' });
+    return;
+  }
+
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    const [insertResult] = await conn.query(`
+    insert into product (title, category, description, town, state, price, user_id, product_img_url)
+    values ('${title}', '${category}', '${description}', '${town}', '${state}', '${price}', '${userId}', '${imgUrls[0]}')
+    `);
+
+    const productId = insertResult.insertId;
+
+    await conn.query(`
+    insert into product_img (img_url, product_id)
+    values ${imgUrls.map((imgUrl) => `('${imgUrl}', ${productId})`)}
+    `);
+    await conn.commit();
+
+    const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
+    const product = productRows[0];
+    res.json(product);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '상품 생성에 실패하였습니다.' });
+    await conn.rollback();
+  } finally {
+    conn.release();
+  }
+});
+
+// 상품 수정
+router.put('/products/:productId', authenticationValidator, async (req, res) => {
+  const { userId } = req.session;
+  const { productId } = req.params;
+
+  // 본인 소유인지 체크!
+  const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
+  const product = productRows[0];
+  if (!product) {
+    res.status(404).json({ error: '존재하지 않는 상품입니다.' });
+    return;
+  }
+  if (product.userId !== userId) {
+    res.status(403).json({ error: '본인의 것만 수정할 수 있습니다.' });
+    return;
+  }
+
+  let { title, category, description, town, state, price, imgUrls } = req.body;
+  // TODO: state, category 범위체크
+
+  if (!imgUrls.length) {
+    res.status(400).json({ error: '최소 1개의 이미지가 필요합니다.' });
+    return;
+  }
+
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    await conn.query(`
+    UPDATE product SET
+    title='${title}', category='${category}', description='${description}', town='${town}', state='${state}',
+    price='${price}', product_img_url='${imgUrls[0]}' WHERE id='${productId}'
+    `);
+
+    await conn.query(`delete from product_img where product_id=${productId}`);
+
+    await conn.query(`
+    insert into product_img (img_url, product_id)
+    values ${imgUrls.map((imgUrl) => `('${imgUrl}', ${productId})`)}
+    `);
+    await conn.commit();
+
+    const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
+    const product = productRows[0];
+    res.json(product);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '상품 수정에 실패하였습니다.' });
+    await conn.rollback();
+  } finally {
+    conn.release();
+  }
+});
+
+// 상품 삭제
+router.delete('/products/:productId', authenticationValidator, async (req, res) => {
+  const { userId } = req.session;
+  const { productId } = req.params;
+
+  // 본인 소유인지 체크!
+  const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
+  const product = productRows[0];
+  if (!product) {
+    res.status(404).json({ error: '존재하지 않는 상품입니다.' });
+    return;
+  }
+  if (product.userId !== userId) {
+    res.status(403).json({ error: '본인의 것만 삭제할 수 있습니다.' });
+    return;
+  }
+
+  try {
+    await pool.query(`delete from product where id=${productId}`);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '상품 삭제 실패하였습니다.' });
   }
 });
 
