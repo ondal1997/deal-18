@@ -25,3 +25,23 @@ router.get('/chats/:chatId', authenticationValidator, async (req, res) => {
     res.status(500).json({ error: 'DB 실패' });
   }
 });
+// 채팅방 생성
+router.post('product/:productId/chats', authenticationValidator, async (req, res) => {});
+// 채팅방 삭제
+router.delete('chats/:chatId', authenticationValidator, async (req, res) => {});
+// 채팅 메세지 생성
+router.post('/chats/:chatId', authenticationValidator, async (req, res) => {
+  try {
+    const { userId } = req.session;
+    const { message } = req.body;
+    const { chatId } = req.params;
+    await pool.query(INSERT_CHAT_LOG({ message, chatId, userId }));
+    //unchecked 더해주기
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'DB 실패' });
+  }
+});
+
+module.exports = router;
