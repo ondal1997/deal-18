@@ -44,4 +44,26 @@ const INSERT_CHAT_LOG = ({ userId, chatId, message }) => {
   `;
 };
 
-module.exports = { GET_PRODUCT_BY_CHAT, INSERT_CHAT, GET_CHAT_LOG, UPDATE_UNCHECK_CHAT, INSERT_CHAT_LOG, DELETE_CHAT };
+const GET_CHAT_PARTICIPATE_ID = ({ chatId }) => {
+  return `
+    SELECT seller_id as sellerId FROM chat WHERE id='${chatId}'
+  `;
+};
+
+const ADD_UNCHECK_COUNT = ({ isSeller }) => {
+  // const
+  return isSeller
+    ? `UPDATE chat SET uncheck_count_seller = uncheck_count_seller +1`
+    : `UPDATE chat SET uncheck_count_customer = uncheck_count_customer +1`;
+};
+
+module.exports = {
+  GET_PRODUCT_BY_CHAT,
+  INSERT_CHAT,
+  GET_CHAT_LOG,
+  UPDATE_UNCHECK_CHAT,
+  INSERT_CHAT_LOG,
+  DELETE_CHAT,
+  GET_CHAT_PARTICIPATE_ID,
+  ADD_UNCHECK_COUNT,
+};

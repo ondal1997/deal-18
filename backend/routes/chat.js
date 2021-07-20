@@ -7,6 +7,8 @@ const {
   UPDATE_UNCHECK_CHAT,
   INSERT_CHAT_LOG,
   DELETE_CHAT,
+  GET_CHAT_PARTICIPATE_ID,
+  ADD_UNCHECK_COUNT,
 } = require('../query/chat');
 const router = express.Router();
 
@@ -51,8 +53,13 @@ router.post('/chats/:chatId', authenticationValidator, async (req, res) => {
     const { userId } = req.session;
     const { message } = req.body;
     const { chatId } = req.params;
+    //채팅 추가
     await pool.query(INSERT_CHAT_LOG({ message, chatId, userId }));
-    //unchecked 더해주기
+    //uncheck+1
+    const [[{ sellerId }]] = await pool.query(GET_CHAT_PARTICIPATE_ID({ chatId }));
+
+    await pool.query(ADD_UNCHECK_COUNT({ isSeller: userId === sellerId }));
+
     res.json({ success: true });
   } catch (err) {
     console.log(err);
