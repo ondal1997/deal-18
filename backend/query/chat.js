@@ -21,12 +21,12 @@ const GET_CHAT_LOG = ({ chatId }) => {
   `;
 };
 
-const UPDATE_UNCHECK_CHAT = ({ userId }) => {
-  return `
-    UPDATE chat
-    SET uncheck_count_seller=0,uncheck_count_customer=0
-    WHERE chat.seller_id='${userId}' OR chat.customer_id='${userId}'
-  `;
+const UPDATE_UNCHECK_CHAT = ({ isSeller, isCustomer }) => {
+  if (isSeller) return ` UPDATE chat SET uncheck_count_seller=0`;
+
+  if (isCustomer) return `UPDATE chat SET uncheck_count_customer=0`;
+
+  return '';
 };
 
 const DELETE_CHAT = ({ userId, chatId }) => {
@@ -46,15 +46,16 @@ const INSERT_CHAT_LOG = ({ userId, chatId, message }) => {
 
 const GET_CHAT_PARTICIPATE_ID = ({ chatId }) => {
   return `
-    SELECT seller_id as sellerId FROM chat WHERE id='${chatId}'
+    SELECT seller_id as sellerId, customer_id as customerId 
+    FROM chat WHERE id='${chatId}'
   `;
 };
 
-const ADD_UNCHECK_COUNT = ({ isSeller }) => {
-  // const
-  return isSeller
-    ? `UPDATE chat SET uncheck_count_seller = uncheck_count_seller +1`
-    : `UPDATE chat SET uncheck_count_customer = uncheck_count_customer +1`;
+const ADD_UNCHECK_COUNT = ({ isSeller, isCustomer }) => {
+  if (isCustomer) return `UPDATE chat SET uncheck_count_seller = uncheck_count_seller +1`;
+  if (isSeller) return `UPDATE chat SET uncheck_count_customer = uncheck_count_customer +1`;
+
+  return '';
 };
 
 module.exports = {

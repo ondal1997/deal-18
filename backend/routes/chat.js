@@ -25,7 +25,10 @@ router.get('/chats/:chatId', authenticationValidator, async (req, res) => {
     chatDetail.chatting = chatsRows;
 
     // uncheck 초기화
-    await pool.query(UPDATE_UNCHECK_CHAT({ userId }));
+    const [[{ sellerId, customerId }]] = await pool.query(GET_CHAT_PARTICIPATE_ID({ chatId }));
+    const isSeller = userId === sellerId;
+    const isCustomer = userId === customerId;
+    await pool.query(UPDATE_UNCHECK_CHAT({ isSeller, isCustomer }));
 
     res.json({ chatDetail });
   } catch (err) {
@@ -56,9 +59,10 @@ router.post('/chats/:chatId', authenticationValidator, async (req, res) => {
     //채팅 추가
     await pool.query(INSERT_CHAT_LOG({ message, chatId, userId }));
     //uncheck+1
-    const [[{ sellerId }]] = await pool.query(GET_CHAT_PARTICIPATE_ID({ chatId }));
-
-    await pool.query(ADD_UNCHECK_COUNT({ isSeller: userId === sellerId }));
+    const [[{ sellerId, customerId }]] = await pool.query(GET_CHAT_PARTICIPATE_ID({ chatId }));
+    const isSeller = userId === sellerId;
+    const isCustomer = userId === customerId;
+    await pool.query(ADD_UNCHECK_COUNT({ isSeller, isCustomer }));
 
     res.json({ success: true });
   } catch (err) {
