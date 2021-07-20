@@ -14,6 +14,7 @@ router.get('/products', async (req, res) => {
       if (productRow.isLiked) return { ...productRow, isLiked: true };
       return { ...productRow, isLiked: false };
     });
+    const productImgs = await pool.query(GET_PRODUCT_IMG({}));
     res.json({ success: true, products });
   } catch {
     res.status(500).json({ error: 'DB 실패' });
@@ -21,35 +22,41 @@ router.get('/products', async (req, res) => {
 });
 
 router.get('/products/:productId', async (req, res) => {
-  // const { userId } = req.session;
-  // const { productId } = req.params;
-  // const [productRows] = await pool.query('select * from product where productId=?', [productId]);
-  // const conn = await pool.getConnection();
-  // try {
-  //   await conn.beginTransaction(); // 트랜잭션 적용 시작
-  //   await conn.query('select count(*) from town where user_id=?', [userId]);
-  //   await conn.query('insert into town (user_id, name) values (?, ?)', [userId, town]);
-  //   await conn.commit(); // 커밋
-  //   res.json({ userId, towns: [town] });
-  // } catch {
-  //   await conn.rollback(); // 롤백
-  //   res.status(500).json({ error: 'DB 실패' });
-  // } finally {
-  //   conn.release(); // conn 회수
-  // }
+  const { userId } = req.session;
+  const { productId } = req.params;
+
+  try {
+    await pool.query('update product set watch_count = watch_count + 1', [productId]);
+    const [productRows] = await pool.query(
+      `
+          select a.id, a.title, a.price, a.description, a.town, a.user_id as userId, a.state, a.category, a.watch_count as watchCount, a.created_date as createdDate,
+              i.imgUrls, b.likeCount, c.commentCount 
+          from
+              product as a
+              left join (select product_id, JSON_ARRAYAGG(img_url) as imgUrls from product_img group by product_id) as i
+                  on a.id = i.product_id
+              left join (select product_id, count(*) as likeCount from user_like group by product_id) as b on a.id = b.product_id
+              left join (select product_id, count(*) as commentCount from chat group by product_id) as c on a.id = c.product_id
+          where
+              a.id=?
+      `,
+      [userId],
+    );
+
+    const product = productRows[0];
+    if (!product) {
+      res.status(404).json({ error: '자료가 없습니다.' });
+      return;
+    }
+
+    product.isYours = product.userId === userId;
+    const [userLikeRows] = await pool.query('select * from user_like where user_id=?', [userId]);
+    product.isLiked = userLikeRows.length;
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: err });
+    console.error(err);
+  }
 });
-
-/*
-  SELECT a.id, COUNT(b.id) FROM TABLE_A a LEFT JOIN TABLE_B b ON a.id = b.id WHERE 1 GROUP BY a.id ORDER BY COUNT(b.id)
-
-  watchCount++
-  commentCount: 3,
-  likeCount: 2,
-
-  imgUrls
-
-  isLiked
-  isYours
-*/
 
 module.exports = router;

@@ -1,4 +1,4 @@
-exports.GET_ALL_PRODUCT = ({ userId, category, town }) => {
+const GET_ALL_PRODUCT = ({ userId, category, town }) => {
   let condition = '';
 
   if (category) condition += `AND category=${category} `;
@@ -16,7 +16,7 @@ exports.GET_ALL_PRODUCT = ({ userId, category, town }) => {
              `;
 };
 
-exports.INSERT_PRODUCT = ({ title, price, description, town, user_id, category }) => {
+const INSERT_PRODUCT = ({ title, price, description, town, user_id, category }) => {
   const state = '판매중';
   const watch_count = 0;
   return `
@@ -27,13 +27,22 @@ exports.INSERT_PRODUCT = ({ title, price, description, town, user_id, category }
         `;
 };
 
-exports.GET_USER_PRODUCT = ({ productId, userId }) => {
+const GET_USER_PRODUCT = ({ productId, userId }) => {
   return `
         SELECT * 
         FROM product
         WHERE product.user_id='${userId}''
     `;
 };
+
+const GET_PRODUCT_IMG = ({productId}) =>{
+  return `
+    SELECT img_url FROM product_img
+    WHERE product_id=productId
+  `
+}
+
+module.exports = { GET_ALL_PRODUCT, INSERT_PRODUCT, GET_USER_PRODUCT, GET_PRODUCT_IMG };
 
 // {
 //     id:1234, x
