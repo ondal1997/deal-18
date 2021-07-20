@@ -1,18 +1,22 @@
-const GET_ALL_PRODUCT = ({ userId, category, town }) => {
+const GET_ALL_PRODUCT = ({ userId, category, town, ownerId, backOf }) => {
+  const DEFAULT_SIZE = 10;
   let condition = '';
 
-  if (category) condition += `AND category=${category} `;
-  if (town) condition += `AND product.town=${town}`;
+  if (category) condition += `AND category='${category}' `;
+  if (town) condition += `AND product.town='${town}' `;
+  if (ownerId) condition += `AND product.user_id=${ownerId} `;
+  condition += `AND product.id>${backOf && 0}`;
 
   return `
-            SELECT product.id, title, price, created_date as createdDate, town, user_id,
+            SELECT product.id,product_img_url as productImgUrl, title, price, created_date as createdDate, town, user_id,
             (SELECT count(*) FROM user_like WHERE user_like.product_id=product.id) as likeCount,
             (SELECT count(*) FROM chat WHERE chat.product_id=product.id) as commentCount,
             (SELECT count(*) 
              FROM user_like 
              WHERE '${userId}'=user_like.user_id AND user_like.product_id=product.id) as isLiked
             FROM product 
-            WHERE state='판매중' ${condition}
+            WHERE state='판매중' ${condition} 
+            LIMIT ${DEFAULT_SIZE} 
              `;
 };
 
@@ -35,12 +39,12 @@ const GET_USER_PRODUCT = ({ productId, userId }) => {
     `;
 };
 
-const GET_PRODUCT_IMG = ({productId}) =>{
+const GET_PRODUCT_IMG = ({ productId }) => {
   return `
     SELECT img_url FROM product_img
     WHERE product_id=productId
-  `
-}
+  `;
+};
 
 module.exports = { GET_ALL_PRODUCT, INSERT_PRODUCT, GET_USER_PRODUCT, GET_PRODUCT_IMG };
 
