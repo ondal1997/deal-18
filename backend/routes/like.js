@@ -40,3 +40,5 @@ router.delete('/like/:productID', async (req, res) => {
     res.status(500).json({ error: 'DB 에러' });
   }
 });
+
+module.exports = router;
