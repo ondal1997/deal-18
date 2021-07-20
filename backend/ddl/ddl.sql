@@ -1,8 +1,10 @@
 CREATE TABLE `user` (
-  `id` varchar(20) PRIMARY KEY
+  `id` varchar(20) PRIMARY KEY,
+  `town_name` varchar(10)
 );
 
 CREATE TABLE `town` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` varchar(20),
   `name` varchar(10)
 );
@@ -17,26 +19,29 @@ CREATE TABLE `product` (
   `state` char(10),
   `category` char(20),
   `watch_count` int default 0,
-  `created_date` datetime default now()
+  `created_date` datetime default now(),
+  `product_img_url` varchar(500)
 );
 
 CREATE TABLE `product_img` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `img_url` varchar(500),
   `product_id` int
 );
 
 CREATE TABLE `user_like` (
   `user_id` varchar(20),
-  `product_id` int
+  `product_id` int,
+  constraint user_like_PK primary key(user_id, product_id)
 );
 
 CREATE TABLE `chat`(
-    `id` int PRIMARY KEY AUTO_INCREMENT,
-    `product_id` int,
-    `seller_id` varchar(20),
-    `customer_id` varchar(20),
-    `uncheck_count_seller` int default 0,
-    `uncheck_count_customer` int default 0
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `product_id` int,
+  `seller_id` varchar(20),
+  `customer_id` varchar(20),
+  `uncheck_count_seller` int default 0,
+  `uncheck_count_customer` int default 0
 );
 
 CREATE TABLE `chat_log` (
@@ -53,13 +58,13 @@ ALTER TABLE `user_like` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 ALTER TABLE `town` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
+ALTER TABLE `product` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
 ALTER TABLE `product_img` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 ALTER TABLE `chat_log` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 ALTER TABLE `chat_log` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
-
-ALTER TABLE `product` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 ALTER TABLE `chat` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
