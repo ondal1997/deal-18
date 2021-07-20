@@ -52,6 +52,7 @@ router.get('/me', async (req, res) => {
 
   if (!userId) {
     res.json({ userId: null, towns: DEFAULT_TOWNS });
+    return;
   }
 
   try {
