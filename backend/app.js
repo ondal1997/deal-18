@@ -4,6 +4,8 @@ const apiRouter = require('./routes/apiRouter.js');
 
 const express = require('express');
 const session = require('express-session');
+const multer = require('multer');
+const upload = multer({ dest: 'backend/public/img/' });
 const app = express();
 const port = process.env.PORT || configs.server.port;
 const limit = '100mb';
@@ -26,6 +28,12 @@ app.use(
     saveUninitialized: false,
   }),
 );
+
+app.post('/upload', upload.single('upload'), (req, res) => {
+  res.json({
+    url: '/img/' + req.file.filename,
+  });
+});
 
 app.use('/api', apiRouter);
 
