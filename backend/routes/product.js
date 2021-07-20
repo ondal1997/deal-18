@@ -112,6 +112,10 @@ router.put('/products/:productId', authenticationValidator, async (req, res) => 
   // 본인 소유인지 체크!
   const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
   const product = productRows[0];
+  if (!product) {
+    res.status(404).json({ error: '존재하지 않는 상품입니다.' });
+    return;
+  }
   if (product.userId !== userId) {
     res.status(403).json({ error: '본인의 것만 수정할 수 있습니다.' });
     return;
@@ -157,6 +161,27 @@ router.put('/products/:productId', authenticationValidator, async (req, res) => 
 // 상품 삭제
 router.delete('/products/:productId', authenticationValidator, async (req, res) => {
   const { userId } = req.session;
+  const { productId } = req.params;
+
+  // 본인 소유인지 체크!
+  const [productRows] = await pool.query(GET_PRODUCT_DETAIL({ productId }));
+  const product = productRows[0];
+  if (!product) {
+    res.status(404).json({ error: '존재하지 않는 상품입니다.' });
+    return;
+  }
+  if (product.userId !== userId) {
+    res.status(403).json({ error: '본인의 것만 삭제할 수 있습니다.' });
+    return;
+  }
+
+  try {
+    await pool.query(`delete from product where id=${productId}`);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '상품 삭제 실패하였습니다.' });
+  }
 });
 
 module.exports = router;
