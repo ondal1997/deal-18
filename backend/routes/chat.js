@@ -1,7 +1,13 @@
 const pool = require('../db');
 const express = require('express');
 const authenticationValidator = require('../middleware/auth');
-const { GET_PRODUCT_BY_CHAT, GET_CHAT_LOG, UPDATE_UNCHECK_CHAT, INSERT_CHAT_LOG } = require('../query/chat');
+const {
+  GET_PRODUCT_BY_CHAT,
+  GET_CHAT_LOG,
+  UPDATE_UNCHECK_CHAT,
+  INSERT_CHAT_LOG,
+  DELETE_CHAT,
+} = require('../query/chat');
 const router = express.Router();
 
 // 채팅방 조회(상세) 본인만 조회 가능
@@ -25,10 +31,20 @@ router.get('/chats/:chatId', authenticationValidator, async (req, res) => {
     res.status(500).json({ error: 'DB 실패' });
   }
 });
-// 채팅방 생성
-router.post('product/:productId/chats', authenticationValidator, async (req, res) => {});
+
 // 채팅방 삭제
-router.delete('chats/:chatId', authenticationValidator, async (req, res) => {});
+router.delete('/chats/:chatId', authenticationValidator, async (req, res) => {
+  const { userId } = req.session;
+  const { chatId } = req.params;
+
+  try {
+    await pool.query(DELETE_CHAT({ chatId, userId }));
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'DB 실패' });
+  }
+});
 // 채팅 메세지 생성
 router.post('/chats/:chatId', authenticationValidator, async (req, res) => {
   try {
