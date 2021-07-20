@@ -13,8 +13,7 @@ export default class ChatProductInfo {
     this.render();
   }
   render() {
-    const { imgUrl, productName, price, isSelling } = this.chatProduct;
-    const productStatus = isSelling ? '판매중' : '판매완료';
+    const { imgUrl, productName, price, state } = this.chatProduct;
 
     const won = getWon(price);
 
@@ -26,7 +25,7 @@ export default class ChatProductInfo {
             <div class='chat-product-price'>${won}</div>
           </div>
         </div>
-        <div class='chat-statue-badge ${isSelling ? '' : 'sold-badge'}'>${productStatus}</div>
+        <div class='chat-statue-badge ${state !== '판매완료' ? '' : 'sold-badge'}'>${state}</div>
     `;
   }
 }

@@ -81,14 +81,15 @@ export default class ProductDetailInfo {
   }
 
   render() {
-    const { name, category, uploadTime, description, chatCount, likeCount, watchCount, userId, town } = this.product;
-    const passedTime = getPassedTime(uploadTime);
+    const { title, category, createdDate, description, commentCount, likeCount, watchCount, userId, town } =
+      this.product;
+    const passedTime = getPassedTime(createdDate);
     const info = createElement({ tagName: 'div', classNames: ['product-detail-content'] });
     info.innerHTML = `
-    <span class="name">${name}</span>
+    <span class="name">${title}</span>
     <span class="text-small">${category} ∙ ${passedTime}</span>
     <pre class="description">${description}</pre>
-    <span class="text-small">채팅 ${chatCount} ∙ 관심 ${likeCount} ∙ 조회 ${watchCount}</span>
+    <span class="text-small">채팅 ${commentCount} ∙ 관심 ${likeCount} ∙ 조회 ${watchCount}</span>
     <div class="user-info-wrapper">
       <span class="text-medium">판매자 정보</span>
       <div class="user-info">

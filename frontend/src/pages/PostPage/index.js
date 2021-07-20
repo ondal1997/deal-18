@@ -1,5 +1,5 @@
 import './style.scss';
-import TopBar from '../../components/Common/CommonTopBar';
+import CommonTopBar from '../../components/Common/CommonTopBar';
 import { createElement } from '../../utils/dom';
 import PostProductForm from '../../components/PostProductForm';
 import locationIcon from '../../../public/assets/postPage/locationIcon.svg';
@@ -18,7 +18,7 @@ export default class Postpage {
     this.render();
   }
   render() {
-    const topBar = new TopBar({ title: this.PAGE_TITLE, className: 'post-page-topbar' }).$target;
+    const topBar = new CommonTopBar({ title: this.PAGE_TITLE, className: 'post-page-topbar' }).$target;
     const postProductForm = new PostProductForm().$target;
 
     this.$target.appendChild(topBar);

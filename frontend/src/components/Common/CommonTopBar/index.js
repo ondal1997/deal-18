@@ -4,14 +4,17 @@ import { createElement } from '../../../utils/dom';
 import { router } from '../../../index';
 
 export default class CommonTopBar {
-  constructor({ title, MenuBtn, className }) {
+  constructor({ title, menuBtn, className }) {
     this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'common-top-bar', className] });
+    this.$menuBtnBox = createElement({ tagName: 'div', classNames: ['menu-btn'] });
+
     this.title = title || '';
-    this.MenuBtn = typeof MenuBtn === 'function' ? new MenuBtn().$target : '';
+    this.menuBtn = menuBtn || '';
 
     this.init();
   }
   init() {
+    this.renderMenuBtnBox();
     this.render();
     this.addEvent();
   }
@@ -29,15 +32,12 @@ export default class CommonTopBar {
           <img src=${backBtn} alt='go back'/>
         </div>
         <div>${this.title}</div>
-        <div class='menu-btn'>${this.MenuBtn}</div>
     `;
-    if (this.MenuBtn) {
-      const menuBtnBox = this.getMenuBtnBox();
-      menuBtnBox.appendChild(this.MenuBtn);
-    }
+
+    this.$target.appendChild(this.$menuBtnBox);
   }
-  getMenuBtnBox() {
-    return this.$target.querySelector('.menu-btn');
+  renderMenuBtnBox() {
+    if (this.menuBtn) this.$menuBtnBox.appendChild(this.menuBtn);
   }
 }
 

@@ -1,5 +1,5 @@
 import './style.scss';
-import TopBar from '../../components/Common/CommonTopBar';
+import CommonTopBar from '../../components/Common/CommonTopBar';
 import MenuTab from '../../components/MenuTab';
 import ProductList from '../../components/ProductList';
 import { menuTabState } from '../../store/menuPage';
@@ -28,7 +28,7 @@ export default class MenuPage {
   render() {
     this.$target.innerHTML = '';
 
-    const topBar = new TopBar({ title: this.PAGE_TITLE }).$target;
+    const topBar = new CommonTopBar({ title: this.PAGE_TITLE }).$target;
     const menuTab = new MenuTab().$target;
     const contents = this.getMenuContents();
 

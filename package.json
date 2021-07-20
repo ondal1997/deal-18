@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack serve --config frontend/webpack.config.js",
     "build": "webpack --config frontend/webpack.config.js",
-    "start": "node backend/app.js"
+    "start": "node backend/app.js",
+    "dev-server": "nodemon backend/app.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,8 @@
   },
   "dependencies": {
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mysql2": "^2.2.5"
   }
 }

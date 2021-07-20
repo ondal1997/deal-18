@@ -1,7 +1,7 @@
 import { setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import { createElement } from '../../utils/dom';
-import TopBar from '../../components/Common/CommonTopBar';
+import CommonTopBar from '../../components/Common/CommonTopBar';
 import LoginForm from '../../components/LoginForm';
 
 export default class LoginPage {
@@ -19,7 +19,7 @@ export default class LoginPage {
 
   render() {
     this.$target.innerHTML = '';
-    this.$target.appendChild(new TopBar({ title: this.PAGE_TITLE }).$target);
+    this.$target.appendChild(new CommonTopBar({ title: this.PAGE_TITLE }).$target);
     this.$target.appendChild(new LoginForm().$target);
   }
 }
