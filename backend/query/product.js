@@ -1,22 +1,23 @@
-const GET_ALL_PRODUCT = ({ userId, category, town, ownerId, backOf }) => {
-  const DEFAULT_SIZE = 10;
+const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf }) => {
+  const LIMIT = size ?? 10;
   let condition = '';
 
   if (category) condition += `AND category='${category}' `;
   if (town) condition += `AND product.town='${town}' `;
-  if (ownerId) condition += `AND product.user_id=${ownerId} `;
-  condition += `AND product.id>${backOf && 0}`;
+  if (ownerId) condition += `AND product.user_id='${ownerId}' `;
+  condition += `AND product.id>${backOf ?? 0}`;
 
   return `
-            SELECT product.id,product_img_url as productImgUrl, title, price, created_date as createdDate, town, user_id,
+            SELECT product.id, product_img_url as productImgUrl, title, price, created_date as createdDate, town, user_id,category,
             (SELECT count(*) FROM user_like WHERE user_like.product_id=product.id) as likeCount,
             (SELECT count(*) FROM chat WHERE chat.product_id=product.id) as commentCount,
             (SELECT count(*) 
-             FROM user_like 
-             WHERE '${userId}'=user_like.user_id AND user_like.product_id=product.id) as isLiked
+              FROM user_like 
+              WHERE '${userId}'=user_like.user_id AND user_like.product_id=product.id
+              ) as isLiked
             FROM product 
             WHERE state='판매중' ${condition} 
-            LIMIT ${DEFAULT_SIZE} 
+            LIMIT ${LIMIT} 
              `;
 };
 
