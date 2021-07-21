@@ -8,7 +8,7 @@ const API = {
   LIKE: '/api/like',
   TOWN: '/api/towns',
   USER: '/api/user',
-  CHAT: '/api/chat',
+  CHAT: '/api/chats',
 };
 
 export default API;

@@ -1,3 +1,12 @@
+import API from './api';
+
+function checkErrorFetchedJson(json) {
+  if (json.error) {
+    throw json.error;
+  }
+  return json;
+}
+
 export function fetchCreateChat(productId) {
   return fetch(`/api/products/${productId}/chats`, { method: 'post' })
     .then((res) => res.json())
@@ -8,4 +17,10 @@ export function fetchCreateChat(productId) {
 
       return res;
     });
+}
+
+export function fetchGetOwnChatList() {
+  return fetch(API.CHAT)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
 }
