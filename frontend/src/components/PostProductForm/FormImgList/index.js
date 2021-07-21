@@ -24,15 +24,13 @@ export default class FormImgList {
   }
 
   addEvent() {
-    const input = this.$target.querySelector('input');
     this.$target.addEventListener('click', this.handleClick.bind(this));
-    input.addEventListener('input', this.handleInputImg.bind(this));
+    this.$target.addEventListener('change', this.handleInputImg.bind(this));
   }
 
   render() {
     const uploadedImg = getState(uploadedImgState);
-    console.log(uploadedImg.length);
-    const imgElements = uploadedImg.reduce((acc, src) => (acc += this.getImgElement(src)), '');
+    const imgElements = uploadedImg.reduce((acc, src, idx) => (acc += this.getImgElement(src, idx)), '');
 
     this.$target.innerHTML = `
         <label class='form-img-add-btn' for='input-file'>
@@ -43,11 +41,11 @@ export default class FormImgList {
         ${imgElements}
       `;
   }
-  getImgElement(src) {
+  getImgElement(src, idx) {
     return `
       <div class='form-img'>
         <img src=${src} alt='이미지'/>
-        <div class='form-img-delete-btn'>
+        <div class='form-img-delete-btn' data-index=${idx} >
           <img src=${imgDeleteButton} alt='이미지 삭제 버튼' />
         </div>
       </div>
@@ -55,21 +53,23 @@ export default class FormImgList {
   }
 
   handleClick({ target }) {
-    if (this.isDeleteBtn(target)) {
-      //TODO 서버 요청 후 this.setUploadedImg
-      return;
-    }
+    if (!this.isDeleteBtn(target)) return;
+    const deleteBtn = target.closest('.form-img-delete-btn');
+    const index = +deleteBtn.dataset.index;
+    this.setUploadedImg((imgs) => imgs.filter((_, idx) => idx !== index));
   }
 
-  handleInputImg({ target: { files } }) {
-    const imageBlob = Object.values(files)[0]; //이미지 1개 전송
+  handleInputImg({ target }) {
+    if (target.tagName !== 'INPUT') return;
 
+    const imageBlob = Object.values(target.files)[0]; //이미지 1개 전송
     const formData = new FormData();
     formData.append('upload', imageBlob);
-    this.uploadImg();
+    this.uploadImg(formData);
+    target.value = null;
   }
 
-  uploadImg() {
+  uploadImg(formData) {
     fetch(API.uploadImg, {
       method: 'POST',
       body: formData,
