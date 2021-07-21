@@ -46,9 +46,13 @@ export default class ProductDetailBottomBar {
   }
 
   handleClickContact() {
-    fetchCreateChat(this.product.id).finally(() => {
-      // TODO: 채팅'방'으로 이동하기
-    });
+    fetchCreateChat(this.product.id)
+      .then(() => {
+        // TODO: 채팅'방'으로 이동하기
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   render() {
