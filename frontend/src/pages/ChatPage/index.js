@@ -1,21 +1,40 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
+import { getState, setState, subscribe } from '../../utils/globalObserver';
 import CommonTopBar from '../../components/Common/CommonTopBar';
 import ChatDeleteBtn from '../../components/Chatting/ChatDeleteBtn';
 import ChatProductInfo from '../../components/Chatting/ChatProductInfo';
 import Chatting from '../../components/Chatting/Chatting';
 
+import { chattingState } from '../../store/chattingPage';
+import { fetchGetChatDetail } from '../../API/chatAPI';
+
 export default class ChatPage {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
-    this.chat = chat; // 아마 리스트에서 채팅 id 인자로 받아와서 API요청해서 chat-data 얻어올 듯?
+    this.chatId = 3; //TODO parmas로 받아와서 할 듯
+    this.setChat = setState(chattingState);
+
     this.init();
   }
   init() {
+    subscribe(chattingState, 'ChatPage', this.render.bind(this));
     this.render();
+
+    this.initChatState();
   }
+
+  initChatState() {
+    fetchGetChatDetail(this.chatId)
+      .then(({ chatDetail }) => this.setChat(chatDetail))
+      .catch(console.error);
+  }
+
   render() {
-    const { chatting: chattingData, userName } = this.chat;
+    const chat = getState(chattingState);
+    if (!chat) return;
+
+    const { chatting: chattingData, userName } = chat;
     const chatProduct = this.getChatProductInfo();
 
     const topBar = new CommonTopBar({
@@ -30,36 +49,9 @@ export default class ChatPage {
     this.$target.appendChild(chatProductInfo);
     this.$target.appendChild(chatting);
   }
+
   getChatProductInfo() {
     const { imgUrl, productName, price, state } = this.chat;
     return { imgUrl, productName, price, state };
   }
 }
-
-//목 데이터
-import testImg0 from '../../../public/img/ImageLarge-0.png';
-
-//시간순서대로 온다고 목데이터 가정
-const chatting = [
-  { userName: 'UserE', message: '안녕하세요! 궁금한게 있는데요' },
-  { userName: '내 아이디', message: '네 안녕하세요!' },
-  { userName: 'UserE', message: '혹시' },
-  { userName: 'UserE', message: '실제로 신어볼 수 있는건가요' },
-  { userName: '내 아이디', message: '네 안녕하세요!' },
-  { userName: 'UserE', message: '혹시' },
-  { userName: 'UserE', message: '실제로 신어볼 수 있는건가요' },
-  { userName: '내 아이디', message: '네 안녕하세요!' },
-  { userName: 'UserE', message: '혹시' },
-  { userName: 'UserE', message: '실제로 신어볼 수 있는건가요' },
-];
-
-const chat = {
-  imgUrl: testImg0,
-  productName: '빈티지 롤러 스케이트',
-  price: 160000,
-  state: '판매중', // 판매중, 예약중, 판매완료
-  userName: 'UserE',
-  message: '실제로 신어볼 수 있는 건가요?',
-  createDate: new Date('2021.07.14'),
-  chatting: chatting,
-};
