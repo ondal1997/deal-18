@@ -164,7 +164,7 @@ router.get('/chats', authenticationValidator, async (req, res) => {
 });
 
 // 채팅방 생성
-router.post('/product/:productId/chats', authenticationValidator, async (req, res) => {
+router.post('/products/:productId/chats', authenticationValidator, async (req, res) => {
   const { userId } = req.session;
   const { productId } = req.params;
 
