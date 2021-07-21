@@ -3,6 +3,7 @@ import { createElement } from '../../utils/dom';
 import { getPassedTime } from '../../utils/convertToString';
 
 import downIcon from '../../../public/assets/product/small-chevron-down.svg';
+import { fetchUpdateProductState } from '../../api/productAPI';
 
 class ProductStateController {
   constructor({ product }) {
@@ -28,21 +29,27 @@ class ProductStateController {
     }
 
     if (target.closest('.button-sale')) {
-      // api: 판매중으로 상태 변경
-      this.state = '판매중';
+      this.handleChangeProductState('판매중');
     }
 
     if (target.closest('.button-reserved')) {
-      // api: 예약중으로 상태 변경
-      this.state = '예약중';
+      this.handleChangeProductState('예약중');
     }
 
     if (target.closest('.button-soldout')) {
-      // api: 판매완료로 상태 변경
-      this.state = '판매완료';
+      this.handleChangeProductState('판매완료');
     }
 
     this.render();
+  }
+
+  handleChangeProductState(state) {
+    fetchUpdateProductState(this.product, state)
+      .then(() => {
+        this.state = state;
+        this.render();
+      })
+      .catch((error) => alert(error));
   }
 
   render() {

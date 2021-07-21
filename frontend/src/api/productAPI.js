@@ -18,3 +18,14 @@ export function fetchToggleLike(productId, currentIsLiked) {
     .then((res) => res.json())
     .then(checkErrorFetchedJson);
 }
+
+export function fetchUpdateProductState(product, state) {
+  const json = Object.assign(product, { state });
+  return fetch(`/products/${product.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(json),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
