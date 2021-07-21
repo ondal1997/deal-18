@@ -48,10 +48,10 @@ router.post('/logout', async (req, res) => {
 
 router.get('/me', async (req, res) => {
   const { userId } = req.session;
-  const DEFAULT_TOWNS = ['역삼동'];
+  const DEFAULT_TOWNS = '역삼동';
 
   if (!userId) {
-    res.json({ userId: null, towns: DEFAULT_TOWNS });
+    res.json({ userId: null, primaryTown: DEFAULT_TOWNS, towns: [DEFAULT_TOWNS] });
     return;
   }
 

@@ -1,5 +1,7 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
+import { fetchSignUp } from '../../API/userAPI';
+import { router } from '../..';
 
 export default class RegisterForm {
   constructor() {
@@ -13,11 +15,23 @@ export default class RegisterForm {
 
   init() {
     this.$target.addEventListener('input', this.handleInput.bind(this));
+    this.$target.addEventListener('click', this.handleClick.bind(this));
     this.render();
   }
 
   handleInput() {
     this.setDisabled(this.$id.value.length === 0 || this.$town.value.length === 0);
+  }
+
+  handleClick({ target }) {
+    if (!target.closest('.register-form-regist')) return;
+
+    fetchSignUp(this.$id.value, this.$town.value)
+      .then((res) => {
+        alert('회원가입을 축하합니다!'); // TODO
+        router.pop();
+      })
+      .catch(alert); // TODO
   }
 
   setDisabled(disabled) {
