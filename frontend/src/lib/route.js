@@ -40,6 +40,11 @@ export default class Router {
     this.handlePopstate();
   }
 
+  replace(pathname) {
+    hitsory.replaceState({ index: this.currIndex }, '', pathname);
+    this.handlePopstate();
+  }
+
   // 화면 뒤로가기
   pop() {
     if (!this.currIndex) return; //페이지 이동 처리
