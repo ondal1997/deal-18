@@ -29,3 +29,7 @@ export function fetchUpdateProductState(product, state) {
     .then((res) => res.json())
     .then(checkErrorFetchedJson);
 }
+
+export function fetchDeleteProduct(productId) {
+  return fetch(`/products/${productId}`, { method: 'delete' }).then(((res) => res.json()).then(checkErrorFetchedJson));
+}

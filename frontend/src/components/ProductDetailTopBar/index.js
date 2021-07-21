@@ -3,6 +3,7 @@ import { createElement } from '../../utils/dom';
 import backBtn from '../../../public/assets/product/chevron-left.svg';
 import moreBtn from '../../../public/assets/product/more.svg';
 import { router } from '../../index';
+import { fetchDeleteProduct } from '../../api/productAPI';
 
 export default class ProductDetailTopBar {
   constructor({ product }) {
@@ -30,15 +31,26 @@ export default class ProductDetailTopBar {
     }
 
     if (target.closest('.edit')) {
-      // 수정하기 버튼
+      // TODO: 수정하기 화면으로 이동
     }
 
     if (target.closest('.remove')) {
-      // 삭제하기 버튼
+      this.handleClickDeleteProduct();
     }
 
     this.render();
   }
+
+  handleClickDeleteProduct() {
+    fetchDeleteProduct(this.product.id)
+      .then(() => {
+        router.replace('/');
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
   render() {
     let html = `
       <div class='back-btn'>
