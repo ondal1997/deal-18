@@ -11,12 +11,14 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve('./backend/public'),
+    publicPath: '/',
   },
   devServer: {
     port: process.env.DEV_PORT || configs.devServer.port,
     proxy: {
       '/': 'http://localhost:3000',
     },
+    historyApiFallback: true,
   },
   devtool: 'inline-source-map',
   module: {

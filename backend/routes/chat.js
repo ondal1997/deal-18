@@ -164,7 +164,7 @@ router.get('/chats', authenticationValidator, async (req, res) => {
 });
 
 // 채팅방 생성
-router.post('/product/:productId/chats', authenticationValidator, async (req, res) => {
+router.post('/products/:productId/chats', authenticationValidator, async (req, res) => {
   const { userId } = req.session;
   const { productId } = req.params;
 
@@ -179,7 +179,7 @@ router.post('/product/:productId/chats', authenticationValidator, async (req, re
   // 기존채팅방 존재 체크
   const [chatRows] = await pool.query('select * from chat where product_id=? AND customer_id=?', [productId, userId]);
   if (chatRows.length) {
-    res.status(404).json({ error: '이미 채팅방이 존재합니다.' });
+    res.status(400).json({ error: '이미 채팅방이 존재합니다.' });
     return;
   }
 

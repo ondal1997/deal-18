@@ -37,7 +37,7 @@ app.post('/upload', upload.single('upload'), (req, res) => {
 
 app.use('/api', apiRouter);
 
-app.get('/', (req, res) => {
+app.use((req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 

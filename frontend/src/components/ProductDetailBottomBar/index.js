@@ -4,6 +4,8 @@ import { getWon } from '../../utils/convertToString';
 
 import bigHeart from '../../../public/assets/product/bigHeart.svg';
 import filledBigHeart from '../../../public/assets/product/filledBigHeart.svg';
+import { fetchToggleLike } from '../../api/productAPI';
+import { fetchCreateChat } from '../../api/chatAPI';
 
 export default class ProductDetailBottomBar {
   constructor({ product }) {
@@ -21,18 +23,36 @@ export default class ProductDetailBottomBar {
 
   handleClick({ target }) {
     if (target.closest('.toggle-heart')) {
-      // 관심 API 호출하기
-      this.isLiked = !this.isLiked;
-      this.render();
+      this.handleClickToggleLike();
     }
 
     if (target.closest('.chats-button')) {
-      // (판매자 전용) 채팅 목록 보기
+      // TODO: 채팅 리스트로 이동하기
     }
 
-    if (target.closest('contact-button')) {
-      // 문의하기
+    if (target.closest('.contact-button')) {
+      this.handleClickContact();
     }
+  }
+
+  handleClickToggleLike() {
+    const currentIsLiked = this.isLiked;
+    fetchToggleLike(this.product.id, currentIsLiked)
+      .then(() => {
+        this.isLiked = !currentIsLiked;
+        this.render();
+      })
+      .catch((error) => alert(error));
+  }
+
+  handleClickContact() {
+    fetchCreateChat(this.product.id)
+      .then(() => {
+        // TODO: 채팅'방'으로 이동하기
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   render() {
