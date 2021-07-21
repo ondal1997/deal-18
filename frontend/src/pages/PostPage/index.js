@@ -2,6 +2,7 @@ import './style.scss';
 import locationIcon from '../../../public/assets/postPage/locationIcon.svg';
 import submitBtn from '../../../public/assets/postPage/submitButton.svg';
 import disableSubmitBtn from '../../../public/assets/postPage/disableSubmitButton.svg';
+import API from '../../API/api';
 import { getState, setState, subscribe } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import CommonTopBar from '../../components/Common/CommonTopBar';
@@ -75,14 +76,44 @@ export default class Postpage {
     if (description || description === '') this.inputInfo = { ...this.inputInfo, description };
   }
 
-  handleClickSubmit() {}
+  //TODO loaction
+  handleClickSubmit() {
+    const isAbleSubmit = getState(isAblePostSubmit);
+    if (!isAbleSubmit) return;
+
+    const imgs = getState(uploadedImgState);
+    const category = getState(selectedCategoryState);
+    const { title, price, description } = this.inputInfo;
+    const town = '역삼동';
+    const postData = {
+      title,
+      category,
+      description,
+      town,
+      price: price === '' ? null : price,
+      imgUrls: imgs,
+    };
+    this.postProduct(postData);
+  }
+
+  postProduct(postData) {
+    fetch(API.PRODUCT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    })
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+  }
 
   setIsAbleSubmit() {
     const imgs = getState(uploadedImgState);
     const category = getState(selectedCategoryState);
-    if (this.inputInfo.title && this.inputInfo.description && imgs.length && category) {
-      return this.setIsAble(true);
-    }
+    const { title, description } = this.inputInfo;
+
+    if (title && description && imgs.length && category) return this.setIsAble(true);
 
     return this.setIsAble(false);
   }
