@@ -14,3 +14,8 @@ export const selectedCategoryState = initState({
   key: 'selectedCategoryState',
   defaultValue: '',
 });
+
+export const isAblePostSubmit = initState({
+  key: 'isAblePostSubmit',
+  defaultValue: false,
+});
