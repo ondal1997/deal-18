@@ -1,6 +1,6 @@
 function checkErrorFetchedJson(json) {
   if (json.error) {
-    throw new Error(json.error);
+    throw json.error;
   }
   return json;
 }
