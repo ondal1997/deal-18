@@ -22,7 +22,7 @@ export default class MenuPage {
     this.init();
   }
   init() {
-    subscribe(menuTabState, this.render.bind(this));
+    subscribe(menuTabState, 'MenuPage', this.render.bind(this));
     this.render();
   }
   render() {

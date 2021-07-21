@@ -1,6 +1,6 @@
 const globalState = {};
 
-const subscribe = (key, observer) => globalState[key]._observers.add(observer);
+const subscribe = (key, className, observer) => globalState[key]._observers.set(className, observer);
 
 const _notify = (key) => globalState[key]._observers.forEach((observer) => observer());
 
@@ -8,7 +8,7 @@ const initState = ({ key, defaultValue }) => {
   if (key in globalState) throw Error('이미 존재하는 key값 입니다.');
   globalState[key] = {
     _state: defaultValue,
-    _observers: new Set(),
+    _observers: new Map(),
   };
   return key;
 };

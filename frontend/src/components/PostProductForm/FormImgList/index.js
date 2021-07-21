@@ -14,7 +14,7 @@ export default class FormImgList {
     this.init();
   }
   init() {
-    subscribe(uploadedImgState, this.render.bind(this));
+    subscribe(uploadedImgState, 'FormImgList', this.render.bind(this));
     this.render();
     this.addEvent();
   }

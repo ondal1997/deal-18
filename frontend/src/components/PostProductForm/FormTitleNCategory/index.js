@@ -13,7 +13,7 @@ export default class FormTitleNCategory {
     this.init();
   }
   init() {
-    subscribe(selectedCategoryState, this.render.bind(this));
+    subscribe(selectedCategoryState, 'FormTitleNCategory', this.render.bind(this));
     this.render();
     this.addEvent();
   }

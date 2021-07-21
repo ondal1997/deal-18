@@ -13,7 +13,7 @@ export default class App {
   }
 
   init() {
-    subscribe(pageState, this.render.bind(this));
+    subscribe(pageState, 'App', this.render.bind(this));
     this.$target.addEventListener('transitionend', this.handleTransitionEnd.bind(this));
 
     const { Page } = getState(pageState);

@@ -11,7 +11,7 @@ export default class Modal {
   }
 
   init() {
-    subscribe(this.key, this.updateModalDisplay.bind(this));
+    subscribe(this.key, 'Modal', this.updateModalDisplay.bind(this));
     this.render();
     this.updateModalDisplay();
   }
