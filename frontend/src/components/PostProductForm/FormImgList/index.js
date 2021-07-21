@@ -4,10 +4,7 @@ import pictureIcon from '../../../../public/assets/postPage/pictureIcon.svg';
 import imgDeleteButton from '../../../../public/assets/postPage/imgDeleteButton.svg';
 import { getState, setState, subscribe } from '../../../utils/globalObserver';
 import { uploadedImgState } from '../../../store/postPage';
-
-const API = {
-  uploadImg: 'http://localhost:3000/upload',
-};
+import { fetchGetImg } from '../../../api/imgAPI';
 
 export default class FormImgList {
   constructor({ setIsAbleSubmit }) {
@@ -72,14 +69,10 @@ export default class FormImgList {
   }
 
   uploadImg(formData) {
-    fetch(API.uploadImg, {
-      method: 'POST',
-      body: formData,
-    })
-      .then((res) => res.json())
+    fetchGetImg(formData)
       .then((img) => this.setUploadedImg((imgs) => [...imgs, img.url]))
       .then(this.setIsAbleSubmit)
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err));
   }
 
   isAddBtn(target) {
