@@ -1,7 +1,7 @@
 require('dotenv').config();
-const configs = require("../configs/config.dev.json");
+const configs = require('../configs/config.dev.json');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -14,6 +14,9 @@ module.exports = {
   },
   devServer: {
     port: process.env.DEV_PORT || configs.devServer.port,
+    proxy: {
+      '/': 'http://localhost:3000',
+    },
   },
   devtool: 'inline-source-map',
   module: {
