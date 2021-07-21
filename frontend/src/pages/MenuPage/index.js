@@ -8,6 +8,7 @@ import ChatList from '../../components/ChatList';
 import { menuTabState } from '../../store/menuPage';
 import { userState } from '../../store/user';
 import { fetchGetLikeProduct, fetchGetOwnProduct } from '../../api/productAPI';
+import { fetchGetOwnChatList } from '../../API/chatAPI';
 export default class MenuPage {
   constructor() {
     this.PAGE_TITLE = '메뉴';
@@ -48,7 +49,6 @@ export default class MenuPage {
 
     if (type === this.SELL) {
       return fetchGetOwnProduct(userId).then(({ products }) => {
-        console.log(products);
         if (!products.length) {
           this.$emptyContent.innerHTML = this.SELL_EMPTY_MSG;
           return this.$emptyContent;
@@ -58,8 +58,13 @@ export default class MenuPage {
     }
 
     if (type === this.CHAT) {
-      if (!chats.length) return;
-      return new ChatList({ chats }).$target;
+      return fetchGetOwnChatList().then((chats) => {
+        if (!chats.length) {
+          this.$emptyContent.innerHTML = this.CHAT_EMPTY_MSG;
+          return this.$emptyContent;
+        }
+        return new ChatList({ chats }).$target;
+      });
     }
 
     if (type === this.LIKE) {
