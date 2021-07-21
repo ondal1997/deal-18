@@ -12,20 +12,25 @@ export default class Router {
   init() {
     history.replaceState({ index: 0 }, '');
     window.addEventListener('popstate', this.handlePopstate.bind(this));
+    this.handlePopstate();
   }
 
   // 브라우저 뒤로, 앞으로가기
   handlePopstate() {
     const path = location.pathname;
-    const Page = this.routes[path];
 
-    // TODO: 파라메타 파싱
-    // /items/:itemsId/edit
-    // /items/30/edit
-    // params = { itemsId: 30 }
-    // parsing
+    let Page;
+    let params;
 
-    this.setPage({ Page, direction: this.isBack(history.state.index) ? 'left' : 'right' });
+    for (const [routePath, component] of Object.entries(this.routes)) {
+      if (this.match(routePath, path)) {
+        Page = component;
+        params = this.parseParams(routePath, path);
+        break;
+      }
+    }
+
+    this.setPage({ Page, params, direction: this.isBack(history.state.index) ? 'left' : 'right' });
     this.currIndex = history.state.index;
   }
 
@@ -40,10 +45,41 @@ export default class Router {
     if (!this.currIndex) return; //페이지 이동 처리
     history.back();
   }
-  //카 홈 카 카
-  //TODO 쿼리 search 처리
-  parse(pathname) {
-    //파싱하는 함수
+
+  //
+  match(routePath, path) {
+    const routeChunks = routePath.split('/');
+    const chunks = path.split('/');
+
+    if (routeChunks.length !== chunks.length) {
+      return false;
+    }
+
+    for (let i = 0; i < chunks.length; i++) {
+      if (routeChunks[i][0] === ':' || routeChunks[i] === chunks[i]) {
+        continue;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  //
+  parseParams(routePath, path) {
+    const params = {};
+
+    const routeChunks = routePath.split('/');
+    const chunks = path.split('/');
+
+    for (let i = 0; i < chunks.length; i++) {
+      if (routeChunks[i][0] !== ':') {
+        continue;
+      }
+
+      params[routeChunks[i].slice(1)] = chunks[i];
+    }
+
+    return params;
   }
 
   isBack(index) {
