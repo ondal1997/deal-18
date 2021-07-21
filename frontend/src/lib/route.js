@@ -47,7 +47,11 @@ export default class Router {
 
   // 화면 뒤로가기
   pop() {
-    if (!this.currIndex) return; //페이지 이동 처리
+    if (!this.currIndex) {
+      history.pushState({ index: this.currIndex - 1 }, '', '/');
+      this.handlePopstate();
+      return;
+    }
     history.back();
   }
 
