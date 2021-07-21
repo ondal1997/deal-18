@@ -5,6 +5,7 @@ import { pageState } from './store/page';
 import HomePage from './pages/HomePage';
 import CategoryPage from './pages/CategoryPage';
 import LoginPage from './pages/LoginPage';
+import LogoutPage from './pages/LogoutPage';
 import RegisterPage from './pages/RegisterPage';
 import LocationEditPage from './pages/LocationEditPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -22,6 +23,7 @@ const routes = {
   '/': HomePage,
   '/categories': CategoryPage,
   '/login': LoginPage,
+  '/me': LogoutPage,
   '/register': RegisterPage,
   '/location': LocationEditPage,
   '/products/:productId': ProductDetailPage,

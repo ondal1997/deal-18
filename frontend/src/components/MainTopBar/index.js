@@ -12,12 +12,15 @@ import Modal from '../Common/Modal';
 
 //pages
 import LocationDropdown from '../Dropdown/LocationDropdown';
+import { userState } from '../../store/user';
 
 export default class MainTopBar {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'top-bar-main'] });
     this.init();
     this.setModalIsOpen = setState(locationDropdownState);
+
+    this.userId = getState(userState).userId;
   }
   init() {
     this.render();
@@ -60,7 +63,11 @@ export default class MainTopBar {
     }
 
     if (target.closest('.user')) {
-      router.push('/login');
+      if (!this.userId) {
+        router.push('/login');
+      } else {
+        router.push('/me');
+      }
     }
 
     if (target.closest('.menu')) {
