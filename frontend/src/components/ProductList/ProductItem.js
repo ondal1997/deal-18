@@ -21,13 +21,13 @@ export default class ProductItem {
   }
 
   render() {
-    const { imgUrl, title, town, createdDate, price, commentCount, likeCount, isLiked } = this.product;
+    const { productImgUrl, title, town, createdDate, price, commentCount, likeCount, isLiked } = this.product;
     const passedTime = getPassedTime(createdDate);
     const won = getWon(price);
 
     this.$target.innerHTML = `
       <div>
-        <img src=${imgUrl} alt=${title} />
+        <img src=${productImgUrl} alt=${title} class="product-item-img" />
       </div>
       <div>
         <div class="product-item-infomation-wrapper">
