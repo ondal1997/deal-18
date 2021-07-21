@@ -41,7 +41,7 @@ export default class Router {
   }
 
   replace(pathname) {
-    hitsory.replaceState({ index: this.currIndex }, '', pathname);
+    history.replaceState({ index: this.currIndex }, '', pathname);
     this.handlePopstate();
   }
 
