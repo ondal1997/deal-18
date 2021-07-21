@@ -1,6 +1,8 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
 import LocationItem from './LocationItem';
+import { getState } from '../../utils/globalObserver';
+import { locationState } from '../../store/townPage';
 
 export default class LocationList {
   constructor() {
@@ -12,12 +14,12 @@ export default class LocationList {
     this.render();
   }
   render() {
+    const { primaryLocation, locations } = getState(locationState);
     locations.forEach((location) => {
-      this.$target.appendChild(new LocationItem({ location }).$target);
+      const isPrimary = primaryLocation === location;
+      this.$target.appendChild(new LocationItem({ location, isPrimary }).$target);
     });
 
     if (locations.length < 2) this.$target.appendChild(new LocationItem({ location: null }).$target);
   }
 }
-
-const locations = [{ location: '역삼동', selected: true }];
