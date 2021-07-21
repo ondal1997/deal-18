@@ -11,15 +11,24 @@ export default class Postpage {
     this.$target = createElement({ tagName: 'div', classNames: ['page', 'post-page'] });
     this.$postLocation = createElement({ tagName: 'div', classNames: ['post-location'] });
 
-    this.init();
+    this.inputInfo = {
+      title: '',
+      price: '',
+      description: '',
+    };
+
+    this.mount();
   }
-  init() {
+  mount() {
     this.renderLocation();
     this.render();
   }
   render() {
     const topBar = new CommonTopBar({ title: this.PAGE_TITLE, className: 'post-page-topbar' }).$target;
-    const postProductForm = new PostProductForm().$target;
+    const postProductForm = new PostProductForm({
+      inputInfo: this.inputInfo,
+      setInputInfo: this.setInputInfo.bind(this),
+    }).$target;
 
     this.$target.appendChild(topBar);
     this.$target.appendChild(postProductForm);
@@ -31,5 +40,10 @@ export default class Postpage {
           <img src=${locationIcon} alt='위치 아이콘' />
           <div>역삼동</div>
         `;
+  }
+  setInputInfo({ title, price, description }) {
+    if (title) this.inputInfo = { ...this.inputInfo, title };
+    if (price) this.inputInfo = { ...this.inputInfo, price };
+    if (description) this.inputInfo = { ...this.inputInfo, description };
   }
 }

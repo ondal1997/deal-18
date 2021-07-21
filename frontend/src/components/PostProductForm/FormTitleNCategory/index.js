@@ -5,37 +5,40 @@ import { createElement } from '../../../utils/dom';
 import { getState, setState, subscribe } from '../../../utils/globalObserver';
 
 export default class FormTitleNCategory {
-  constructor() {
+  constructor({ inputInfo, setInputInfo }) {
     this.CATEGORY_LIST = categories;
     this.$target = createElement({ tagName: 'div', classNames: ['form-title-category'] });
+    this.$title = createElement({ tagName: 'div', classNames: ['form-title'] });
+    this.$category = createElement({ tagName: 'div', classNames: ['form-category'] });
 
+    this.inputInfo = inputInfo;
+    this.setInputInfo = setInputInfo;
     this.setSelectedCategory = setState(selectedCategoryState);
-    this.init();
-  }
-  init() {
-    subscribe(selectedCategoryState, 'FormTitleNCategory', this.render.bind(this));
-    this.render();
+
+    this.mount();
     this.addEvent();
   }
+  mount() {
+    subscribe(selectedCategoryState, 'FormTitleNCategory', this.renderCategory.bind(this));
+    this.renderTitle();
+    this.renderCategory();
+    this.render();
+  }
   addEvent() {
-    this.$target.addEventListener('click', this.handleClick.bind(this));
+    this.$title.addEventListener('input', this.handleInputTitle.bind(this));
+    this.$category.addEventListener('click', this.handleClick.bind(this));
   }
 
   render() {
+    this.$target.appendChild(this.$title);
+    this.$target.appendChild(this.$category);
+  }
+
+  renderCategory() {
     const categoryElements = this.CATEGORY_LIST.reduce((acc, category) => {
       return (acc += this.renderCategoryBadge(category));
     }, '');
-    this.$target.innerHTML = `
-            <div class='form-title'>
-              <input type='text' placeholder='글 제목' />
-            </div>
-            <div class='form-category'>
-              <div>(필수)카테고리를 선택해주세요</div>
-              <div class='form-category-list'>
-                ${categoryElements}
-              </div>
-            </div> 
-        `;
+    this.$category.innerHTML = categoryElements;
   }
 
   renderCategoryBadge(category) {
@@ -45,6 +48,13 @@ export default class FormTitleNCategory {
     return `
         <div class='${className}'>${category}</div>
       `;
+  }
+  renderTitle() {
+    this.$title.innerHTML = `<input type='text' value='${this.inputInfo.title}' placeholder='글 제목'  />`;
+  }
+
+  handleInputTitle({ target }) {
+    this.setInputInfo({ title: target.value });
   }
 
   handleClick({ target }) {
