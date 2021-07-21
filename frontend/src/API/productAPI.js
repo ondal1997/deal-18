@@ -46,3 +46,18 @@ export function fetchUpdateProductState(product, state) {
 export function fetchDeleteProduct(productId) {
   return fetch(`/products/${productId}`, { method: 'delete' }).then(((res) => res.json()).then(checkErrorFetchedJson));
 }
+
+//좋아요 상품 가져오기
+export function fetchGetLikeProduct() {
+  return fetch(API.LIKE_PRODUCT)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
+
+//자신의 상품 가져오기
+
+export function fetchGetOwnProduct(id) {
+  return fetch(API.PRODUCT + `?ownerId=${id}`)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
