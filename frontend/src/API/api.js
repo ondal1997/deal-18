@@ -6,6 +6,7 @@ const API = {
   PRODUCT: '/api/products',
   LIKE: '/api/like',
   TOWN: '/api/towns',
+  USER: '/api/user',
 };
 
 export default API;
