@@ -21,7 +21,7 @@ const routes = {
   '/login': LoginPage,
   '/register': RegisterPage,
   '/location': LocationEditPage,
-  '/items/id': ProductDetailPage,
+  '/products/:productId': ProductDetailPage,
   '/post': Postpage,
   '/menu': MenuPage,
   '/chat-list': ChatListPage,

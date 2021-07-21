@@ -1,5 +1,9 @@
 import './style.scss';
+
 import { createElement } from '../../utils/dom';
+import { getState } from '../../utils/globalObserver.js';
+import { pageState } from '../../store/page.js';
+
 import Carousel from '../../components/Carousel';
 import ProductDetailTopBar from '../../components/ProductDetailTopBar';
 import ProductDetailInfo from '../../components/ProductDetailInfo';
@@ -29,21 +33,40 @@ const product = {
 
 export default class ProductDetailPage {
   constructor() {
-    // mock
-    this.product = product;
+    const { params } = getState(pageState);
+    this.productId = params.productId;
+
+    this.isLoaded = false;
+    this.product = null;
 
     this.$target = createElement({ tagName: 'div', classNames: ['page', 'product-detail-page'] });
-    this.PAGE_TITLE = '';
 
-    this.init();
-  }
-
-  init() {
+    this.fetchProductDetail(this.productId);
     this.render();
   }
 
+  fetchProductDetail(productId) {
+    fetch(`/api/products/${productId}`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          alert(res.error); // TODO: custom modal로 변경하기
+          return;
+        }
+
+        this.isLoaded = true;
+        this.product = res;
+        this.render();
+      });
+  }
+
   render() {
-    const { product } = this;
+    const { product, isLoaded } = this;
+
+    if (!isLoaded) {
+      this.$target.innerHTML = 'Loading...';
+      return;
+    }
 
     this.$target.innerHTML = '';
     this.$target.appendChild(new ProductDetailTopBar({ product }).$target);
