@@ -21,18 +21,33 @@ export default class ProductDetailBottomBar {
 
   handleClick({ target }) {
     if (target.closest('.toggle-heart')) {
-      // 관심 API 호출하기
-      this.isLiked = !this.isLiked;
-      this.render();
+      this.fetchLikeProduct(this.product.id);
     }
 
     if (target.closest('.chats-button')) {
       // (판매자 전용) 채팅 목록 보기
     }
 
-    if (target.closest('contact-button')) {
+    if (target.closest('.contact-button')) {
       // 문의하기
     }
+  }
+
+  fetchLikeProduct(productId) {
+    let current = this.isLiked;
+    let method = this.isLiked ? 'delete' : 'post';
+
+    fetch(`/api/like/${productId}`, { method })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          alert(res.error);
+          return;
+        }
+
+        this.isLiked = !current;
+        this.render();
+      });
   }
 
   render() {
