@@ -11,13 +11,11 @@ function checkErrorFetchedJson(json) {
 export function fetchPostProduct(productInfo) {
   fetch(API.PRODUCT, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(postData),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(productInfo),
   })
     .then((res) => res.json())
-    .catch(checkErrorFetchedJson);
+    .then(checkErrorFetchedJson);
 }
 
 export function fetchProductDetail(productId) {
