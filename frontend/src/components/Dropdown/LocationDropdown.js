@@ -37,9 +37,15 @@ export default class LocationDropdown {
   }
 
   handleClick({ target }) {
-    if (target.closest('.primary-location')) this.setIsOpen(false);
+    if (target.closest('.primary-location')) {
+      this.setIsOpen(false);
+      return;
+    }
 
-    if (target.closest('.move-edit-page')) router.push('/location');
+    if (target.closest('.move-edit-page')) {
+      router.push('/location');
+      return;
+    }
 
     if (target.closest('.location-dropdown-item')) {
       this.changePrimary(target.textContent);

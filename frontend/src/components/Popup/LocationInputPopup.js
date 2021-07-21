@@ -3,13 +3,13 @@ import { createElement } from '../../utils/dom.js';
 import { setState } from '../../utils/globalObserver';
 import { locationInputPopupState } from '../../store/store';
 import { fetchPostTown } from '../../API/townAPI';
-import { locationState } from '../../store/townPage';
+import { townState } from '../../store/townPage';
 
 export default class LocationInputPopup {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['popup', 'location-input-popup'] });
     this.setIsOpen = setState(locationInputPopupState);
-    this.setLocationState = setState(locationState);
+    this.setTownState = setState(townState);
     this.$input;
     this.mount();
   }
@@ -44,21 +44,22 @@ export default class LocationInputPopup {
 
   handleClick(confirmBtn, { target }) {
     if (this.isCancleBtn(target)) {
-      this.setIsOpen(false);
       this.$input.value = '';
       confirmBtn.classList.remove('available');
+      this.setIsOpen(false);
     }
 
     if (this.isAbleConfirmBtn(target)) {
       this.addTown();
+      this.setIsOpen(false);
     }
   }
 
   addTown() {
     const town = this.$input.value;
-    fetchPostTown({ towns: town })
-      .then((res) => this.setLocationState((data) => ({ ...data, locations: res.towns })))
-      .catch(alert); //TODO
+    fetchPostTown({ town })
+      .then((res) => this.setTownState((data) => ({ ...data, towns: res.towns })))
+      .catch(console.error); //TODO
   }
 
   isCancleBtn(target) {

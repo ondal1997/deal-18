@@ -1,7 +1,7 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
 import LocationItem from './LocationItem';
-import { getState } from '../../utils/globalObserver';
+import { getState, subscribe } from '../../utils/globalObserver';
 import { townState } from '../../store/townPage';
 
 export default class LocationList {
@@ -11,10 +11,14 @@ export default class LocationList {
     this.init();
   }
   init() {
+    subscribe(townState, 'LocationList', this.render.bind(this));
     this.render();
   }
   render() {
+    this.$target.innerHTML = '';
+
     const { primaryTown, towns } = getState(townState);
+
     towns.forEach((town) => {
       const isPrimary = primaryTown === town;
       this.$target.appendChild(new LocationItem({ town, isPrimary }).$target);

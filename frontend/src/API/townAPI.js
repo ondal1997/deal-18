@@ -20,7 +20,7 @@ export function fetchPutPrimaryTown(town) {
 
 //동네 등록 {towns:~~~}
 export function fetchPostTown(town) {
-  fetch(API.TOWN, {
+  return fetch(API.TOWN, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(town),
@@ -31,7 +31,7 @@ export function fetchPostTown(town) {
 
 //동네 삭제 {towns:~~~}
 export function fetchDeleteTown(town) {
-  fetch(API.TOWN, {
+  return fetch(API.TOWN, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(town),

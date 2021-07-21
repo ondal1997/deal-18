@@ -24,7 +24,6 @@ export default class LocationItem {
   }
 
   addEvent() {
-    subscribe(townState, 'LocationItem', this.render.bind(this));
     this.$target.addEventListener('click', this.handleClick.bind(this));
   }
 
@@ -54,7 +53,7 @@ export default class LocationItem {
       return;
     }
 
-    changePrimary();
+    this.changePrimary();
   }
 
   isDeleteBtn(target) {
@@ -64,17 +63,17 @@ export default class LocationItem {
   deleteLocation() {
     fetchDeleteTown({ town: this.town })
       .then((res) => {
-        this.townState((data) => ({ ...data, towns: res.towns }));
+        this.setTownState((data) => ({ ...data, towns: res.towns }));
       })
-      .catch(alert); //TODO
+      .catch(console.error); //TODO
   }
 
   changePrimary() {
     fetchPutPrimaryTown({ town: this.town })
       .then((res) => {
-        this.townState((data) => ({ ...data, primaryTown: res.primaryTown }));
+        this.setTownState((data) => ({ ...data, primaryTown: res.primaryTown }));
       })
-      .catch(alert); //TODO
+      .catch(console.error); //TODO
   }
 
   getLocationItemClass() {
