@@ -1,10 +1,20 @@
+function checkErrorFetchedJson(json) {
+  if (json.error) {
+    throw new Error(json.error);
+  }
+  return json.error;
+}
+
 export function fetchProductDetail(productId) {
   return fetch(`/api/products/${productId}`)
     .then((res) => res.json())
-    .then((res) => {
-      if (res.error) {
-        throw new Error(res.error);
-      }
-      return res;
-    });
+    .then(checkErrorFetchedJson);
+}
+
+export function fetchToggleLike(productId, currentIsLiked) {
+  let method = currentIsLiked ? 'delete' : 'post';
+
+  return fetch(`/api/like/${productId}`, { method })
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
 }

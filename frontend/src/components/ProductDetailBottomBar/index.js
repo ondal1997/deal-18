@@ -4,6 +4,7 @@ import { getWon } from '../../utils/convertToString';
 
 import bigHeart from '../../../public/assets/product/bigHeart.svg';
 import filledBigHeart from '../../../public/assets/product/filledBigHeart.svg';
+import { fetchToggleLike } from '../../api/productAPI';
 
 export default class ProductDetailBottomBar {
   constructor({ product }) {
@@ -21,7 +22,7 @@ export default class ProductDetailBottomBar {
 
   handleClick({ target }) {
     if (target.closest('.toggle-heart')) {
-      this.fetchLikeProduct(this.product.id);
+      this.handleClickToggleLike();
     }
 
     if (target.closest('.chats-button')) {
@@ -29,25 +30,17 @@ export default class ProductDetailBottomBar {
     }
 
     if (target.closest('.contact-button')) {
-      // 문의하기
     }
   }
 
-  fetchLikeProduct(productId) {
-    let current = this.isLiked;
-    let method = this.isLiked ? 'delete' : 'post';
-
-    fetch(`/api/like/${productId}`, { method })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          alert(res.error);
-          return;
-        }
-
-        this.isLiked = !current;
+  handleClickToggleLike() {
+    const currentIsLiked = this.isLiked;
+    fetchToggleLike(this.product.id, currentIsLiked)
+      .then(() => {
+        this.isLiked = !currentIsLiked;
         this.render();
-      });
+      })
+      .catch((error) => alert(error));
   }
 
   render() {
