@@ -2,7 +2,7 @@ function checkErrorFetchedJson(json) {
   if (json.error) {
     throw new Error(json.error);
   }
-  return json.error;
+  return json;
 }
 
 export function fetchCreateChat(productId) {
