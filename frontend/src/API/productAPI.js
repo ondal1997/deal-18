@@ -9,7 +9,7 @@ function checkErrorFetchedJson(json) {
 
 // 상품 등록
 export function fetchPostProduct(productInfo) {
-  fetch(API.PRODUCT, {
+  return fetch(API.PRODUCT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(productInfo),

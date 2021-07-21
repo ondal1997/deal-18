@@ -1,11 +1,12 @@
 import './style.scss';
-import { setState } from '../../utils/globalObserver.js';
+import { getState, setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import { createElement } from '../../utils/dom.js';
 import MainTopBar from '../../components/MainTopBar';
 import ProductList from '../../components/ProductList';
 import postButton from '../../../public/assets/homepage/postButton.svg';
 import { router } from '../../index';
+import { userState } from '../../store/user';
 
 export default class HomePage {
   constructor() {
@@ -42,6 +43,11 @@ export default class HomePage {
   }
 
   handleClickPostBtn() {
+    const { userId } = getState(userState);
+    if (!userId) {
+      alert('로그인이 필요합니다.'); //TODO
+      return;
+    }
     router.push('/post');
   }
 }
