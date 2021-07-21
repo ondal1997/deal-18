@@ -12,6 +12,9 @@ import Postpage from './pages/PostPage';
 import MenuPage from './pages/MenuPage';
 import ChatListPage from './pages/ChatListPage';
 import ChatPage from './pages/ChatPage';
+import { fetchMe } from './API/userAPI';
+import { setState } from './utils/globalObserver';
+import { userState } from './store/user';
 
 const $root = document.querySelector('#root');
 
@@ -28,8 +31,13 @@ const routes = {
   '/chat': ChatPage,
 };
 
+// init userState and render
+const setUserState = setState(userState);
+fetchMe()
+  .then(setUserState)
+  .finally(() => {
+    const app = new App();
+    $root.appendChild(app.$target);
+  });
+
 export const router = new Router({ routes, pageState });
-
-const app = new App();
-
-$root.appendChild(app.$target);
