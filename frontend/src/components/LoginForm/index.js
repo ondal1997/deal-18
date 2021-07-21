@@ -3,14 +3,15 @@ import { createElement } from '../../utils/dom';
 import RegisterPage from '../../pages/RegisterPage';
 import { router } from '../../index';
 import { fetchLogin } from '../../API/userAPI';
-import { userState } from '../../store/user';
 import { setState } from '../../utils/globalObserver';
+import { userState } from '../../store/user';
+import { townState } from '../../store/townPage';
 
 export default class LoginForm {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['login-form'] });
     this.setUserState = setState(userState);
-
+    this.setTownState = setState(townState);
     this.init();
   }
 
@@ -31,6 +32,10 @@ export default class LoginForm {
 
   handleClickLogin() {
     fetchLogin(this.$target.querySelector('.input-large').value)
+      .then((res) => {
+        this.setTownState({ primaryTown: res.primaryTown, towns: res.towns });
+        return res;
+      })
       .then((res) => {
         this.setUserState(res);
         router.replace('/');
