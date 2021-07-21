@@ -41,17 +41,8 @@ export default class ChatItem {
         </div>
     `;
   }
+  //TODO 라우터 params 추가
   handleClick() {
     router.push('chat');
   }
 }
-
-/*
-{
-    imgUrl: testImg0,
-    userName: 'UserE',
-    message: '실제로 신어볼 수 있는 건가요?',
-    createDate: new Date('2021.07.14'),
-    unCheckedMsgCount: 2,
-  },
-  */
