@@ -1,9 +1,9 @@
 import { initState } from '../utils/globalObserver';
 
-export const locationState = initState({
-  key: 'locationState',
+export const townState = initState({
+  key: 'townState',
   defaultValue: {
-    primaryLocation: '역삼동',
-    locations: ['역삼동'],
+    primaryTown: '역삼동',
+    towns: ['역삼동'],
   },
 });

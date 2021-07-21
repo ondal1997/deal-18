@@ -4,7 +4,8 @@ import { createElement } from '../../utils/dom';
 import { pageState } from '../../store/page';
 import { locationDropdownState } from '../../store/store';
 import { router } from '../..';
-import { userState } from '../../store/user';
+import { fetchPutPrimaryTown } from '../../API/townAPI';
+import { townState } from '../../store/townPage';
 
 export default class LocationDropdown {
   constructor({ key }) {
@@ -12,6 +13,7 @@ export default class LocationDropdown {
     this.key = key;
     this.setIsOpen = setState(locationDropdownState);
     this.setPage = setState(pageState);
+    this.setTownState = setState(townState);
     this.init();
   }
 
@@ -21,10 +23,9 @@ export default class LocationDropdown {
   }
 
   render() {
-    const { primaryTown, towns } = getState(userState);
+    const { primaryTown, towns } = getState(townState);
 
     const townHTML = towns.reduce((acc, town) => acc + this.renderLocation({ primaryTown, town }), '');
-
     this.$target.innerHTML = `
         ${townHTML}
         <div class="location-dropdown-item move-edit-page">내 동네 설정하기</div>
@@ -32,17 +33,30 @@ export default class LocationDropdown {
   }
   renderLocation({ primaryTown, town }) {
     const isPrimary = primaryTown === town;
-    return `<div class="location-dropdown-item ${isPrimary ? 'primary-location' : ''}>${town}</div>`;
+    return `<div class="location-dropdown-item ${isPrimary ? 'primary-location' : ''}">${town}</div>`;
   }
 
   handleClick({ target }) {
-    if (target.closest('.select-location')) this.setIsOpen(false);
+    if (target.closest('.primary-location')) this.setIsOpen(false);
 
     if (target.closest('.move-edit-page')) router.push('/location');
+
+    if (target.closest('.location-dropdown-item')) {
+      this.changePrimary(target.textContent);
+    }
   }
 
   toggleLocationModal() {
     const isOpen = getState(locationDropdownState);
     this.setIsOpen(!isOpen);
+  }
+
+  changePrimary(town) {
+    fetchPutPrimaryTown({ town })
+      .then((res) => {
+        console.log(res);
+        this.setTownState((data) => ({ ...data, primaryTown: res.primaryTown }));
+      })
+      .catch(alert); //TODO
   }
 }
