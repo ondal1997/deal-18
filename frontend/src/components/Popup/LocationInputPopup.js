@@ -2,7 +2,7 @@ import './style.scss';
 import { createElement } from '../../utils/dom.js';
 import { setState } from '../../utils/globalObserver';
 import { locationInputPopupState } from '../../store/store';
-import { fetchPostLocations } from '../../API/locationAPI';
+import { fetchPostTown } from '../../API/townAPI';
 import { locationState } from '../../store/townPage';
 
 export default class LocationInputPopup {
@@ -56,7 +56,7 @@ export default class LocationInputPopup {
 
   addTown() {
     const town = this.$input.value;
-    fetchPostLocations({ town })
+    fetchPostTown({ towns: town })
       .then((res) => this.setLocationState((data) => ({ ...data, locations: res.towns })))
       .catch(alert); //TODO
   }

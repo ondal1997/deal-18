@@ -8,33 +8,33 @@ function checkErrorFetchedJson(json) {
 }
 
 //동네 변경 {towns:~~~}
-export function fetchPutPrimaryLocation(location) {
-  fetch(API.USER, {
+export function fetchPutPrimaryTown(town) {
+  return fetch(API.USER, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(location),
+    body: JSON.stringify(town),
   })
     .then((res) => res.json())
     .then(checkErrorFetchedJson);
 }
 
 //동네 등록 {towns:~~~}
-export function fetchPostLocations(location) {
+export function fetchPostTown(town) {
   fetch(API.TOWN, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(location),
+    body: JSON.stringify(town),
   })
     .then((res) => res.json())
     .then(checkErrorFetchedJson);
 }
 
 //동네 삭제 {towns:~~~}
-export function fetchDeleteLocations(location) {
+export function fetchDeleteTown(town) {
   fetch(API.TOWN, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(location),
+    body: JSON.stringify(town),
   })
     .then((res) => res.json())
     .then(checkErrorFetchedJson);

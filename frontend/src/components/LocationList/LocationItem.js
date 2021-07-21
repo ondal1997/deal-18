@@ -3,17 +3,17 @@ import { setState, subscribe } from '../../utils/globalObserver';
 import locationAddBtn from '../../../public/assets/locationPage/locationAddBtn.svg';
 import locationDeleteBtn from '../../../public/assets/locationPage/locationDeleteBtn.svg';
 import { locationInputPopupState } from '../../store/store';
-import { locationState } from '../../store/townPage';
-import { fetchDeleteLocations, fetchPutPrimaryLocation } from '../../API/locationAPI';
+import { townState } from '../../store/townPage';
+import { fetchDeleteTown, fetchPutPrimaryTown } from '../../API/townAPI';
 
 export default class LocationItem {
-  constructor({ location, isPrimary }) {
+  constructor({ town, isPrimary }) {
     this.$target = createElement({ tagName: 'div', classNames: ['location-item-wrapper'] });
-    this.location = location;
-    this.isAddBtn = location === null;
+    this.town = town;
+    this.isAddBtn = town === null;
     this.isPrimary = isPrimary;
 
-    this.setLocationState = setState(locationState);
+    this.setTownState = setState(townState);
     this.setInputPopupOpen = setState(locationInputPopupState);
     this.init();
   }
@@ -24,7 +24,7 @@ export default class LocationItem {
   }
 
   addEvent() {
-    subscribe(locationState, 'LocationItem', this.render.bind(this));
+    subscribe(townState, 'LocationItem', this.render.bind(this));
     this.$target.addEventListener('click', this.handleClick.bind(this));
   }
 
@@ -36,7 +36,7 @@ export default class LocationItem {
           ${
             this.isAddBtn
               ? `<img src=${locationAddBtn} alt='동네 등록하기' />`
-              : `<div>${this.location}</div>
+              : `<div>${this.town}</div>
                  <img class='delete-btn' src=${locationDeleteBtn} alt='동네 삭제하기' />`
           }
         </div>
@@ -62,17 +62,17 @@ export default class LocationItem {
   }
 
   deleteLocation() {
-    fetchDeleteLocations({ town: this.location })
+    fetchDeleteTown({ town: this.town })
       .then((res) => {
-        this.setLocationState((data) => ({ ...data, locations: res.towns }));
+        this.townState((data) => ({ ...data, towns: res.towns }));
       })
       .catch(alert); //TODO
   }
 
   changePrimary() {
-    fetchPutPrimaryLocation({ town: this.location })
+    fetchPutPrimaryTown({ town: this.town })
       .then((res) => {
-        this.setLocationState((data) => ({ ...data, primaryLocation: res.primaryTown }));
+        this.townState((data) => ({ ...data, primaryTown: res.primaryTown }));
       })
       .catch(alert); //TODO
   }

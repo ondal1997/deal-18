@@ -2,7 +2,7 @@ import './style.scss';
 import { createElement } from '../../utils/dom';
 import LocationItem from './LocationItem';
 import { getState } from '../../utils/globalObserver';
-import { locationState } from '../../store/townPage';
+import { townState } from '../../store/townPage';
 
 export default class LocationList {
   constructor() {
@@ -14,12 +14,12 @@ export default class LocationList {
     this.render();
   }
   render() {
-    const { primaryLocation, locations } = getState(locationState);
-    locations.forEach((location) => {
-      const isPrimary = primaryLocation === location;
-      this.$target.appendChild(new LocationItem({ location, isPrimary }).$target);
+    const { primaryTown, towns } = getState(townState);
+    towns.forEach((town) => {
+      const isPrimary = primaryTown === town;
+      this.$target.appendChild(new LocationItem({ town, isPrimary }).$target);
     });
 
-    if (locations.length < 2) this.$target.appendChild(new LocationItem({ location: null }).$target);
+    if (towns.length < 2) this.$target.appendChild(new LocationItem({ town: null }).$target);
   }
 }
