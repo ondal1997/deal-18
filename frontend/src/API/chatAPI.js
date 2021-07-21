@@ -41,7 +41,7 @@ export function fetchDeleteChat(chatId) {
 }
 
 //채팅 메세지 보내기
-export function fetchPostChatting(chatId, message) {
+export function fetchSendChatting(chatId, message) {
   message = { message };
 
   return fetch(API.CHAT + `/${chatId}`, {

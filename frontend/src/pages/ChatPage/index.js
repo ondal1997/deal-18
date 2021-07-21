@@ -31,11 +31,12 @@ export default class ChatPage {
   }
 
   render() {
+    this.$target.innerHTML = '';
     const chat = getState(chattingState);
     if (!chat) return;
 
     const { chatting: chattingData, userName } = chat;
-    const chatProduct = this.getChatProductInfo();
+    const chatProduct = this.getChatProductInfo(chat);
 
     const topBar = new CommonTopBar({
       title: userName,
@@ -50,8 +51,8 @@ export default class ChatPage {
     this.$target.appendChild(chatting);
   }
 
-  getChatProductInfo() {
-    const { imgUrl, productName, price, state } = this.chat;
+  getChatProductInfo(chat) {
+    const { imgUrl, productName, price, state } = chat;
     return { imgUrl, productName, price, state };
   }
 }
