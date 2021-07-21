@@ -16,7 +16,8 @@ module.exports = {
   devServer: {
     port: process.env.DEV_PORT || configs.devServer.port,
     proxy: {
-      '/': 'http://localhost:3000',
+      '/api': 'http://localhost:3000',
+      '/img': 'http://localhost:3000',
     },
     historyApiFallback: true,
   },
