@@ -2,12 +2,13 @@ import './style.scss';
 import locationIcon from '../../../public/assets/postPage/locationIcon.svg';
 import submitBtn from '../../../public/assets/postPage/submitButton.svg';
 import disableSubmitBtn from '../../../public/assets/postPage/disableSubmitButton.svg';
-import API from '../../API/api';
 import { getState, setState, subscribe } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import CommonTopBar from '../../components/Common/CommonTopBar';
 import PostProductForm from '../../components/PostProductForm';
 import { isAblePostSubmit, uploadedImgState, selectedCategoryState } from '../../store/postPage';
+import { fetchPostProduct } from '../../api/productAPI';
+import { router } from '../..';
 
 export default class Postpage {
   constructor() {
@@ -85,7 +86,7 @@ export default class Postpage {
     const category = getState(selectedCategoryState);
     const { title, price, description } = this.inputInfo;
     const town = '역삼동';
-    const postData = {
+    const postInfo = {
       title,
       category,
       description,
@@ -93,19 +94,17 @@ export default class Postpage {
       price: price === '' ? null : price,
       imgUrls: imgs,
     };
-    this.postProduct(postData);
+    this.postProduct(postInfo);
   }
 
-  postProduct(postData) {
-    fetch(API.PRODUCT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+  postProduct(postInfo) {
+    fetchPostProduct(postInfo)
+      .then((res) => {
+        //res 키 값 체크후 변경
+        const productId = res.productId;
+        router.push(`/products/${productId}`);
+      })
+      .catch((err) => alert(err));
   }
 
   setIsAbleSubmit() {
