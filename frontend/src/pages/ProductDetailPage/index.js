@@ -13,6 +13,7 @@ import ProductDetailBottomBar from '../../components/ProductDetailBottomBar';
 import testImg0 from '../../../public/img/ImageLarge-0.png';
 import testImg1 from '../../../public/img/ImageLarge-1.png';
 import testImg2 from '../../../public/img/ImageLarge-2.png';
+import { fetchProductDetail } from '../../api/productAPI';
 const product = {
   title: '빈티지 롤러 스케이트',
   category: '기타 중고물품',
@@ -41,22 +42,18 @@ export default class ProductDetailPage {
 
     this.$target = createElement({ tagName: 'div', classNames: ['page', 'product-detail-page'] });
 
-    this.fetchProductDetail(this.productId);
-    this.render();
+    this.initialFetch();
   }
 
-  fetchProductDetail(productId) {
-    fetch(`/api/products/${productId}`)
-      .then((res) => res.json())
+  initialFetch() {
+    fetchProductDetail(this.productId)
       .then((res) => {
-        if (res.error) {
-          alert(res.error); // TODO: custom modal로 변경하기
-          return;
-        }
-
         this.isLoaded = true;
         this.product = res;
         this.render();
+      })
+      .catch((error) => {
+        alert(error);
       });
   }
 
