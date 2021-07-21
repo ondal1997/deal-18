@@ -10,10 +10,11 @@ const API = {
 };
 
 export default class FormImgList {
-  constructor() {
+  constructor({ setIsAbleSubmit }) {
     this.MAX_IMG = 10;
     this.$target = createElement({ tagName: 'div', classNames: ['form-img-list'] });
 
+    this.setIsAbleSubmit = setIsAbleSubmit;
     this.setUploadedImg = setState(uploadedImgState);
     this.init();
   }
@@ -57,6 +58,7 @@ export default class FormImgList {
     const deleteBtn = target.closest('.form-img-delete-btn');
     const index = +deleteBtn.dataset.index;
     this.setUploadedImg((imgs) => imgs.filter((_, idx) => idx !== index));
+    this.setIsAbleSubmit();
   }
 
   handleInputImg({ target }) {
@@ -76,6 +78,7 @@ export default class FormImgList {
     })
       .then((res) => res.json())
       .then((img) => this.setUploadedImg((imgs) => [...imgs, img.url]))
+      .then(this.setIsAbleSubmit)
       .catch((err) => console.log(err));
   }
 

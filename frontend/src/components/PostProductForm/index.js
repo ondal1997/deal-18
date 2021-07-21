@@ -4,13 +4,14 @@ import FormImgList from './FormImgList';
 import FormTitleNCategory from './FormTitleNCategory';
 
 export default class PostProductForm {
-  constructor({ inputInfo, setInputInfo }) {
+  constructor({ inputInfo, setInputInfo, setIsAbleSubmit }) {
     this.$target = createElement({ tagName: 'div', classNames: ['post-product-form'] });
     this.$formPrice = createElement({ tagName: 'div', classNames: ['form-price'] });
     this.$formDescription = createElement({ tagName: 'div', classNames: ['form-description'] });
 
     this.inputInfo = inputInfo;
     this.setInputInfo = setInputInfo;
+    this.setIsAbleSubmit = setIsAbleSubmit;
 
     this.mount();
     this.addEvent();
@@ -28,10 +29,11 @@ export default class PostProductForm {
   }
 
   render() {
-    const formImgList = new FormImgList().$target;
+    const formImgList = new FormImgList({ setIsAbleSubmit: this.setIsAbleSubmit }).$target;
     const formTitleNCategory = new FormTitleNCategory({
       inputInfo: this.inputInfo,
       setInputInfo: this.setInputInfo,
+      setIsAbleSubmit: this.setIsAbleSubmit,
     }).$target;
 
     this.$target.appendChild(formImgList);
@@ -59,5 +61,6 @@ export default class PostProductForm {
   handleInputDescription({ target }) {
     target.style.height = target.scrollHeight + 'px';
     this.setInputInfo({ description: target.value });
+    this.setIsAbleSubmit();
   }
 }

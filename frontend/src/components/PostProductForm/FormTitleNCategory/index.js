@@ -5,7 +5,7 @@ import { createElement } from '../../../utils/dom';
 import { getState, setState, subscribe } from '../../../utils/globalObserver';
 
 export default class FormTitleNCategory {
-  constructor({ inputInfo, setInputInfo }) {
+  constructor({ inputInfo, setInputInfo, setIsAbleSubmit }) {
     this.CATEGORY_LIST = categories;
     this.$target = createElement({ tagName: 'div', classNames: ['form-title-category'] });
     this.$title = createElement({ tagName: 'div', classNames: ['form-title'] });
@@ -14,6 +14,7 @@ export default class FormTitleNCategory {
     this.inputInfo = inputInfo;
     this.setInputInfo = setInputInfo;
     this.setSelectedCategory = setState(selectedCategoryState);
+    this.setIsAbleSubmit = setIsAbleSubmit;
 
     this.mount();
     this.addEvent();
@@ -55,6 +56,7 @@ export default class FormTitleNCategory {
 
   handleInputTitle({ target }) {
     this.setInputInfo({ title: target.value });
+    this.setIsAbleSubmit();
   }
 
   handleClick({ target }) {
@@ -62,5 +64,6 @@ export default class FormTitleNCategory {
     if (!categoryBadge) return;
 
     this.setSelectedCategory(categoryBadge.textContent);
+    this.setIsAbleSubmit();
   }
 }
