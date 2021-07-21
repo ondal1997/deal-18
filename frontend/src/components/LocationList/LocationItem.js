@@ -4,7 +4,7 @@ import locationAddBtn from '../../../public/assets/locationPage/locationAddBtn.s
 import locationDeleteBtn from '../../../public/assets/locationPage/locationDeleteBtn.svg';
 import { locationInputPopupState } from '../../store/store';
 import { locationState } from '../../store/townPage';
-import { fetchDeleteLocations } from '../../API/locationAPI';
+import { fetchDeleteLocations, fetchPutPrimaryLocation } from '../../API/locationAPI';
 
 export default class LocationItem {
   constructor({ location, isPrimary }) {
@@ -54,8 +54,7 @@ export default class LocationItem {
       return;
     }
 
-    //TODO 대표동네 변경
-    //setState
+    changePrimary();
   }
 
   isDeleteBtn(target) {
@@ -66,6 +65,14 @@ export default class LocationItem {
     fetchDeleteLocations({ town: this.location })
       .then((res) => {
         this.setLocationState((data) => ({ ...data, locations: res.towns }));
+      })
+      .catch(alert); //TODO
+  }
+
+  changePrimary() {
+    fetchPutPrimaryLocation({ town: this.location })
+      .then((res) => {
+        this.setLocationState((data) => ({ ...data, primaryLocation: res.primaryTown }));
       })
       .catch(alert); //TODO
   }
