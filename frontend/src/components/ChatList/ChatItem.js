@@ -21,8 +21,8 @@ export default class ChatItem {
     this.$target.addEventListener('click', this.handleClick.bind(this));
   }
   render() {
-    const { imgUrl, userName, message, createDate, uncheckedMsgCount } = this.chat;
-    const passedTime = getPassedTime(createDate);
+    const { imgUrl, userName, message, createdDate, uncheckedMsgCount } = this.chat;
+    const passedTime = getPassedTime(createdDate);
     this.$target.innerHTML = `
         <div class='chat-item'>
             <div>

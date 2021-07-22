@@ -90,17 +90,21 @@ router.get('/products/:productId/chats', authenticationValidator, async (req, re
   // 채팅방 가져오기
   try {
     const [chats] = await pool.query(
-      `select c.id, customer_id as userName, uncheck_count_seller as uncheckedMsgCount, product_img_url as imgUrl, cl.message, cl.created_date as createdDate
-        from
-            chat as c
-            left join product as p on c.product_id = p.id
-            left join (select message, created_date, chat_id, id from chat_log WHERE id=(select max(id) from chat_log)) as cl on c.id = cl.chat_id
-        where
-            product_id=${productId}
-        `,
+      `
+      select
+          c.id, customer_id as userName, uncheck_count_seller as uncheckedMsgCount,
+          product_img_url as imgUrl,
+          (select message from chat_log where chat_id = c.id order by id desc limit 1) as message,
+          (select created_date from chat_log where chat_id = c.id order by id desc limit 1) as createdDate
+      from
+          chat as c
+          left join product as p on c.product_id = p.id
+      where
+          product_id=${productId}
+      `,
     );
 
-    res.json(chats);
+    res.json(chats.filter((chat) => !!chat.createdDate));
   } catch (err) {
     res.status(500).json({ error: 'DB 실패' });
     console.error(err);
@@ -114,14 +118,18 @@ router.get('/chats', authenticationValidator, async (req, res) => {
   // 채팅방 가져오기
   try {
     const [chatRows] = await pool.query(
-      `select c.id, seller_id as sellerId, customer_id as customerId, uncheck_count_seller as uncheckedSellerMsgCount, uncheck_count_customer as uncheckedCustomerMsgCount, product_img_url as imgUrl, cl.message, cl.created_date as createdDate
-        from
-            chat as c
-            left join product as p on c.product_id = p.id
-            left join (select message, created_date, chat_id, id from chat_log WHERE id=(select max(id) from chat_log)) as cl on c.id = cl.chat_id
-        where
-            seller_id='${userId}' OR customer_id='${userId}'
-        `,
+      `
+      select
+          c.id, seller_id as sellerId, customer_id as customerId, uncheck_count_seller as uncheckedSellerMsgCount, uncheck_count_customer as uncheckedCustomerMsgCount,
+          product_img_url as imgUrl,
+          (select message from chat_log where chat_id = c.id order by id desc limit 1) as message,
+          (select created_date from chat_log where chat_id = c.id order by id desc limit 1) as createdDate
+      from
+          chat as c
+          left join product as p on c.product_id = p.id
+      where
+          seller_id='${userId}' OR customer_id='${userId}'
+      `,
     );
 
     // 변환
@@ -156,7 +164,7 @@ router.get('/chats', authenticationValidator, async (req, res) => {
       },
     );
 
-    res.json(chats);
+    res.json(chats.filter((chat) => !!chat.createdDate));
   } catch (err) {
     res.status(500).json({ error: 'DB 실패' });
     console.error(err);
