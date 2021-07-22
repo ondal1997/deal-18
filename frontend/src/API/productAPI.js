@@ -32,6 +32,7 @@ export function fetchToggleLike(productId, currentIsLiked) {
     .then(checkErrorFetchedJson);
 }
 
+//상품 상태 변경하기
 export function fetchUpdateProductState(product, state) {
   const json = Object.assign(product, { state });
   return fetch(`/api/products/${product.id}`, {
@@ -43,6 +44,18 @@ export function fetchUpdateProductState(product, state) {
     .then(checkErrorFetchedJson);
 }
 
+//상품 상세 정보 수정하기
+export function fetchUpdateProduct(productId, productInfo) {
+  return fetch(API.PRODUCT + `/${productId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(productInfo),
+  })
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
+
+//상품 삭제하기
 export function fetchDeleteProduct(productId) {
   return fetch(`/api/products/${productId}`, { method: 'delete' })
     .then((res) => res.json())
