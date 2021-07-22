@@ -48,7 +48,7 @@ export default class MenuPage {
     //promise로 서버에서 데이터 받아올 곳
 
     if (type === this.SELL) {
-      return fetchGetOwnProduct(userId).then(({ products }) => {
+      return fetchGetOwnProduct(userId).then((products) => {
         if (!products.length) {
           this.$emptyContent.innerHTML = this.SELL_EMPTY_MSG;
           return this.$emptyContent;
@@ -68,7 +68,7 @@ export default class MenuPage {
     }
 
     if (type === this.LIKE) {
-      return fetchGetLikeProduct().then(({ products }) => {
+      return fetchGetLikeProduct().then((products) => {
         if (!products.length) {
           this.$emptyContent.innerHTML = this.LIKE_EMPTY_MSG;
           return this.$emptyContent;

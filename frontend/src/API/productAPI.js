@@ -55,7 +55,6 @@ export function fetchGetLikeProduct() {
 }
 
 //자신의 상품 가져오기
-
 export function fetchGetOwnProduct(id) {
   return fetch(API.PRODUCT + `?ownerId=${id}`)
     .then((res) => res.json())
