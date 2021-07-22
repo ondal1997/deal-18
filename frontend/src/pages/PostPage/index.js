@@ -66,7 +66,6 @@ export default class Postpage {
     `;
   }
 
-  //TODO 목데이터 위치 수정
   renderLocation() {
     const { primaryTown } = getState(userState);
     this.$postLocation.innerHTML = `
