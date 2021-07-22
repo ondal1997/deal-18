@@ -41,8 +41,7 @@ export default class ChatItem {
         </div>
     `;
   }
-  //TODO 라우터 params 추가
   handleClick() {
-    router.push('chat');
+    router.push(`chat/${this.chat.id}`);
   }
 }

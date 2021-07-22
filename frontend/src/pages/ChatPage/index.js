@@ -6,13 +6,16 @@ import ChatDeleteBtn from '../../components/Chatting/ChatDeleteBtn';
 import ChatProductInfo from '../../components/Chatting/ChatProductInfo';
 import Chatting from '../../components/Chatting/Chatting';
 
-import { chattingState } from '../../store/chattingPage';
 import { fetchGetChatDetail } from '../../API/chatAPI';
+import { chattingState } from '../../store/chattingPage';
+import { pageState } from '../../store/page';
 
 export default class ChatPage {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
-    this.chatId = 3; //TODO parmas로 받아와서 할 듯
+
+    const { params } = getState(pageState);
+    this.chatId = params.chatId;
     this.setChat = setState(chattingState);
 
     this.init();
