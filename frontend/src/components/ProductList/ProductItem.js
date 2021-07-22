@@ -39,7 +39,7 @@ export default class ProductItem {
     }
 
     if (target.closest('.edit')) {
-      // TODO: 수정하기 화면으로 이동
+      router.push(`/products/${this.product.id}/edit`);
       return;
     }
 
