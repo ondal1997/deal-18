@@ -45,7 +45,7 @@ router.post('/towns', async (req, res) => {
   try {
     const [townRows] = await pool.query('select id, name from town where user_id=?', [userId]);
     const towns = townRows.map((townRow) => townRow.name);
-    res.json({ success: true, towns });
+    res.json(towns);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'DB 실패' });

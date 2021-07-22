@@ -30,7 +30,7 @@ router.get('/chats/:chatId', authenticationValidator, async (req, res) => {
     const isCustomer = userId === customerId;
     await pool.query(UPDATE_UNCHECK_CHAT({ isSeller, isCustomer }));
 
-    res.json({ chatDetail });
+    res.json(chatDetail);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'DB 실패' });
