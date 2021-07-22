@@ -30,8 +30,8 @@ export default class Chatting {
   }
   render() {
     const chattingElements = this.chatting.reduce((acc, { userName, message }) => {
-      const isReceive = userName === this.userName;
-      return (acc += `<div class=${isReceive ? 'receive-msg' : 'sent-msg'}>${message}</div>`);
+      const isSend = userName === this.userName;
+      return (acc += `<div class=${isSend ? 'sent-msg' : 'receive-msg'}>${message}</div>`);
     }, '');
 
     this.$target.innerHTML = `<div class='chatting-box'>${chattingElements}</div>`;

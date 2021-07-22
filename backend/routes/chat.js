@@ -28,7 +28,7 @@ router.get('/chats/:chatId', authenticationValidator, async (req, res) => {
     const [[{ sellerId, customerId }]] = await pool.query(GET_CHAT_PARTICIPATE_ID({ chatId }));
     const isSeller = userId === sellerId;
     const isCustomer = userId === customerId;
-    await pool.query(UPDATE_UNCHECK_CHAT({ isSeller, isCustomer }));
+    await pool.query(UPDATE_UNCHECK_CHAT({ chatId, isSeller, isCustomer }));
 
     res.json(chatDetail);
   } catch (err) {
@@ -62,7 +62,7 @@ router.post('/chats/:chatId', authenticationValidator, async (req, res) => {
     const [[{ sellerId, customerId }]] = await pool.query(GET_CHAT_PARTICIPATE_ID({ chatId }));
     const isSeller = userId === sellerId;
     const isCustomer = userId === customerId;
-    await pool.query(ADD_UNCHECK_COUNT({ isSeller, isCustomer }));
+    await pool.query(ADD_UNCHECK_COUNT({ chatId, isSeller, isCustomer }));
 
     res.json({ success: true });
   } catch (err) {
