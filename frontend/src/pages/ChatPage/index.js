@@ -50,7 +50,7 @@ export default class ChatPage {
       menuBtn: new ChatDeleteBtn().$target,
     }).$target;
     const chatProductInfo = new ChatProductInfo({ chatProduct }).$target;
-    const chatting = new Chatting({ chatting: chattingData, userName: userName }).$target;
+    const chatting = new Chatting({ chatId: this.chatId, chatting: chattingData, userName: userName }).$target;
     const chattingDeletePopup = new Modal({
       View: ChattingDeletePopup,
       className: 'chatting-delete-modal',
