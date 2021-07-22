@@ -2,48 +2,64 @@ import locationIcon from '../../../public/assets/postPage/locationIcon.svg';
 import submitBtn from '../../../public/assets/postPage/submitButton.svg';
 import disableSubmitBtn from '../../../public/assets/postPage/disableSubmitButton.svg';
 import CommonTopBar from '../../components/Common/CommonTopBar';
+import PostProductForm from '../../components/PostProductForm';
 
+import { router } from '../..';
 import { createElement } from '../../utils/dom';
 import { getState, setState, subscribe } from '../../utils/globalObserver';
+import { fetchProductDetail, fetchUpdateProduct } from '../../api/productAPI';
 import { isAblePostSubmit, selectedCategoryState, uploadedImgState } from '../../store/postPage';
-import PostProductForm from '../../components/PostProductForm';
+import { pageState } from '../../store/page';
+import { userState } from '../../store/user';
 
 export default class ProductEditPage {
   constructor() {
     this.PAGE_TITLE = '상품 수정하기';
+
+    const { params } = getState(pageState);
+    this.productId = params.productId;
 
     this.$target = createElement({ tagName: 'div', classNames: ['page', 'product-edit-page'] });
     this.$postLocation = createElement({ tagName: 'div', classNames: ['post-location'] });
     this.$submitBtn = createElement({ tagName: 'div', classNames: ['post-submit-btn'] });
 
     this.setIsAble = setState(isAblePostSubmit);
-    this.inputInfo = {
-      title: '',
-      price: '',
-      description: '',
-    };
+    this.inputInfo = { title: '', price: '', description: '', state: '' };
+    this.ownerId = '';
+    this.location = '';
 
-    this.initState(product);
-    this.init();
+    fetchProductDetail(this.productId)
+      .then((res) => {
+        if (!this.checkRight()) router.pop();
+        return res;
+      })
+      .then((product) => this.initState(product))
+      .then(() => this.init())
+      .catch(console.error);
   }
 
   init() {
-    subscribe(isAblePostSubmit, 'PostPage', this.renderSubmitBtn.bind(this));
     this.setIsAble(true); //수정하기는 초기렌더링 시 true
+
+    subscribe(isAblePostSubmit, 'PostPage', this.renderSubmitBtn.bind(this));
 
     this.renderSubmitBtn();
     this.renderLocation();
     this.render();
+    this.addEvent();
   }
+
+  addEvent() {
+    this.$submitBtn.addEventListener('click', this.handleClickSubmit.bind(this));
+  }
+
   initState(product) {
-    const { title, price, description, imgUrls, category } = product;
+    const { title, price, description, state, imgUrls, category } = product;
     const setImgs = setState(uploadedImgState);
     const setCategory = setState(selectedCategoryState);
-    this.inputInfo = {
-      title,
-      price,
-      description,
-    };
+    this.inputInfo = { title, price, description, state };
+    this.location = product.town;
+    this.ownerId = product.userId;
     setImgs(imgUrls);
     setCategory(category);
   }
@@ -65,6 +81,40 @@ export default class ProductEditPage {
     this.$target.appendChild(this.$postLocation);
   }
 
+  handleClickSubmit() {
+    const isAbleSubmit = getState(isAblePostSubmit);
+    if (!isAbleSubmit) return;
+    const productInfo = this.getProductInfo();
+    this.editProduct(this.productId, productInfo);
+  }
+
+  editProduct(productId, productInfo) {
+    fetchUpdateProduct(productId, productInfo)
+      .then(() => router.replace(`/products/${productId}`))
+      .catch(console.error);
+  }
+
+  getProductInfo() {
+    const imgs = getState(uploadedImgState);
+    const category = getState(selectedCategoryState);
+    const { title, price, description, state } = this.inputInfo;
+    const town = this.location;
+    const postInfo = {
+      title,
+      category,
+      description,
+      town,
+      state,
+      price: price === '' ? null : price,
+      imgUrls: imgs,
+    };
+    return postInfo;
+  }
+  checkRight() {
+    const { userId } = getState(userState);
+    return !!userId && userId === this.ownerId;
+  }
+
   setInputInfo({ title, price, description }) {
     if (title || title === '') this.inputInfo = { ...this.inputInfo, title };
     if (price || price === 0 || price === '') this.inputInfo = { ...this.inputInfo, price };
@@ -82,36 +132,16 @@ export default class ProductEditPage {
 
   renderSubmitBtn() {
     const isAble = getState(isAblePostSubmit);
-    // const isAble = true;
 
     this.$submitBtn.innerHTML = `
       <img src=${isAble ? submitBtn : disableSubmitBtn} alt='제출 버튼' />
     `;
   }
   renderLocation() {
-    //TODO 위치는 어떻게 할지 정해야된다.
-    // const { primaryTown } = getState(userState);
-    const primaryTown = '수정 필요';
+    const primaryTown = this.location;
     this.$postLocation.innerHTML = `
           <img src=${locationIcon} alt='위치 아이콘' />
           <div>${primaryTown}</div>
         `;
   }
 }
-const product = {
-  id: 8,
-  title: '곰인형 1',
-  price: 123123,
-  description: '귀여운 곰인형',
-  town: '역삼동',
-  userId: 'kyle',
-  state: '판매중',
-  category: '디지털기기',
-  watchCount: 11,
-  createdDate: '2021-07-21T21:46:29.000Z',
-  imgUrls: ['/img/b739fb7cbf8c6424e2c50058a29f9c54'],
-  likeCount: 1,
-  commentCount: 1,
-  isYours: false,
-  isLiked: false,
-};
