@@ -21,10 +21,10 @@ const GET_CHAT_LOG = ({ chatId }) => {
   `;
 };
 
-const UPDATE_UNCHECK_CHAT = ({ isSeller, isCustomer }) => {
-  if (isSeller) return ` UPDATE chat SET uncheck_count_seller=0`;
+const UPDATE_UNCHECK_CHAT = ({ chatId, isSeller, isCustomer }) => {
+  if (isSeller) return ` UPDATE chat SET uncheck_count_seller=0 WHERE id='${chatId}'`;
 
-  if (isCustomer) return `UPDATE chat SET uncheck_count_customer=0`;
+  if (isCustomer) return `UPDATE chat SET uncheck_count_customer=0 WHERE id='${chatId}`;
 
   return '';
 };
@@ -51,10 +51,18 @@ const GET_CHAT_PARTICIPATE_ID = ({ chatId }) => {
   `;
 };
 
-const ADD_UNCHECK_COUNT = ({ isSeller, isCustomer }) => {
-  if (isCustomer) return `UPDATE chat SET uncheck_count_seller = uncheck_count_seller +1`;
-  if (isSeller) return `UPDATE chat SET uncheck_count_customer = uncheck_count_customer +1`;
+const ADD_UNCHECK_COUNT = ({ chatId, isSeller, isCustomer }) => {
+  if (isCustomer)
+    return `
+    UPDATE chat SET uncheck_count_seller = uncheck_count_seller +1 
+    WHERE id='${chatId}'
+    `;
 
+  if (isSeller)
+    return `
+  UPDATE chat SET uncheck_count_customer = uncheck_count_customer +1 
+  WHERE id='${chatId}'
+  `;
   return '';
 };
 
