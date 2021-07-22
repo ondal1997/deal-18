@@ -89,7 +89,7 @@ export default class Postpage {
     const imgs = getState(uploadedImgState);
     const category = getState(selectedCategoryState);
     const { title, price, description } = this.inputInfo;
-    const town = '역삼동';
+    const town = getState(userState).primaryTown;
     const postInfo = {
       title,
       category,
@@ -98,14 +98,15 @@ export default class Postpage {
       price: price === '' ? null : price,
       imgUrls: imgs,
     };
+
     this.postProduct(postInfo);
   }
 
   postProduct(postInfo) {
     fetchPostProduct(postInfo)
       .then((res) => {
-        const productId = res.productId;
-        router.push(`/products/${productId}`);
+        const productId = res.id;
+        router.replace(`/products/${productId}`);
       })
       .catch(console.error); //TODO
   }
