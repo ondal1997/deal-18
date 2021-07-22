@@ -16,6 +16,7 @@ import ChatPage from './pages/ChatPage';
 import { fetchMe } from './API/userAPI';
 import { setState } from './utils/globalObserver';
 import { userState } from './store/user';
+import ProductEditPage from './pages/ProductEditPage';
 
 const $root = document.querySelector('#root');
 
@@ -31,6 +32,7 @@ const routes = {
   '/menu': MenuPage,
   '/products/:productId/chats': ChatListPage,
   '/chats/:chatId': ChatPage,
+  '/products/:productId/edit': ProductEditPage,
 };
 
 // init userState and render
