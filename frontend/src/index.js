@@ -29,8 +29,8 @@ const routes = {
   '/products/:productId': ProductDetailPage,
   '/post': Postpage,
   '/menu': MenuPage,
-  '/chat-list': ChatListPage,
-  '/chat/:chatId': ChatPage,
+  '/products/:productId/chats': ChatListPage,
+  '/chats/:chatId': ChatPage,
 };
 
 // init userState and render
