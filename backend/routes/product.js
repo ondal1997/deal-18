@@ -8,12 +8,12 @@ const {
 } = require('../query/product');
 const router = express.Router();
 
-//GET:product list
+//GET: product list
 router.get('/products', async (req, res) => {
   const { userId } = req.session;
-  const { size, backOf, category, ownerId, town } = req.query;
+  const { size, backOf, category, ownerId, town, state } = req.query;
   try {
-    const [productRows] = await pool.query(GET_ALL_PRODUCT({ size, userId, category, town, ownerId, backOf }));
+    const [productRows] = await pool.query(GET_ALL_PRODUCT({ size, userId, category, town, ownerId, backOf, state }));
 
     const products = productRows.map((productRow) =>
       productRow.isLiked ? { ...productRow, isLiked: true } : { ...productRow, isLiked: false },

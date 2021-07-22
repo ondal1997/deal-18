@@ -1,10 +1,11 @@
-const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf }) => {
+const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf, state }) => {
   const LIMIT = size ?? 10;
   let condition = '';
 
   if (category) condition += `AND category='${category}' `;
   if (town) condition += `AND product.town='${town}' `;
   if (ownerId) condition += `AND product.user_id='${ownerId}' `;
+  if (state) condition += `AND state='${state}' `;
   condition += `AND product.id>${backOf ?? 0}`;
 
   return `
@@ -16,7 +17,7 @@ const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf }) => {
               WHERE '${userId}'=user_like.user_id AND user_like.product_id=product.id
               ) as isLiked
             FROM product 
-            WHERE state='판매중' ${condition} 
+            WHERE ${condition} 
             LIMIT ${LIMIT} 
              `;
 };
