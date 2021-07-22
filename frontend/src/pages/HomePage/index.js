@@ -1,5 +1,5 @@
 import './style.scss';
-import { getState, setState } from '../../utils/globalObserver.js';
+import { getState, setState, subscribe } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import { createElement } from '../../utils/dom.js';
 import MainTopBar from '../../components/MainTopBar';
@@ -14,6 +14,12 @@ export default class HomePage {
     this.$postBtn = createElement({ tagName: 'div', classNames: ['post-btn'] });
     this.setPageState = setState(pageState);
 
+    this.isLoaded = false;
+    this.products = [];
+
+    subscribe(selectedCategoryState, 'HomePage', this.fetchAndRender.bind(this));
+    subscribe(userState, 'HomePage', this.fetchAndRender.bind(this));
+
     this.init();
   }
 
@@ -21,18 +27,34 @@ export default class HomePage {
     this.renderPostBtn();
     this.render();
     this.addEvent();
+    this.fetchAndRender();
   }
 
   addEvent() {
     this.$postBtn.addEventListener('click', this.handleClickPostBtn.bind(this));
   }
 
+  fetchAndRender() {
+    const category = getState(selectedCategoryState);
+    const town = getState(userState).primaryTown;
+    fetchProducts(town, category, '판매중')
+      .then((fetchedProducts) => {
+        this.isLoaded = true;
+        this.products = fetchedProducts;
+        this.render();
+      })
+      .catch(alert);
+  }
+
   render() {
-    const topBar = new MainTopBar();
-    const productList = new ProductList({ products });
     this.$target.innerHTML = '';
+
+    const topBar = new MainTopBar();
     this.$target.appendChild(topBar.$target);
+
+    const productList = new ProductList({ products: this.products });
     this.$target.appendChild(productList.$target);
+
     this.$target.appendChild(this.$postBtn);
   }
 
@@ -56,6 +78,8 @@ export default class HomePage {
 import testImg0 from '../../../public/img/ImageLarge-0.png';
 import testImg1 from '../../../public/img/ImageLarge-1.png';
 import testImg2 from '../../../public/img/ImageLarge-2.png';
+import { fetchProducts } from '../../api/productAPI';
+import { selectedCategoryState } from '../../store/postPage';
 
 const products = [
   {

@@ -60,3 +60,10 @@ export function fetchGetOwnProduct(id) {
     .then((res) => res.json())
     .then(checkErrorFetchedJson);
 }
+
+//상품 리스트 가져오기
+export function fetchProducts(town, category, state) {
+  return fetch(API.PRODUCT + `?town=${town}&category=${category}&state=${state}`)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
