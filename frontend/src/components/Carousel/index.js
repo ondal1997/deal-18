@@ -10,39 +10,57 @@ class CarouselImgWrapper {
     this.TRANSITION = 'all 0.4s';
     this.PAGE_WIDTH = 320;
 
-    // this.isDragging = false;
-    // this.startX = null;
-    // this.DELTA = 200;
-    this.addListener();
+    this.startX = null;
+    this.DELTA = this.PAGE_WIDTH / 4;
+    this.handleMousedown = this.handleMousedown.bind(this);
+    this.handleMouseup = this.handleMouseup.bind(this);
+    this.handleMousemove = this.handleMousemove.bind(this);
+
     this.render();
   }
 
-  addListener() {
-    this.$target.addEventListener('mousedown', this.handleMousedown);
-    this.$target.addEventListener('mouseup', this.handleMouseup);
+  handleMousedown(event) {
+    this.startX = event.clientX;
+    event.preventDefault();
+
+    this.$target.style.transition = '';
+    document.addEventListener('mouseup', this.handleMouseup);
+    document.addEventListener('mousemove', this.handleMousemove);
   }
 
-  handleMousedown = (event) => {
-    // this.isDragging = true;
-    // this.startX = event.clientX;
-  };
+  handleMousemove(event) {
+    const startX = this.startX;
+    const endX = event.clientX;
 
-  handleMouseup = (event) => {
-    // if (!this.isDragging) return;
-    // const startX = this.startX;
-    // const endX = event.clientX;
-    // this.isDragging = false;
-    // if (startX - endX <= this.DELTA && this.index > 0) {
-    //   this.onIndexChange(this.index - 1);
-    // }
-    // if (startX - endX >= this.DELTA && this.index < this.urls.length - 1) {
-    //   this.onIndexChange(this.index + 1);
-    // }
-  };
+    let dest = this.PAGE_WIDTH * this.index - endX + startX;
+
+    if (dest < 0) {
+      dest = 0;
+    } else if (dest > this.PAGE_WIDTH * (this.urls.length - 1)) {
+      dest = this.PAGE_WIDTH * (this.urls.length - 1);
+    }
+
+    this.$target.style.transform = `translateX(-${dest}px)`;
+  }
+
+  handleMouseup(event) {
+    document.removeEventListener('mouseup', this.handleMouseup);
+    document.removeEventListener('mousemove', this.handleMousemove);
+
+    const startX = this.startX;
+    const endX = event.clientX;
+
+    if (startX - endX <= this.DELTA && this.index > 0) {
+      this.onIndexChange(this.index - 1);
+    }
+    if (endX - startX <= this.DELTA && this.index < this.urls.length - 1) {
+      this.onIndexChange(this.index + 1);
+    }
+    this.render();
+  }
 
   render() {
-    this.$target.style.transform = `translateX(${this.PAGE_WIDTH * this.index}px)`;
-    this.$target.style.transition = this.TRANSITION;
+    this.$target.style.transform = `translateX(-${this.PAGE_WIDTH * this.index}px)`;
 
     this.$target.innerHTML = this.urls
       .map((url, idx) => `<img class="carousel-img" src="${url}" alt="상품 이미지 ${idx}">`)
@@ -51,6 +69,7 @@ class CarouselImgWrapper {
 
   update({ index }) {
     this.index = index;
+    this.$target.style.transition = this.TRANSITION;
     this.$target.style.transform = `translateX(-${this.PAGE_WIDTH * this.index}px)`;
   }
 }
@@ -106,6 +125,9 @@ export default class Carousel {
       index: 0,
     });
 
+    this.carouselGradient = createElement({ tageName: 'div', classNames: ['carousel-gradient'] });
+
+    this.addListener();
     this.render();
   }
 
@@ -115,9 +137,13 @@ export default class Carousel {
     this.carouselImgNavigation.update({ index: this.index });
   }
 
+  addListener() {
+    this.carouselGradient.addEventListener('mousedown', this.carouselImgBox.handleMousedown);
+  }
+
   render() {
     this.$target.appendChild(this.carouselImgBox.$target);
-    this.$target.appendChild(createElement({ tageName: 'div', classNames: ['carousel-gradient'] }));
+    this.$target.appendChild(this.carouselGradient);
     this.$target.appendChild(this.carouselImgNavigation.$target);
   }
 }
