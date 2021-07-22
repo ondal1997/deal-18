@@ -48,3 +48,18 @@
     color: $primary;
   }
 }
+
+.chatting-delete-popup {
+  font-size: 14px;
+
+  .chat-popup-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+
+    .chat-popup-confirm-btn {
+      color: $red;
+      font-weight: 500;
+    }
+  }
+}

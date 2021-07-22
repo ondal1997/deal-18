@@ -2,13 +2,16 @@ import './style.scss';
 import { createElement } from '../../utils/dom';
 import { getState, setState, subscribe } from '../../utils/globalObserver';
 import CommonTopBar from '../../components/Common/CommonTopBar';
+import Modal from '../../components/Common/Modal';
 import ChatDeleteBtn from '../../components/Chatting/ChatDeleteBtn';
 import ChatProductInfo from '../../components/Chatting/ChatProductInfo';
 import Chatting from '../../components/Chatting/Chatting';
+import ChattingDeletePopup from '../../components/Popup/ChattingDeletePopup';
 
 import { fetchGetChatDetail } from '../../API/chatAPI';
 import { chattingState } from '../../store/chattingPage';
 import { pageState } from '../../store/page';
+import { chattingDeletePopupState } from '../../store/store';
 
 export default class ChatPage {
   constructor() {
@@ -48,10 +51,16 @@ export default class ChatPage {
     }).$target;
     const chatProductInfo = new ChatProductInfo({ chatProduct }).$target;
     const chatting = new Chatting({ chatting: chattingData, userName: userName }).$target;
+    const chattingDeletePopup = new Modal({
+      View: ChattingDeletePopup,
+      className: 'chatting-delete-modal',
+      key: chattingDeletePopupState,
+    }).$target;
 
     this.$target.appendChild(topBar);
     this.$target.appendChild(chatProductInfo);
     this.$target.appendChild(chatting);
+    this.$target.appendChild(chattingDeletePopup);
 
     this.setChattingScroll();
   }
