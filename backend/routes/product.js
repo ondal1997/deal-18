@@ -19,7 +19,7 @@ router.get('/products', async (req, res) => {
       productRow.isLiked ? { ...productRow, isLiked: true } : { ...productRow, isLiked: false },
     );
 
-    res.json({ success: true, products });
+    res.json(products);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'DB 실패' });

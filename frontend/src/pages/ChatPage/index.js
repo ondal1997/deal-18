@@ -26,7 +26,7 @@ export default class ChatPage {
 
   initChatState() {
     fetchGetChatDetail(this.chatId)
-      .then(({ chatDetail }) => this.setChat(chatDetail))
+      .then((chatDetail) => this.setChat(chatDetail))
       .catch(console.error);
   }
 
