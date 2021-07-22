@@ -25,9 +25,10 @@ export default class Postpage {
       price: '',
       description: '',
     };
-
+    this.clearState();
     this.mount();
   }
+
   mount() {
     subscribe(isAblePostSubmit, 'PostPage', this.renderSubmitBtn.bind(this));
     this.renderSubmitBtn();
@@ -103,7 +104,6 @@ export default class Postpage {
   postProduct(postInfo) {
     fetchPostProduct(postInfo)
       .then((res) => {
-        //res 키 값 체크후 변경
         const productId = res.productId;
         router.push(`/products/${productId}`);
       })
@@ -118,5 +118,13 @@ export default class Postpage {
     if (title && description && imgs.length && category) return this.setIsAble(true);
 
     return this.setIsAble(false);
+  }
+
+  clearState() {
+    const setImgs = setState(uploadedImgState);
+    const setCategory = setState(selectedCategoryState);
+
+    setImgs([]);
+    setCategory('');
   }
 }
