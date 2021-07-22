@@ -6,6 +6,7 @@ import bigHeart from '../../../public/assets/product/bigHeart.svg';
 import filledBigHeart from '../../../public/assets/product/filledBigHeart.svg';
 import { fetchToggleLike } from '../../api/productAPI';
 import { fetchCreateChat } from '../../api/chatAPI';
+import { router } from '../..';
 
 export default class ProductDetailBottomBar {
   constructor({ product }) {
@@ -27,7 +28,7 @@ export default class ProductDetailBottomBar {
     }
 
     if (target.closest('.chats-button')) {
-      // TODO: 채팅 리스트로 이동하기
+      router.push(`/products/${this.product.id}/chats`);
     }
 
     if (target.closest('.contact-button')) {
@@ -47,8 +48,8 @@ export default class ProductDetailBottomBar {
 
   handleClickContact() {
     fetchCreateChat(this.product.id)
-      .then(() => {
-        // TODO: 채팅'방'으로 이동하기
+      .then((chat) => {
+        router.push(`/chats/${chat.id}`);
       })
       .catch((error) => {
         alert(error);

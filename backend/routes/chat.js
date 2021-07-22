@@ -179,7 +179,7 @@ router.post('/products/:productId/chats', authenticationValidator, async (req, r
   // 기존채팅방 존재 체크
   const [chatRows] = await pool.query('select * from chat where product_id=? AND customer_id=?', [productId, userId]);
   if (chatRows.length) {
-    res.status(400).json({ error: '이미 채팅방이 존재합니다.' });
+    res.json(chatRows[0]);
     return;
   }
 
@@ -190,7 +190,13 @@ router.post('/products/:productId/chats', authenticationValidator, async (req, r
       userId,
     ]);
 
-    res.json({ success: true });
+    const [chatRows] = await pool.query('select * from chat where product_id=? AND customer_id=?', [productId, userId]);
+    if (chatRows.length) {
+      res.json(chatRows[0]);
+      return;
+    }
+
+    res.json(chatRows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'DB 실패' });
