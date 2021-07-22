@@ -6,22 +6,50 @@ import filledBigHeart from '../../../public/assets/product/filledBigHeart.svg';
 import menu from '../../../public/assets/product/product-menu.svg';
 import heart from '../../../public/assets/product/heart.svg';
 import comment from '../../../public/assets/product/comment.svg';
+import { router } from '../..';
+import { fetchToggleLike } from '../../api/productAPI';
 
-// TODO: 하트 버튼 상호작용
 export default class ProductItem {
   constructor({ product, isMyProduct }) {
     this.$target = createElement({ tagName: 'div', classNames: ['product-item'] });
     this.product = product;
+    this.isLiked = product.isLiked;
     this.isMyProduct = !!isMyProduct;
     this.init();
   }
 
   init() {
     this.render();
+    this.$target.addEventListener('click', this.handleClick.bind(this));
+  }
+
+  handleClick({ target }) {
+    if (target.closest('.like-button')) {
+      this.handleClickToggleLike();
+      return;
+    }
+
+    if (target.closest('.menu-button')) {
+      // TODO: 메뉴 드롭다운 (수정하기, 삭제하기)
+      return;
+    }
+
+    // 상품상세페이지로 이동
+    router.push(`/products/${this.product.id}`);
+  }
+
+  handleClickToggleLike() {
+    const currentIsLiked = this.isLiked;
+    fetchToggleLike(this.product.id, currentIsLiked)
+      .then(() => {
+        this.isLiked = !currentIsLiked;
+        this.render();
+      })
+      .catch((error) => alert(error));
   }
 
   render() {
-    const { productImgUrl, title, town, createdDate, price, commentCount, likeCount, isLiked } = this.product;
+    const { productImgUrl, title, town, createdDate, price, commentCount, likeCount } = this.product;
     const passedTime = getPassedTime(createdDate);
     const won = getWon(price);
 
@@ -43,8 +71,8 @@ export default class ProductItem {
           <div>
             ${
               this.isMyProduct
-                ? `<img src=${menu} alt='menu-button'/>`
-                : `<img src=${isLiked ? filledBigHeart : bigHeart} alt='like-button'/>`
+                ? `<img class="menu-button" src=${menu} alt='menu-button'/>`
+                : `<img class="like-button" src=${this.isLiked ? filledBigHeart : bigHeart} alt='like-button'/>`
             }
           </div>
         </div>
