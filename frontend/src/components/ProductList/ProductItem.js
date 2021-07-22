@@ -7,7 +7,7 @@ import menu from '../../../public/assets/product/product-menu.svg';
 import heart from '../../../public/assets/product/heart.svg';
 import comment from '../../../public/assets/product/comment.svg';
 import { router } from '../..';
-import { fetchToggleLike } from '../../api/productAPI';
+import { fetchDeleteProduct, fetchToggleLike } from '../../api/productAPI';
 
 export default class ProductItem {
   constructor({ product, isMyProduct }) {
@@ -15,6 +15,8 @@ export default class ProductItem {
     this.product = product;
     this.isLiked = product.isLiked;
     this.isMyProduct = !!isMyProduct;
+    this.isOpen = false;
+    this.isDeleted = false;
     this.init();
   }
 
@@ -30,12 +32,35 @@ export default class ProductItem {
     }
 
     if (target.closest('.menu-button')) {
-      // TODO: 메뉴 드롭다운 (수정하기, 삭제하기)
+      // 메뉴 드롭다운 (수정하기, 삭제하기)
+      this.isOpen = !this.isOpen;
+      this.render();
+      return;
+    }
+
+    if (target.closest('.edit')) {
+      // TODO: 수정하기 화면으로 이동
+      return;
+    }
+
+    if (target.closest('.remove')) {
+      this.handleClickDeleteProduct();
       return;
     }
 
     // 상품상세페이지로 이동
     router.push(`/products/${this.product.id}`);
+  }
+
+  handleClickDeleteProduct() {
+    fetchDeleteProduct(this.product.id)
+      .then(() => {
+        this.isDeleted = true;
+        this.render();
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   handleClickToggleLike() {
@@ -49,6 +74,10 @@ export default class ProductItem {
   }
 
   render() {
+    if (this.isDeleted) {
+      this.$target.innerHTML = ``;
+      return;
+    }
     const { productImgUrl, title, town, createdDate, price, commentCount, likeCount } = this.product;
     const passedTime = getPassedTime(createdDate);
     const won = getWon(price);
@@ -73,6 +102,18 @@ export default class ProductItem {
               this.isMyProduct
                 ? `<img class="menu-button" src=${menu} alt='menu-button'/>`
                 : `<img class="like-button" src=${this.isLiked ? filledBigHeart : bigHeart} alt='like-button'/>`
+            }
+            ${
+              this.isOpen
+                ? `
+                <div class='dropdown-wrapper'>
+                  <div class='dropdown'>
+                    <div class='dropdown-item edit'>수정하기</div>
+                    <div class='dropdown-item warning remove'>삭제하기</div>
+                  </div>  
+                </div>
+              `
+                : ''
             }
           </div>
         </div>
