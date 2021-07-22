@@ -17,10 +17,13 @@ import { userState } from '../../store/user';
 export default class MainTopBar {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['top-bar', 'top-bar-main'] });
-    this.init();
+
     this.setModalIsOpen = setState(locationDropdownState);
+    this.locationDropdown = this.createLocationDropdown();
 
     this.userId = getState(userState).userId;
+
+    this.init();
   }
   init() {
     subscribe(userState, 'MainTopBar', this.render.bind(this));
@@ -48,10 +51,9 @@ export default class MainTopBar {
     </div>
     `;
 
-    const locationDropdown = this.createLocationDropdown();
     //TODO 어떻게 개선할 수 없을까
     //조금 이상하다. 하지만 이렇게 해야지 absolute 위치 선정이 크기가 변동해도 일정할 것 같아서 이렇게 했다.
-    this.$target.querySelector('.location').appendChild(locationDropdown);
+    this.$target.querySelector('.location').appendChild(this.locationDropdown);
   }
 
   handleClick({ target }) {
@@ -93,6 +95,16 @@ export default class MainTopBar {
   toggleLocationModal() {
     const isOpen = getState(locationDropdownState);
     this.setModalIsOpen(!isOpen);
+
+    const handleMousedown = ({ target }) => {
+      if (!target.closest('.location') && target.closest('.location-dropdown') !== this.locationDropdown) {
+        document.removeEventListener('mousedown', handleMousedown);
+        this.setModalIsOpen(false);
+      }
+    };
+    if (!isOpen) {
+      document.addEventListener('mousedown', handleMousedown);
+    }
   }
 
   //handleClick 조건

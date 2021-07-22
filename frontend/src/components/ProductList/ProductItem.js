@@ -34,6 +34,21 @@ export default class ProductItem {
     if (target.closest('.menu-button')) {
       // 메뉴 드롭다운 (수정하기, 삭제하기)
       this.isOpen = !this.isOpen;
+
+      if (this.isOpen) {
+        const handleMousedown = ({ target }) => {
+          if (target.closest('.product-item') === this.$target && target.closest('.dropdown-wrapper')) {
+            return;
+          }
+
+          document.removeEventListener('mousedown', handleMousedown);
+          this.isOpen = false;
+          this.render();
+        };
+
+        document.addEventListener('mousedown', handleMousedown);
+      }
+
       this.render();
       return;
     }
