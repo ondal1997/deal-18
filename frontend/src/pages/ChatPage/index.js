@@ -63,6 +63,7 @@ export default class ChatPage {
     this.$target.appendChild(chattingDeletePopup);
 
     this.setChattingScroll();
+    this.setInputFocus();
   }
 
   getChatProductInfo(chat) {
@@ -73,5 +74,9 @@ export default class ChatPage {
   setChattingScroll() {
     const chattingSheet = this.$target.querySelector('.chatting-box');
     chattingSheet.scrollTop = chattingSheet.scrollHeight;
+  }
+  setInputFocus() {
+    const input = this.$target.querySelector('input');
+    input.focus();
   }
 }
