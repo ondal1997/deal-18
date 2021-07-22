@@ -49,7 +49,12 @@ export default class Chatting {
 
     const { userId } = getState(userState);
     const { chatting } = getState(chattingState);
-    fetchSendChatting(this.chatId, this.message)
+    this.sendMessage({ userId, chatting });
+  }
+
+  sendMessage({ userId, chatting }) {
+    if (!this.message) return;
+    return fetchSendChatting(this.chatId, this.message)
       .then(({ success }) => {
         if (!success) throw Error('메세지 전송 실패');
         const newChatting = [...chatting, { userName: userId, message: this.message }];
@@ -57,6 +62,7 @@ export default class Chatting {
       })
       .catch(console.erroe);
   }
+
   handleInput({ target }) {
     this.message = target.value;
   }
