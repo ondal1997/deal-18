@@ -2,17 +2,23 @@ import './style.scss';
 import { createElement } from '../../utils/dom';
 import { getState, setState, subscribe } from '../../utils/globalObserver';
 import CommonTopBar from '../../components/Common/CommonTopBar';
+import Modal from '../../components/Common/Modal';
 import ChatDeleteBtn from '../../components/Chatting/ChatDeleteBtn';
 import ChatProductInfo from '../../components/Chatting/ChatProductInfo';
 import Chatting from '../../components/Chatting/Chatting';
+import ChattingDeletePopup from '../../components/Popup/ChattingDeletePopup';
 
-import { chattingState } from '../../store/chattingPage';
 import { fetchGetChatDetail } from '../../API/chatAPI';
+import { chattingState } from '../../store/chattingPage';
+import { pageState } from '../../store/page';
+import { chattingDeletePopupState } from '../../store/store';
 
 export default class ChatPage {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['page'] });
-    this.chatId = 3; //TODO parmas로 받아와서 할 듯
+
+    const { params } = getState(pageState);
+    this.chatId = params.chatId;
     this.setChat = setState(chattingState);
 
     this.init();
@@ -44,11 +50,17 @@ export default class ChatPage {
       menuBtn: new ChatDeleteBtn().$target,
     }).$target;
     const chatProductInfo = new ChatProductInfo({ chatProduct }).$target;
-    const chatting = new Chatting({ chatting: chattingData, userName: userName }).$target;
+    const chatting = new Chatting({ chatId: this.chatId, chatting: chattingData, userName: userName }).$target;
+    const chattingDeletePopup = new Modal({
+      View: ChattingDeletePopup,
+      className: 'chatting-delete-modal',
+      key: chattingDeletePopupState,
+    }).$target;
 
     this.$target.appendChild(topBar);
     this.$target.appendChild(chatProductInfo);
     this.$target.appendChild(chatting);
+    this.$target.appendChild(chattingDeletePopup);
 
     this.setChattingScroll();
   }

@@ -31,7 +31,7 @@ export default class LocationInputPopup {
         <div>현재 위치를 입력하세요.</div>
         <input type='text' placeholder='시∙구 제외, 동만 입력'/>
         <div class='input-submit-btns'>
-          <div class='cancle-btn'>취소</div>
+          <div class='cancel-btn'>취소</div>
           <div class='confirm-btn'>확인</div>
         </div>
     `;
@@ -43,7 +43,7 @@ export default class LocationInputPopup {
   }
 
   handleClick(confirmBtn, { target }) {
-    if (this.isCancleBtn(target)) {
+    if (this.isCancelBtn(target)) {
       this.$input.value = '';
       confirmBtn.classList.remove('available');
       this.setIsOpen(false);
@@ -62,8 +62,8 @@ export default class LocationInputPopup {
       .catch(console.error); //TODO
   }
 
-  isCancleBtn(target) {
-    return target.closest('.cancle-btn');
+  isCancelBtn(target) {
+    return target.closest('.cancel-btn');
   }
 
   isAbleConfirmBtn(target) {
