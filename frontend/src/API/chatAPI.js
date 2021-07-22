@@ -18,6 +18,13 @@ export function fetchCreateChat(productId) {
     });
 }
 
+//내 상품 채팅 목록 조회
+export function fetchGetProductChatList(productId) {
+  return fetch(API.PRODUCT + `/${productId}/chats`)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
+
 //내 채팅 목록 조회
 export function fetchGetOwnChatList() {
   return fetch(API.CHAT)

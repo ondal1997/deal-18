@@ -31,7 +31,7 @@ export default class ChatItem {
                     <div class='chat-timestamp'>${passedTime}</div>
                 </div>
                 <div class='chat-info'>
-                    <div class='chat-msg'>${message}</div>
+                    <div class='chat-msg'>${message || ''}</div>
                     <div class='${this.isUncheckedChat ? 'chat-uncheck' : ''}'>${uncheckedMsgCount || ''}</div>
                 </div>
             </div>
@@ -42,6 +42,6 @@ export default class ChatItem {
     `;
   }
   handleClick() {
-    router.push(`chat/${this.chat.id}`);
+    router.push(`/chats/${this.chat.id}`);
   }
 }

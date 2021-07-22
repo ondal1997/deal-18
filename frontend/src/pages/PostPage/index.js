@@ -25,9 +25,10 @@ export default class Postpage {
       price: '',
       description: '',
     };
-
+    this.clearState();
     this.mount();
   }
+
   mount() {
     subscribe(isAblePostSubmit, 'PostPage', this.renderSubmitBtn.bind(this));
     this.renderSubmitBtn();
@@ -88,7 +89,7 @@ export default class Postpage {
     const imgs = getState(uploadedImgState);
     const category = getState(selectedCategoryState);
     const { title, price, description } = this.inputInfo;
-    const town = '역삼동';
+    const town = getState(userState).primaryTown;
     const postInfo = {
       title,
       category,
@@ -97,15 +98,15 @@ export default class Postpage {
       price: price === '' ? null : price,
       imgUrls: imgs,
     };
+
     this.postProduct(postInfo);
   }
 
   postProduct(postInfo) {
     fetchPostProduct(postInfo)
       .then((res) => {
-        //res 키 값 체크후 변경
-        const productId = res.productId;
-        router.push(`/products/${productId}`);
+        const productId = res.id;
+        router.replace(`/products/${productId}`);
       })
       .catch(console.error); //TODO
   }
@@ -118,5 +119,13 @@ export default class Postpage {
     if (title && description && imgs.length && category) return this.setIsAble(true);
 
     return this.setIsAble(false);
+  }
+
+  clearState() {
+    const setImgs = setState(uploadedImgState);
+    const setCategory = setState(selectedCategoryState);
+
+    setImgs([]);
+    setCategory('');
   }
 }
