@@ -20,11 +20,7 @@ export default class Postpage {
     this.$submitBtn = createElement({ tagName: 'div', classNames: ['post-submit-btn'] });
 
     this.setIsAble = setState(isAblePostSubmit);
-    this.inputInfo = {
-      title: '',
-      price: '',
-      description: '',
-    };
+    this.inputInfo = { title: '', price: '', description: '' };
     this.clearState();
     this.mount();
   }
@@ -66,7 +62,6 @@ export default class Postpage {
     `;
   }
 
-  //TODO 목데이터 위치 수정
   renderLocation() {
     const { primaryTown } = getState(userState);
     this.$postLocation.innerHTML = `
