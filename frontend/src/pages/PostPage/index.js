@@ -3,13 +3,13 @@ import locationIcon from '../../../public/assets/postPage/locationIcon.svg';
 import submitBtn from '../../../public/assets/postPage/submitButton.svg';
 import disableSubmitBtn from '../../../public/assets/postPage/disableSubmitButton.svg';
 import { getState, setState, subscribe } from '../../utils/globalObserver';
+import { router } from '../../index';
 import { createElement } from '../../utils/dom';
 import CommonTopBar from '../../components/Common/CommonTopBar';
 import PostProductForm from '../../components/PostProductForm';
 import { isAblePostSubmit, uploadedImgState, selectedCategoryState } from '../../store/postPage';
 import { fetchPostProduct } from '../../api/productAPI';
-import { router } from '../..';
-import { townState } from '../../store/townPage';
+import { userState } from '../../store/user';
 
 export default class Postpage {
   constructor() {
@@ -67,7 +67,7 @@ export default class Postpage {
 
   //TODO 목데이터 위치 수정
   renderLocation() {
-    const { primaryTown } = getState(townState);
+    const { primaryTown } = getState(userState);
     this.$postLocation.innerHTML = `
           <img src=${locationIcon} alt='위치 아이콘' />
           <div>${primaryTown}</div>

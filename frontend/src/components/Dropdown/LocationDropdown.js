@@ -5,7 +5,7 @@ import { pageState } from '../../store/page';
 import { locationDropdownState } from '../../store/store';
 import { router } from '../..';
 import { fetchPutPrimaryTown } from '../../API/townAPI';
-import { townState } from '../../store/townPage';
+import { userState } from '../../store/user';
 
 export default class LocationDropdown {
   constructor({ key }) {
@@ -13,7 +13,7 @@ export default class LocationDropdown {
     this.key = key;
     this.setIsOpen = setState(locationDropdownState);
     this.setPage = setState(pageState);
-    this.setTownState = setState(townState);
+    this.setUserState = setState(userState);
     this.init();
   }
 
@@ -23,7 +23,7 @@ export default class LocationDropdown {
   }
 
   render() {
-    const { primaryTown, towns } = getState(townState);
+    const { primaryTown, towns } = getState(userState);
 
     const townHTML = towns.reduce((acc, town) => acc + this.renderLocation({ primaryTown, town }), '');
     this.$target.innerHTML = `
@@ -61,7 +61,7 @@ export default class LocationDropdown {
     fetchPutPrimaryTown({ town })
       .then((res) => {
         console.log(res);
-        this.setTownState((data) => ({ ...data, primaryTown: res.primaryTown }));
+        this.setUserState((data) => ({ ...data, primaryTown: res.primaryTown }));
       })
       .catch(alert); //TODO
   }

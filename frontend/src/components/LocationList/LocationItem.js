@@ -2,9 +2,9 @@ import { createElement } from '../../utils/dom';
 import { setState, subscribe } from '../../utils/globalObserver';
 import locationAddBtn from '../../../public/assets/locationPage/locationAddBtn.svg';
 import locationDeleteBtn from '../../../public/assets/locationPage/locationDeleteBtn.svg';
-import { locationInputPopupState } from '../../store/store';
-import { townState } from '../../store/townPage';
 import { fetchDeleteTown, fetchPutPrimaryTown } from '../../API/townAPI';
+import { locationInputPopupState } from '../../store/store';
+import { userState } from '../../store/user';
 
 export default class LocationItem {
   constructor({ town, isPrimary }) {
@@ -13,7 +13,7 @@ export default class LocationItem {
     this.isAddBtn = town === null;
     this.isPrimary = isPrimary;
 
-    this.setTownState = setState(townState);
+    this.setUserState = setState(userState);
     this.setInputPopupOpen = setState(locationInputPopupState);
     this.init();
   }
@@ -63,7 +63,7 @@ export default class LocationItem {
   deleteLocation() {
     fetchDeleteTown({ town: this.town })
       .then((res) => {
-        this.setTownState((data) => ({ ...data, towns: res.towns }));
+        this.setUserState((data) => ({ ...data, towns: res.towns }));
       })
       .catch(console.error); //TODO
   }
@@ -71,7 +71,7 @@ export default class LocationItem {
   changePrimary() {
     fetchPutPrimaryTown({ town: this.town })
       .then((res) => {
-        this.setTownState((data) => ({ ...data, primaryTown: res.primaryTown }));
+        this.setUserState((data) => ({ ...data, primaryTown: res.primaryTown }));
       })
       .catch(console.error); //TODO
   }
