@@ -20,11 +20,7 @@ export default class Postpage {
     this.$submitBtn = createElement({ tagName: 'div', classNames: ['post-submit-btn'] });
 
     this.setIsAble = setState(isAblePostSubmit);
-    this.inputInfo = {
-      title: '',
-      price: '',
-      description: '',
-    };
+    this.inputInfo = { title: '', price: '', description: '' };
     this.clearState();
     this.mount();
   }

@@ -43,7 +43,6 @@ export default class PostProductForm {
   }
 
   renderPrice() {
-    console.log(this.inputInfo);
     this.$formPrice.innerHTML = `
         <input type='number' placeholder='₩ 가격(선택사항)' value='${this.inputInfo.price}' />
         `;
