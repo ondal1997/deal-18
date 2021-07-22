@@ -24,8 +24,20 @@ class ProductStateController {
   handleClick({ target }) {
     if (target.closest('.button-toggle-dropdown')) {
       this.isOpen = !this.isOpen;
-    } else {
-      this.isOpen = false;
+
+      if (this.isOpen) {
+        const handleMousedown = ({ target }) => {
+          if (target.closest('.product-state-controller') === this.$target && target.closest('.dropdown-wrapper')) {
+            return;
+          }
+
+          document.removeEventListener('mousedown', handleMousedown);
+          this.isOpen = false;
+          this.render();
+        };
+
+        document.addEventListener('mousedown', handleMousedown);
+      }
     }
 
     if (target.closest('.button-sale')) {
