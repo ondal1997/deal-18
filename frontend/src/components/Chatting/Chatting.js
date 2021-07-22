@@ -7,10 +7,10 @@ import { userState } from '../../store/user';
 import { chattingState } from '../../store/chattingPage';
 
 export default class Chatting {
-  constructor({ chatting, userName }) {
+  constructor({ chatId, chatting, userName }) {
     this.$target = createElement({ tagName: 'div', classNames: ['chatting'] });
 
-    this.chatId = 3; //TODO: chatId를 넘겨준다.
+    this.chatId = chatId;
     this.chatting = chatting;
     this.userName = userName;
     this.setChat = setState(chattingState);

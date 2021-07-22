@@ -1,10 +1,14 @@
 import { createElement } from '../../utils/dom';
 import ChatDeleteButton from '../../../public/assets/chatPage/ChatDeleteButton.svg';
-import { router } from '../..';
+import { setState } from '../../utils/globalObserver';
+import { chattingDeletePopupState } from '../../store/store';
 
 export default class ChatDeleteBtn {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['chat-delete-btn'] });
+
+    this.setIsOpenDeletePopup = setState(chattingDeletePopupState);
+
     this.init();
   }
   init() {
@@ -20,7 +24,6 @@ export default class ChatDeleteBtn {
     `;
   }
   handleClick() {
-    //채팅 나가는 API
-    router.pop();
+    this.setIsOpenDeletePopup(true);
   }
 }

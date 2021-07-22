@@ -42,12 +42,10 @@ export function fetchDeleteChat(chatId) {
 
 //채팅 메세지 보내기
 export function fetchSendChatting(chatId, message) {
-  message = { message };
-
   return fetch(API.CHAT + `/${chatId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(message),
+    body: JSON.stringify({ message }),
   })
     .then((res) => res.json())
     .then(checkErrorFetchedJson);
