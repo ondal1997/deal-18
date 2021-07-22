@@ -139,7 +139,7 @@ router.put('/products/:productId', authenticationValidator, async (req, res) => 
     await conn.query(`
     UPDATE product SET
     title='${title}', category='${category}', description='${description}', town='${town}', state='${state}',
-    price='${price}', product_img_url='${imgUrls[0]}' WHERE id='${productId}'
+    product_img_url='${imgUrls[0]}' ${price ? `, price=${price}` : ''} WHERE id='${productId}'
     `);
 
     await conn.query(`delete from product_img where product_id=${productId}`);
