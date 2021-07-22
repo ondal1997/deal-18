@@ -49,10 +49,17 @@ export default class ChatPage {
     this.$target.appendChild(topBar);
     this.$target.appendChild(chatProductInfo);
     this.$target.appendChild(chatting);
+
+    this.setChattingScroll();
   }
 
   getChatProductInfo(chat) {
     const { imgUrl, productName, price, state } = chat;
     return { imgUrl, productName, price, state };
+  }
+
+  setChattingScroll() {
+    const chattingSheet = this.$target.querySelector('.chatting-box');
+    chattingSheet.scrollTop = chattingSheet.scrollHeight;
   }
 }

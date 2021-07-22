@@ -3,13 +3,13 @@ import { createElement } from '../../utils/dom.js';
 import { setState } from '../../utils/globalObserver';
 import { locationInputPopupState } from '../../store/store';
 import { fetchPostTown } from '../../API/townAPI';
-import { townState } from '../../store/townPage';
+import { userState } from '../../store/user';
 
 export default class LocationInputPopup {
   constructor() {
     this.$target = createElement({ tagName: 'div', classNames: ['popup', 'location-input-popup'] });
     this.setIsOpen = setState(locationInputPopupState);
-    this.setTownState = setState(townState);
+    this.setUserState = setState(userState);
     this.$input;
     this.mount();
   }
@@ -58,7 +58,7 @@ export default class LocationInputPopup {
   addTown() {
     const town = this.$input.value;
     fetchPostTown({ town })
-      .then((towns) => this.setTownState((data) => ({ ...data, towns })))
+      .then((towns) => this.setUserState((data) => ({ ...data, towns })))
       .catch(console.error); //TODO
   }
 
