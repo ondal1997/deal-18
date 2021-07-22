@@ -42,7 +42,10 @@ router.get('/products/:productId', async (req, res) => {
     }
 
     product.isYours = product.userId === userId;
-    const [userLikeRows] = await pool.query('select * from user_like where user_id=?', [userId]);
+    const [userLikeRows] = await pool.query('select * from user_like where user_id=? and product_id=?', [
+      userId,
+      productId,
+    ]);
     product.isLiked = !!userLikeRows.length;
     res.json(product);
   } catch (err) {
@@ -80,8 +83,9 @@ router.post('/products', authenticationValidator, async (req, res) => {
   await conn.beginTransaction();
   try {
     const [insertResult] = await conn.query(`
-    insert into product (title, category, description, town, state, price, user_id, product_img_url)
-    values ('${title}', '${category}', '${description}', '${town}', '${state}', '${price}', '${userId}', '${imgUrls[0]}')
+    insert into product (title, category, description, town, state, user_id, product_img_url ${price ? ',price' : ''} )
+    values ('${title}', '${category}', '${description}', '${town}', '${state}', '${userId}', '${imgUrls[0]}' 
+    '${price ? `,${price}` : ''}') 
     `);
 
     const productId = insertResult.insertId;
