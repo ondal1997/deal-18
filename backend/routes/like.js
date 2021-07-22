@@ -16,7 +16,7 @@ router.get('/like-products', async (req, res) => {
     console.log(productRows);
     const products = productRows.map((productRow) => ({ ...productRow, isLiked: true }));
 
-    res.json({ products });
+    res.json(products);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'DB 실패' });
