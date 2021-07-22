@@ -42,6 +42,6 @@ export default class ChatItem {
     `;
   }
   handleClick() {
-    router.push(`chat/${this.chat.id}`);
+    router.push(`/chats/${this.chat.id}`);
   }
 }
