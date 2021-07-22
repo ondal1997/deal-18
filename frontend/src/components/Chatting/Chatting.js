@@ -7,12 +7,11 @@ import { userState } from '../../store/user';
 import { chattingState } from '../../store/chattingPage';
 
 export default class Chatting {
-  constructor({ chatId, chatting, userName }) {
+  constructor({ chatId, chatting }) {
     this.$target = createElement({ tagName: 'div', classNames: ['chatting'] });
 
     this.chatId = chatId;
     this.chatting = chatting;
-    this.userName = userName;
     this.setChat = setState(chattingState);
 
     this.message = '';
@@ -24,29 +23,31 @@ export default class Chatting {
   }
 
   addEvent() {
-    const input = this.$target.querySelector('input');
-    this.$target.addEventListener('click', this.handleClick.bind(this));
-    input.addEventListener('input', this.handleInput.bind(this));
+    const $form = this.$target.querySelector('form');
+    const $input = this.$target.querySelector('input');
+    $form.addEventListener('submit', this.handleSubmit.bind(this));
+    $input.addEventListener('input', this.handleInput.bind(this));
   }
   render() {
+    const { userId: currentUser } = getState(userState);
+
     const chattingElements = this.chatting.reduce((acc, { userName, message }) => {
-      const isSend = userName === this.userName;
+      const isSend = userName === currentUser;
       return (acc += `<div class=${isSend ? 'sent-msg' : 'receive-msg'}>${message}</div>`);
     }, '');
 
     this.$target.innerHTML = `<div class='chatting-box'>${chattingElements}</div>`;
     this.$target.innerHTML += `
-        <div class='chatting-input'>
+        <form class='chatting-input'>
           <input type='text' placeholder='메세지를 입력하세요.' />
           <div class='chatting-send-btn'>
             <img src=${ChatSendButton} alt='메세지 전송 버튼' />
           </div>
-        </div>
+        </form>
     `;
   }
-  handleClick({ target }) {
-    if (!this.isSendBtn(target)) return;
-
+  handleSubmit(e) {
+    e.preventDefault();
     const { userId } = getState(userState);
     const { chatting } = getState(chattingState);
     this.sendMessage({ userId, chatting });

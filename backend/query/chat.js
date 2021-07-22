@@ -24,7 +24,7 @@ const GET_CHAT_LOG = ({ chatId }) => {
 const UPDATE_UNCHECK_CHAT = ({ chatId, isSeller, isCustomer }) => {
   if (isSeller) return ` UPDATE chat SET uncheck_count_seller=0 WHERE id='${chatId}'`;
 
-  if (isCustomer) return `UPDATE chat SET uncheck_count_customer=0 WHERE id='${chatId}`;
+  if (isCustomer) return `UPDATE chat SET uncheck_count_customer=0 WHERE id='${chatId}'`;
 
   return '';
 };
