@@ -36,7 +36,7 @@
   justify-content: space-between;
   margin: 8px 0;
 
-  .cancle-btn {
+  .cancel-btn {
     cursor: pointer;
     font-weight: 500;
   }
@@ -46,5 +46,20 @@
   }
   .available {
     color: $primary;
+  }
+}
+
+.chatting-delete-popup {
+  font-size: 14px;
+
+  .chat-popup-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+
+    .chat-popup-confirm-btn {
+      color: $red;
+      font-weight: 500;
+    }
   }
 }

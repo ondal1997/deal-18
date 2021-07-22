@@ -9,3 +9,8 @@ export const locationInputPopupState = initState({
   key: 'locationInputPopupState',
   defaultValue: false,
 });
+
+export const chattingDeletePopupState = initState({
+  key: 'chattingDeletePopupState',
+  defaultValue: false,
+});

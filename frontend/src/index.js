@@ -30,7 +30,7 @@ const routes = {
   '/post': Postpage,
   '/menu': MenuPage,
   '/chat-list': ChatListPage,
-  '/chat': ChatPage,
+  '/chat/:chatId': ChatPage,
 };
 
 // init userState and render
