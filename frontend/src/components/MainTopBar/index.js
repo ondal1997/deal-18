@@ -13,7 +13,6 @@ import Modal from '../Common/Modal';
 //pages
 import LocationDropdown from '../Dropdown/LocationDropdown';
 import { userState } from '../../store/user';
-import { townState } from '../../store/townPage';
 
 export default class MainTopBar {
   constructor() {
@@ -24,7 +23,7 @@ export default class MainTopBar {
     this.userId = getState(userState).userId;
   }
   init() {
-    subscribe(townState, 'MainTopBar', this.render.bind(this));
+    subscribe(userState, 'MainTopBar', this.render.bind(this));
     this.render();
     this.addEvent();
   }
@@ -34,7 +33,7 @@ export default class MainTopBar {
   }
 
   render() {
-    const { primaryTown } = getState(townState);
+    const { primaryTown } = getState(userState);
     this.$target.innerHTML = `
     <div>
       <img src=${categoryIcon} class="category">
