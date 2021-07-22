@@ -30,7 +30,14 @@ export default class CategoryContainer {
     if (!selected) return;
 
     const { category } = selected.dataset;
-    this.setSelectedCategoryState(category);
+
+    const prev = getState(selectedCategoryState);
+    if (prev === category) {
+      this.setSelectedCategoryState('');
+    } else {
+      this.setSelectedCategoryState(category);
+    }
+
     this.render();
   }
 
