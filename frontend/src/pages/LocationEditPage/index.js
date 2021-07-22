@@ -12,7 +12,7 @@ export default class LocationEditPage {
     this.CAUTION_LINE1 = '지역은 최소 1개 이상';
     this.CAUTION_LINE2 = '최대 2개까지 설정 가능해요.';
 
-    this.$target = createElement({ tagName: 'div', classNames: ['page'] });
+    this.$target = createElement({ tagName: 'div', classNames: ['page', 'location-page'] });
     this.$cautionMsg = createElement({ tagName: 'div', classNames: ['location-cautions'] });
 
     this.init();

@@ -19,6 +19,10 @@
 
   font-weight: 500;
   color: $primary;
+
+  .delete-btn {
+    cursor: pointer;
+  }
 }
 
 .location-add-btn {

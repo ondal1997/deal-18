@@ -1,11 +1,14 @@
 import './style.scss';
+import { createElement } from '../../utils/dom';
+import { getState, subscribe } from '../../utils/globalObserver';
 import CommonTopBar from '../../components/Common/CommonTopBar';
 import MenuTab from '../../components/MenuTab';
 import ProductList from '../../components/ProductList';
+import ChatList from '../../components/ChatList';
 import { menuTabState } from '../../store/menuPage';
-import { createElement } from '../../utils/dom';
-import { getState, subscribe } from '../../utils/globalObserver';
-
+import { userState } from '../../store/user';
+import { fetchGetLikeProduct, fetchGetOwnProduct } from '../../api/productAPI';
+import { fetchGetOwnChatList } from '../../API/chatAPI';
 export default class MenuPage {
   constructor() {
     this.PAGE_TITLE = '메뉴';
@@ -13,6 +16,7 @@ export default class MenuPage {
     this.SELL = 'sell';
     this.CHAT = 'chat';
     this.LIKE = 'like';
+    this.NEED_LOGIN_MSG = '로그인이 필요한 서비스입니다.';
     this.SELL_EMPTY_MSG = '등록한 상품이 없습니다.';
     this.CHAT_EMPTY_MSG = '채팅 기록이 없습니다.';
     this.LIKE_EMPTY_MSG = '관심을 표시한 상품이 없습니다.';
@@ -26,123 +30,51 @@ export default class MenuPage {
     this.render();
   }
   render() {
+    const { userId } = getState(userState);
     this.$target.innerHTML = '';
 
     const topBar = new CommonTopBar({ title: this.PAGE_TITLE }).$target;
     const menuTab = new MenuTab().$target;
-    const contents = this.getMenuContents();
-
     this.$target.appendChild(topBar);
     this.$target.appendChild(menuTab);
-    this.$target.appendChild(contents);
+    if (!userId) {
+      this.$emptyContent.innerHTML = this.NEED_LOGIN_MSG;
+      this.$target.appendChild(this.$emptyContent);
+    } else this.getMenuContents(userId).then((contents) => this.$target.appendChild(contents));
   }
 
-  getMenuContents() {
+  getMenuContents(userId) {
     const { type } = getState(menuTabState);
     //promise로 서버에서 데이터 받아올 곳
-    switch (type) {
-      case this.SELL:
-        //TODO 없을 때 메세지 컴포넌트
+
+    if (type === this.SELL) {
+      return fetchGetOwnProduct(userId).then(({ products }) => {
         if (!products.length) {
           this.$emptyContent.innerHTML = this.SELL_EMPTY_MSG;
           return this.$emptyContent;
         }
         return new ProductList({ products, isMyProductList: true }).$target;
-      case this.CHAT:
-        if (!chats.length) return;
+      });
+    }
+
+    if (type === this.CHAT) {
+      return fetchGetOwnChatList().then((chats) => {
+        if (!chats.length) {
+          this.$emptyContent.innerHTML = this.CHAT_EMPTY_MSG;
+          return this.$emptyContent;
+        }
         return new ChatList({ chats }).$target;
-      case this.LIKE:
-        if (!likeProducts.length) return;
-        return new ProductList({ products: likeProducts }).$target;
-        break;
-      default:
-        throw Error('잘못된 메뉴 탭 상태 입력');
+      });
+    }
+
+    if (type === this.LIKE) {
+      return fetchGetLikeProduct().then(({ products }) => {
+        if (!products.length) {
+          this.$emptyContent.innerHTML = this.LIKE_EMPTY_MSG;
+          return this.$emptyContent;
+        }
+        return new ProductList({ products }).$target;
+      });
     }
   }
 }
-
-import testImg0 from '../../../public/img/ImageLarge-0.png';
-import testImg1 from '../../../public/img/ImageLarge-1.png';
-import testImg2 from '../../../public/img/ImageLarge-2.png';
-import ChatList from '../../components/ChatList';
-
-const products = [];
-// const products = [
-//   {
-//     imgUrl: testImg0,
-//     title: '파란선풍기',
-//     town: '구암동',
-//     createdDate: new Date('2021.07.14'),
-//     price: 24500,
-//     commentCount: 1,
-//     likeCount: 2,
-//     isLiked: true,
-//   },
-//   {
-//     imgUrl: testImg1,
-//     title: '빈티지 밀크 글래스',
-//     town: '회기동',
-//     createdDate: new Date('2021.07.14'),
-//     price: 158000,
-//     commentCount: 1,
-//     isLiked: false,
-//   },
-//   {
-//     imgUrl: testImg2,
-//     title: '잎사귀 포스터',
-//     town: '역삼동',
-//     createdDate: new Date('2021.07.14'),
-//     price: 58000,
-//     likeCount: 2,
-//     isLiked: false,
-//   },
-//   {
-//     imgUrl: testImg0,
-//     title: '파란선풍기',
-//     town: '구암동',
-//     createdDate: new Date('2021.07.14'),
-//     price: 24500,
-//     commentCount: 1,
-//     likeCount: 2,
-//     isLiked: true,
-//   },
-// ];
-
-const chats = [
-  {
-    imgUrl: testImg0,
-    userName: 'UserE',
-    message: '실제로 신어볼 수 있는 건가요?',
-    createDate: new Date('2021.07.14'),
-    uncheckedMsgCount: 2,
-  },
-  {
-    imgUrl: testImg1,
-    userName: 'UserD',
-    message: '감사합니다 :)',
-    createDate: new Date('2021.07.14'),
-    uncheckedMsgCount: 0,
-  },
-];
-
-const likeProducts = [
-  {
-    imgUrl: testImg0,
-    title: '파란선풍기',
-    town: '구암동',
-    createdDate: new Date('2021.07.14'),
-    price: 24500,
-    commentCount: 1,
-    likeCount: 2,
-    isLiked: true,
-  },
-  {
-    imgUrl: testImg1,
-    title: '빈티지 밀크 글래스',
-    town: '회기동',
-    createdDate: new Date('2021.07.14'),
-    price: 158000,
-    commentCount: 1,
-    isLiked: true,
-  },
-];

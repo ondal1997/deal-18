@@ -40,3 +40,12 @@
   position: absolute;
   top: 30px;
 }
+
+.location-dropdown-wrapper {
+  & > .location-dropdown-item {
+    color: $gray1;
+  }
+  & > .primary-location {
+    color: $black;
+  }
+}

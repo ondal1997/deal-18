@@ -72,7 +72,7 @@ export default class FormImgList {
     fetchGetImg(formData)
       .then((img) => this.setUploadedImg((imgs) => [...imgs, img.url]))
       .then(this.setIsAbleSubmit)
-      .catch((err) => alert(err));
+      .catch(console.error);
   }
 
   isAddBtn(target) {

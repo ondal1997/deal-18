@@ -9,15 +9,13 @@ function checkErrorFetchedJson(json) {
 
 // 상품 등록
 export function fetchPostProduct(productInfo) {
-  fetch(API.PRODUCT, {
+  return fetch(API.PRODUCT, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(postData),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(productInfo),
   })
     .then((res) => res.json())
-    .catch(checkErrorFetchedJson);
+    .then(checkErrorFetchedJson);
 }
 
 export function fetchProductDetail(productId) {
@@ -47,4 +45,19 @@ export function fetchUpdateProductState(product, state) {
 
 export function fetchDeleteProduct(productId) {
   return fetch(`/products/${productId}`, { method: 'delete' }).then(((res) => res.json()).then(checkErrorFetchedJson));
+}
+
+//좋아요 상품 가져오기
+export function fetchGetLikeProduct() {
+  return fetch(API.LIKE_PRODUCT)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
+
+//자신의 상품 가져오기
+
+export function fetchGetOwnProduct(id) {
+  return fetch(API.PRODUCT + `?ownerId=${id}`)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
 }

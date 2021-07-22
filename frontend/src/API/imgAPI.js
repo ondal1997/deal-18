@@ -1,3 +1,5 @@
+import API from './api';
+
 function checkErrorFetchedJson(json) {
   if (json.error) {
     throw json.error;
@@ -6,7 +8,7 @@ function checkErrorFetchedJson(json) {
 }
 
 export function fetchGetImg(formData) {
-  return fetch('/upload', {
+  return fetch(API.GET_IMG_URL, {
     method: 'POST',
     body: formData,
   })

@@ -5,7 +5,7 @@ import userIcon from '../../../public/assets/homepage/user.svg';
 import menuIcon from '../../../public/assets/homepage/menu.svg';
 
 import { router } from '../../index';
-import { getState, setState } from '../../utils/globalObserver';
+import { getState, setState, subscribe } from '../../utils/globalObserver';
 import { createElement } from '../../utils/dom';
 import { locationDropdownState } from '../../store/store';
 import Modal from '../Common/Modal';
@@ -13,6 +13,7 @@ import Modal from '../Common/Modal';
 //pages
 import LocationDropdown from '../Dropdown/LocationDropdown';
 import { userState } from '../../store/user';
+import { townState } from '../../store/townPage';
 
 export default class MainTopBar {
   constructor() {
@@ -23,6 +24,7 @@ export default class MainTopBar {
     this.userId = getState(userState).userId;
   }
   init() {
+    subscribe(townState, 'MainTopBar', this.render.bind(this));
     this.render();
     this.addEvent();
   }
@@ -32,13 +34,14 @@ export default class MainTopBar {
   }
 
   render() {
+    const { primaryTown } = getState(townState);
     this.$target.innerHTML = `
     <div>
       <img src=${categoryIcon} class="category">
     </div>
     <div class="location">
       <img src=${locationIcon}>
-      <span>역삼동<span>
+      <span>${primaryTown}<span>
     </div>
     <div class='user-main-wrapper'>
       <div class='user'><img src=${userIcon}></div>

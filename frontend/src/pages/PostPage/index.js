@@ -9,6 +9,7 @@ import PostProductForm from '../../components/PostProductForm';
 import { isAblePostSubmit, uploadedImgState, selectedCategoryState } from '../../store/postPage';
 import { fetchPostProduct } from '../../api/productAPI';
 import { router } from '../..';
+import { townState } from '../../store/townPage';
 
 export default class Postpage {
   constructor() {
@@ -32,6 +33,7 @@ export default class Postpage {
     this.renderSubmitBtn();
     this.renderLocation();
     this.render();
+    this.addEvent();
   }
 
   addEvent() {
@@ -65,9 +67,10 @@ export default class Postpage {
 
   //TODO 목데이터 위치 수정
   renderLocation() {
+    const { primaryTown } = getState(townState);
     this.$postLocation.innerHTML = `
           <img src=${locationIcon} alt='위치 아이콘' />
-          <div>역삼동</div>
+          <div>${primaryTown}</div>
         `;
   }
 
@@ -104,7 +107,7 @@ export default class Postpage {
         const productId = res.productId;
         router.push(`/products/${productId}`);
       })
-      .catch((err) => alert(err));
+      .catch(console.error); //TODO
   }
 
   setIsAbleSubmit() {

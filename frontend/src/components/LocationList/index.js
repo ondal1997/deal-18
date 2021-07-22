@@ -1,6 +1,8 @@
 import './style.scss';
 import { createElement } from '../../utils/dom';
 import LocationItem from './LocationItem';
+import { getState, subscribe } from '../../utils/globalObserver';
+import { townState } from '../../store/townPage';
 
 export default class LocationList {
   constructor() {
@@ -9,15 +11,19 @@ export default class LocationList {
     this.init();
   }
   init() {
+    subscribe(townState, 'LocationList', this.render.bind(this));
     this.render();
   }
   render() {
-    locations.forEach((location) => {
-      this.$target.appendChild(new LocationItem({ location }).$target);
+    this.$target.innerHTML = '';
+
+    const { primaryTown, towns } = getState(townState);
+
+    towns.forEach((town) => {
+      const isPrimary = primaryTown === town;
+      this.$target.appendChild(new LocationItem({ town, isPrimary }).$target);
     });
 
-    if (locations.length < 2) this.$target.appendChild(new LocationItem({ location: null }).$target);
+    if (towns.length < 2) this.$target.appendChild(new LocationItem({ town: null }).$target);
   }
 }
-
-const locations = [{ location: '역삼동', selected: true }];

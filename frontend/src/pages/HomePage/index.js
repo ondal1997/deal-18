@@ -1,11 +1,12 @@
 import './style.scss';
-import { setState } from '../../utils/globalObserver.js';
+import { getState, setState } from '../../utils/globalObserver.js';
 import { pageState } from '../../store/page.js';
 import { createElement } from '../../utils/dom.js';
 import MainTopBar from '../../components/MainTopBar';
 import ProductList from '../../components/ProductList';
 import postButton from '../../../public/assets/homepage/postButton.svg';
 import { router } from '../../index';
+import { userState } from '../../store/user';
 
 export default class HomePage {
   constructor() {
@@ -42,6 +43,11 @@ export default class HomePage {
   }
 
   handleClickPostBtn() {
+    const { userId } = getState(userState);
+    if (!userId) {
+      alert('로그인이 필요합니다.'); //TODO
+      return;
+    }
     router.push('/post');
   }
 }
@@ -53,7 +59,7 @@ import testImg2 from '../../../public/img/ImageLarge-2.png';
 
 const products = [
   {
-    imgUrl: testImg0,
+    productImgUrl: testImg0,
     title: '파란선풍기',
     town: '구암동',
     createdDate: new Date('2021.07.14'),
@@ -63,7 +69,7 @@ const products = [
     isLiked: true,
   },
   {
-    imgUrl: testImg1,
+    productImgUrl: testImg1,
     title: '빈티지 밀크 글래스',
     town: '회기동',
     createdDate: new Date('2021.07.14'),
@@ -72,7 +78,7 @@ const products = [
     isLiked: false,
   },
   {
-    imgUrl: testImg2,
+    productImgUrl: testImg2,
     title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
@@ -81,7 +87,7 @@ const products = [
     isLiked: false,
   },
   {
-    imgUrl: testImg0,
+    productImgUrl: testImg0,
     title: '파란선풍기',
     town: '구암동',
     createdDate: new Date('2021.07.14'),
@@ -91,7 +97,7 @@ const products = [
     isLiked: true,
   },
   {
-    imgUrl: testImg1,
+    productImgUrl: testImg1,
     title: '빈티지 밀크 글래스',
     town: '회기동',
     createdDate: new Date('2021.07.14'),
@@ -100,7 +106,7 @@ const products = [
     isLiked: false,
   },
   {
-    imgUrl: testImg2,
+    productImgUrl: testImg2,
     title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
@@ -109,7 +115,7 @@ const products = [
     isLiked: false,
   },
   {
-    imgUrl: testImg0,
+    productImgUrl: testImg0,
     title: '파란선풍기',
     town: '구암동',
     createdDate: new Date('2021.07.14'),
@@ -119,7 +125,7 @@ const products = [
     isLiked: true,
   },
   {
-    imgUrl: testImg1,
+    productImgUrl: testImg1,
     title: '빈티지 밀크 글래스',
     town: '회기동',
     createdDate: new Date('2021.07.14'),
@@ -128,7 +134,7 @@ const products = [
     isLiked: false,
   },
   {
-    imgUrl: testImg2,
+    productImgUrl: testImg2,
     title: '잎사귀 포스터',
     town: '역삼동',
     createdDate: new Date('2021.07.14'),
