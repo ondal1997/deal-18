@@ -1,11 +1,11 @@
-const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf }) => {
+const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf, state }) => {
   const LIMIT = size ?? 10;
-  let condition = '';
 
-  if (category) condition += `AND category='${category}' `;
+  let condition = `product.id > ${backOf ?? 0} `;
   if (town) condition += `AND product.town='${town}' `;
   if (ownerId) condition += `AND product.user_id='${ownerId}' `;
-  condition += `AND product.id>${backOf ?? 0}`;
+  if (state) condition += `AND state='${state}' `;
+  if (category) condition += `AND category='${category}' `;
 
   return `
             SELECT product.id, product_img_url as productImgUrl, title, price, created_date as createdDate, town, user_id,category,
@@ -16,8 +16,8 @@ const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf }) => {
               WHERE '${userId}'=user_like.user_id AND user_like.product_id=product.id
               ) as isLiked
             FROM product 
-            WHERE state='판매중' ${condition} 
-            LIMIT ${LIMIT} 
+            WHERE ${condition}
+            LIMIT ${LIMIT}
              `;
 };
 

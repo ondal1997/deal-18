@@ -34,7 +34,7 @@ export function fetchToggleLike(productId, currentIsLiked) {
 
 export function fetchUpdateProductState(product, state) {
   const json = Object.assign(product, { state });
-  return fetch(`/products/${product.id}`, {
+  return fetch(`/api/products/${product.id}`, {
     method: 'PUT',
     body: JSON.stringify(json),
     headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,9 @@ export function fetchUpdateProductState(product, state) {
 }
 
 export function fetchDeleteProduct(productId) {
-  return fetch(`/products/${productId}`, { method: 'delete' }).then(((res) => res.json()).then(checkErrorFetchedJson));
+  return fetch(`/api/products/${productId}`, { method: 'delete' })
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
 }
 
 //좋아요 상품 가져오기
@@ -57,6 +59,13 @@ export function fetchGetLikeProduct() {
 //자신의 상품 가져오기
 export function fetchGetOwnProduct(id) {
   return fetch(API.PRODUCT + `?ownerId=${id}`)
+    .then((res) => res.json())
+    .then(checkErrorFetchedJson);
+}
+
+//상품 리스트 가져오기
+export function fetchProducts(town, category, state) {
+  return fetch(API.PRODUCT + `?town=${town}&category=${category}&state=${state}`)
     .then((res) => res.json())
     .then(checkErrorFetchedJson);
 }
