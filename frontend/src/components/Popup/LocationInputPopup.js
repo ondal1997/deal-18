@@ -58,7 +58,7 @@ export default class LocationInputPopup {
   addTown() {
     const town = this.$input.value;
     fetchPostTown({ town })
-      .then((res) => this.setTownState((data) => ({ ...data, towns: res.towns })))
+      .then((towns) => this.setTownState((data) => ({ ...data, towns })))
       .catch(console.error); //TODO
   }
 
