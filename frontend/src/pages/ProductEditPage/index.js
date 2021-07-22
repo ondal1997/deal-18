@@ -30,7 +30,7 @@ export default class ProductEditPage {
 
     fetchProductDetail(this.productId)
       .then((res) => {
-        if (!this.checkRight()) router.pop();
+        if (!this.checkAuthentication()) router.pop();
         return res;
       })
       .then((product) => this.initState(product))
@@ -110,7 +110,7 @@ export default class ProductEditPage {
     };
     return postInfo;
   }
-  checkRight() {
+  checkAuthentication() {
     const { userId } = getState(userState);
     return !!userId && userId === this.ownerId;
   }
