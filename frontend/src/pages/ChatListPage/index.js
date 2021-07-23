@@ -4,7 +4,7 @@ import CommonTopBar from '../../components/Common/CommonTopBar';
 import { createElement } from '../../utils/dom';
 import { getState } from '../../utils/globalObserver';
 import { pageState } from '../../store/page';
-import { fetchGetProductChatList } from '../../api/chatAPI';
+import { fetchGetProductChatList } from '../../API/chatAPI';
 
 export default class ChatListPage {
   constructor() {

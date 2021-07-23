@@ -8,7 +8,7 @@ import { createElement } from '../../utils/dom';
 import CommonTopBar from '../../components/Common/CommonTopBar';
 import PostProductForm from '../../components/PostProductForm';
 import { isAblePostSubmit, uploadedImgState, selectedCategoryState } from '../../store/postPage';
-import { fetchPostProduct } from '../../api/productAPI';
+import { fetchPostProduct } from '../../API/productAPI';
 import { userState } from '../../store/user';
 
 export default class Postpage {

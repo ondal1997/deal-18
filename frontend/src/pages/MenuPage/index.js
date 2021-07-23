@@ -7,7 +7,7 @@ import ProductList from '../../components/ProductList';
 import ChatList from '../../components/ChatList';
 import { menuTabState } from '../../store/menuPage';
 import { userState } from '../../store/user';
-import { fetchGetLikeProduct, fetchGetOwnProduct } from '../../api/productAPI';
+import { fetchGetLikeProduct, fetchGetOwnProduct } from '../../API/productAPI';
 import { fetchGetOwnChatList } from '../../API/chatAPI';
 export default class MenuPage {
   constructor() {

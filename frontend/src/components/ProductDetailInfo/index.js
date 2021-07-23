@@ -3,7 +3,7 @@ import { createElement } from '../../utils/dom';
 import { getPassedTime } from '../../utils/convertToString';
 
 import downIcon from '../../../public/assets/product/small-chevron-down.svg';
-import { fetchUpdateProductState } from '../../api/productAPI';
+import { fetchUpdateProductState } from '../../API/productAPI';
 
 class ProductStateController {
   constructor({ product }) {

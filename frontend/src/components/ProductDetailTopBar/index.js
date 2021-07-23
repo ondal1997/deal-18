@@ -3,7 +3,7 @@ import { createElement } from '../../utils/dom';
 import backBtn from '../../../public/assets/product/chevron-left.svg';
 import moreBtn from '../../../public/assets/product/more.svg';
 import { router } from '../../index';
-import { fetchDeleteProduct } from '../../api/productAPI';
+import { fetchDeleteProduct } from '../../API/productAPI';
 
 export default class ProductDetailTopBar {
   constructor({ product }) {
