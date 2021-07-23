@@ -57,7 +57,9 @@ export default class HomePage {
     const productList = new ProductList({ products: this.products });
     this.$target.appendChild(productList.$target);
 
-    this.$target.appendChild(this.$postBtn);
+    if (getState(userState).userId) {
+      this.$target.appendChild(this.$postBtn);
+    }
   }
 
   renderPostBtn() {
