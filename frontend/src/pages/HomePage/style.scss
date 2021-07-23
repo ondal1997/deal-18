@@ -13,3 +13,13 @@
   background-color: $primary;
   border-radius: 50%;
 }
+
+.selected-category {
+  width: fit-content;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  font-size: 12px;
+  color: $white;
+  background-color: $primary;
+  border-radius: 1rem;
+}

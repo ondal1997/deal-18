@@ -54,6 +54,13 @@ export default class HomePage {
     const topBar = new MainTopBar();
     this.$target.appendChild(topBar.$target);
 
+    const selectedCategory = createElement({ tagName: 'div', classNames: ['selected-category'] });
+    const category = getState(selectedCategoryState);
+    if (category) {
+      selectedCategory.innerHTML = `# ${category}`;
+      this.$target.appendChild(selectedCategory);
+    }
+
     const productList = new ProductList({ products: this.products });
     this.$target.appendChild(productList.$target);
 
