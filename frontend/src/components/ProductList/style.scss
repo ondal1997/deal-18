@@ -2,7 +2,7 @@
 
 //TODO 판매목록 or 관심목록에서 재사용시 아래 border가 없어서 :not(:last-child) 지우거나 클래스로 조절해야될 듯!
 .product-list {
-  & > div:not(:last-child) {
+  & > .product-item:not(:last-child) {
     border-bottom: 1px solid $gray2;
   }
 }

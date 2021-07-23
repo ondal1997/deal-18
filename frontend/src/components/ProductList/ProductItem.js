@@ -90,7 +90,8 @@ export default class ProductItem {
 
   render() {
     if (this.isDeleted) {
-      this.$target.innerHTML = ``;
+      this.$target.innerHTML = '';
+      this.$target.className = '';
       return;
     }
     const { productImgUrl, title, town, createdDate, price, commentCount, likeCount } = this.product;
