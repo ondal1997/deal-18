@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack serve --config frontend/webpack.config.js",
     "build": "webpack --config frontend/webpack.config.js",
-    "start": "node backend/app.js",
+    "start": "npm run build & node backend/app.js",
     "dev-server": "nodemon backend/app.js"
   },
   "repository": {
