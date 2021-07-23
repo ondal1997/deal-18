@@ -103,6 +103,10 @@ export default class Postpage {
         const productId = res.id;
         router.replace(`/products/${productId}`);
       })
+      .then(() => {
+        const setCategory = setState(selectedCategoryState);
+        setCategory('');
+      })
       .catch(console.error); //TODO
   }
 
