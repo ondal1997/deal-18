@@ -17,7 +17,9 @@ export default class App {
     this.$target.addEventListener('transitionend', this.handleTransitionEnd.bind(this));
 
     const { Page } = getState(pageState);
-    this.$target.appendChild(new Page().$target);
+    const pageWrapper = createElement({ tagName: 'div', classNames: ['page-wrapper'] });
+    pageWrapper.appendChild(new Page().$target);
+    this.$target.appendChild(pageWrapper);
   }
 
   render() {
@@ -40,11 +42,12 @@ export default class App {
   }
 
   insertPage({ Page, direction }) {
-    const newPage = new Page().$target;
-    newPage.style.position = 'absolute';
-    newPage.style[direction] = `-${this.PAGE_WIDTH}px`;
-
-    this.$target.appendChild(newPage);
+    const pageWrapper = createElement({ tagName: 'div', classNames: ['page-wrapper'] });
+    pageWrapper.style.position = 'absolute';
+    pageWrapper.style[direction] = `-${this.PAGE_WIDTH}px`;
+    pageWrapper.style.top = '0px';
+    pageWrapper.appendChild(new Page().$target);
+    this.$target.appendChild(pageWrapper);
   }
 
   startTransition({ direction }) {
