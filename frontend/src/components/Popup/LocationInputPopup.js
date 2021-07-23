@@ -44,7 +44,6 @@ export default class LocationInputPopup {
 
   handleClick(confirmBtn, { target }) {
     if (this.isCancelBtn(target)) {
-      this.$input.value = '';
       confirmBtn.classList.remove('available');
       this.setIsOpen(false);
     }
@@ -53,6 +52,7 @@ export default class LocationInputPopup {
       this.addTown();
       this.setIsOpen(false);
     }
+    this.$input.value = '';
   }
 
   addTown() {
