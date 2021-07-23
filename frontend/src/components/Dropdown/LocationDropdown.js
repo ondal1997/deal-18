@@ -43,6 +43,11 @@ export default class LocationDropdown {
     }
 
     if (target.closest('.move-edit-page')) {
+      if (!getState(userState).userId) {
+        alert('로그인이 필요합니다.');
+        return;
+      }
+
       router.push('/location');
       return;
     }
