@@ -40,9 +40,9 @@ export default class Chatting {
     this.$target.innerHTML += `
         <form class='chatting-input'>
           <input type='text' placeholder='메세지를 입력하세요.' />
-          <div class='chatting-send-btn'>
+          <button class='chatting-send-btn'>
             <img src=${ChatSendButton} alt='메세지 전송 버튼' />
-          </div>
+          </button>
         </form>
     `;
   }
