@@ -91,6 +91,10 @@ export default class ProductEditPage {
   editProduct(productId, productInfo) {
     fetchUpdateProduct(productId, productInfo)
       .then(() => router.replace(`/products/${productId}`))
+      .then(() => {
+        const setCategory = setState(selectedCategoryState);
+        setCategory('');
+      })
       .catch(console.error);
   }
 
