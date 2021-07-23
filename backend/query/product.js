@@ -17,6 +17,7 @@ const GET_ALL_PRODUCT = ({ size, userId, category, town, ownerId, backOf, state 
               ) as isLiked
             FROM product 
             WHERE ${condition}
+            ORDER BY product.id DESC
             LIMIT ${LIMIT}
              `;
 };

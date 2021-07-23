@@ -7,6 +7,7 @@ const GET_LIKE_PRODUCT = ({ size, userId }) => {
             (SELECT count(*) FROM chat WHERE chat.product_id=p.id) as commentCount
             FROM product as p
               INNER JOIN (SELECT product_id FROM user_like as ul WHERE ul.user_id='${userId}') b on p.id=b.product_id
+            ORDER BY p.id DESC
             LIMIT ${LIMIT} 
              `;
 };
