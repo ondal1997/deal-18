@@ -83,9 +83,10 @@ router.post('/products', authenticationValidator, async (req, res) => {
   await conn.beginTransaction();
   try {
     const [insertResult] = await conn.query(`
-    insert into product (title, category, description, town, state, user_id, product_img_url ${price ? ',price' : ''} )
-    values ('${title}', '${category}', '${description}', '${town}', '${state}', '${userId}', '${imgUrls[0]}' 
-    '${price ? `,${price}` : ''}') 
+    insert into product (title, category, description, town, state, user_id, product_img_url${price ? ', price' : ''})
+    values ('${title}', '${category}', '${description}', '${town}', '${state}', '${userId}', '${imgUrls[0]}'${
+      price ? `, ${price}` : ''
+    }) 
     `);
 
     const productId = insertResult.insertId;
