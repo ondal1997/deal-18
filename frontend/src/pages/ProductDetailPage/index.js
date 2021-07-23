@@ -13,7 +13,7 @@ import ProductDetailBottomBar from '../../components/ProductDetailBottomBar';
 import testImg0 from '../../../public/img/ImageLarge-0.png';
 import testImg1 from '../../../public/img/ImageLarge-1.png';
 import testImg2 from '../../../public/img/ImageLarge-2.png';
-import { fetchProductDetail } from '../../api/productAPI';
+import { fetchProductDetail } from '../../API/productAPI';
 const product = {
   title: '빈티지 롤러 스케이트',
   category: '기타 중고물품',

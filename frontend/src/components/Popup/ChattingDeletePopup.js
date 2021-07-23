@@ -1,7 +1,7 @@
 import { createElement } from '../../utils/dom';
 import { getState, setState } from '../../utils/globalObserver';
 import { chattingDeletePopupState } from '../../store/store';
-import { fetchDeleteChat } from '../../api/chatAPI';
+import { fetchDeleteChat } from '../../API/chatAPI';
 import { router } from '../..';
 import { pageState } from '../../store/page';
 

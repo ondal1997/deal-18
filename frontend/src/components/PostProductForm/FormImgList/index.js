@@ -4,7 +4,7 @@ import pictureIcon from '../../../../public/assets/postPage/pictureIcon.svg';
 import imgDeleteButton from '../../../../public/assets/postPage/imgDeleteButton.svg';
 import { getState, setState, subscribe } from '../../../utils/globalObserver';
 import { uploadedImgState } from '../../../store/postPage';
-import { fetchGetImg } from '../../../api/imgAPI';
+import { fetchGetImg } from '../../../API/imgAPI';
 
 export default class FormImgList {
   constructor({ setIsAbleSubmit }) {

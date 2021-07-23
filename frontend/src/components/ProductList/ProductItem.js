@@ -7,7 +7,7 @@ import menu from '../../../public/assets/product/product-menu.svg';
 import heart from '../../../public/assets/product/heart.svg';
 import comment from '../../../public/assets/product/comment.svg';
 import { router } from '../..';
-import { fetchDeleteProduct, fetchToggleLike } from '../../api/productAPI';
+import { fetchDeleteProduct, fetchToggleLike } from '../../API/productAPI';
 
 export default class ProductItem {
   constructor({ product, isMyProduct }) {

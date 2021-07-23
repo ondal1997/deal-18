@@ -7,7 +7,7 @@ import PostProductForm from '../../components/PostProductForm';
 import { router } from '../..';
 import { createElement } from '../../utils/dom';
 import { getState, setState, subscribe } from '../../utils/globalObserver';
-import { fetchProductDetail, fetchUpdateProduct } from '../../api/productAPI';
+import { fetchProductDetail, fetchUpdateProduct } from '../../API/productAPI';
 import { isAblePostSubmit, selectedCategoryState, uploadedImgState } from '../../store/postPage';
 import { pageState } from '../../store/page';
 import { userState } from '../../store/user';

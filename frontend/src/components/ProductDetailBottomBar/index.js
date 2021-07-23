@@ -4,8 +4,8 @@ import { getWon } from '../../utils/convertToString';
 
 import bigHeart from '../../../public/assets/product/bigHeart.svg';
 import filledBigHeart from '../../../public/assets/product/filledBigHeart.svg';
-import { fetchToggleLike } from '../../api/productAPI';
-import { fetchCreateChat } from '../../api/chatAPI';
+import { fetchToggleLike } from '../../API/productAPI';
+import { fetchCreateChat } from '../../API/chatAPI';
 import { router } from '../..';
 
 export default class ProductDetailBottomBar {

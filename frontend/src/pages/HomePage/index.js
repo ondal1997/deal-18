@@ -7,7 +7,7 @@ import ProductList from '../../components/ProductList';
 import postButton from '../../../public/assets/homepage/postButton.svg';
 import { router } from '../../index';
 import { userState } from '../../store/user';
-import { fetchProducts } from '../../api/productAPI';
+import { fetchProducts } from '../../API/productAPI';
 import { selectedCategoryState } from '../../store/postPage';
 
 export default class HomePage {
