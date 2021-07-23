@@ -1,7 +1,17 @@
 @import './variables.scss';
 //TODO 배경색 때문에 topbar가 잘 안보여서 바꾸면 좋을듯!
 html {
-  background-color: $light-blue;
+  background-color: $black;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
 }
 
 * {
@@ -14,17 +24,26 @@ html {
   width: $content-width;
   height: $content-height;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   background-color: white;
-  margin-top: 200px;
+
+  border-radius: 0.25rem;
+}
+
+.page-container {
+  width: $content-width;
+  height: $content-height;
+}
+
+.page-wrapper {
+  width: $content-width;
+  height: $content-height;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-.page-container {
-  display: flex;
 }
 
 .page {

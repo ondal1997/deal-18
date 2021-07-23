@@ -1,11 +1,8 @@
 @import '../../style/variables.scss';
 
-.home-page {
-  position: relative;
-}
 //Fixed로 하고 싶었지만 우리 프로젝트 상 모바일 px을 정해놓고 하기 때문에 적용히 힘들다.
 .post-btn {
-  position: sticky;
+  position: absolute;
   float: right;
   bottom: 16px;
   right: 16px;
